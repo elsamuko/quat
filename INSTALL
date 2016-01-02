@@ -1,0 +1,307 @@
+ These are instructions for how to compile Quat 1.20 for Linux/Unix,
+Windows and Mac OSX.
+
+In general you will need FLTK 1.1 (1.0.x doesn't work) and ZLIB 1.1.4.
+You can get FLTK 1.1 at http://www.fltk.org/
+Currently, FLTK 1.1 is still in beta. FLTK 1.1.0b13 is tested and works
+well.
+ZLIB is available at http://www.zlib.org/
+It's always possible to compile a console (text-mode-only) version which
+doesn't require FLTK and C++.
+
+How to compile Quat 1.20 under Linux/Unix
+=========================================
+
+   Before you can compile Quat, you need to have FLTK 1.1 and 
+ZLIB 1.1.4 compiled and installed. 
+Compiling Quat should then be as easy as:
+
+./configure
+make
+make install
+
+ Fluid, the user interface designer of FLTK, is only required if you
+plan to modify the user interface (the *.fl files). Fluid is part
+of the FLTK library and should be installed on every system that
+has FLTK installed.
+
+ To configure FLTK, ./configure looks for 'fltk-config'. If it can't
+find it, it compiles as a console version only (without a user
+interface). In this case, if FLTK is installed but could not be
+found, invoke ./configure like this:
+./configure FLTK=<pathname of fltk-config>
+for example:
+./configure FLTK=/usr/local/fltk-1.1/bin/fltk-config
+All information needed about FLTK is read from fltk-config.
+
+  If you want to compile a text-only version (without a user
+interface), you can pass the option '--disable-gui' to 'configure'.
+In that case you don't need FLTK. The C++ compiler is not needed
+for the text-only version.
+
+How to compile Quat 1.20 under Windows
+======================================
+
+ Generally, you must have ZLIB 1.1.4 and FLTK 1.1 compiled with the 
+compiler you want to also compile Quat.
+
+Using MinGW
+-------------
+
+ In short: All should work the same as under Unix. So see 
+description above.
+
+ MinGW is a port of the GNU gcc C/C++ compiler to Windows. It's
+open source and available for free:
+http://www.mingw.org/
+
+ A tested configuration is MinGW 1.1 and MSys 1.0.6.
+(MSys is a 'Minimal System' for gcc, it includes a shell, and 
+common Unix tools like 'grep' for example.)
+
+ Other links that may help:
+http://www.xraylith.wisc.edu/~khan/software/gnu-win32/
+http://agnes.dida.physik.uni-essen.de/~janjaap/mingw32/index.html
+(The second link is more informative, but a bit outdated the last
+time I visited.)
+
+ If you've downloaded and installed MinGW and MSys, compiled ZLIB and
+FLTK you can start compiling Quat. 
+The advantage of MinGW is that the configure script runs as under
+Unix. So please see the section above for invoking ./configure
+Everything said there also applies to MinGW.
+
+CYGWIN Environment
+------------------
+
+ Compilation should work with the 'configure' script as under
+Unix.
+
+ Quat doesn't need the 'cygwin.dll', so it's best to compile it
+using '-mno-cygwin' (which is the default). However, Cygwin seems
+to lack the C++ headers and libraries in no-cygwin mode, so if you
+get errors that 'iostream' or 'string' cannot be found, you have
+to install these headers and libstdc++.a from the Mingw distribution.
+See also
+http://www.xraylith.wisc.edu/~khan/software/gnu-win32/mno-cygwin-howto.txt
+
+Other compilers
+---------------
+
+ I don't have any information about other compilers, sorry. But
+maybe there's a Project file for your compiler in the 'Makefiles' 
+directory.
+
+ If you manage to compile Quat using another compiler, I would be
+glad to hear from you! You can send me the project file you used, and
+I can put it in future distributions of Quat.
+
+How to compile Quat 1.20 under Macintosh OS X
+=============================================
+
+ In theory, this should be possible now. FLTK 1.1 is portable to the
+Mac, and there's a gcc distribution for OS X.
+
+ However, as I don't have access to a Mac, and I even don't know it,
+I can't say any further. If you get it to run on a Mac, please send me
+an email. It would be great if somebody would offer binaries for Mac!
+
+Optimizing for Athlon using gcc
+===============================
+
+ I received this information from Marco Pfatschbacher (many thanks!)
+He writes that he tried many variants of gcc's optimization options 
+on his Athlon 500, and had the best results with the following flags:
+----
+CFLAGS = -s -static -O3 -fomit-frame-pointer -Wall -mpentiumpro
+   -march=pentiumpro -fforce-addr -fforce-mem -malign-functions=4
+   -funroll-loops -fexpensive-optimizations -malign-double
+   -fschedule-insns2 -mwide-multiply
+----
+
+
+---------------------------------------------------------------------
+
+Basic Installation
+==================
+
+   These are generic installation instructions.
+
+   The `configure' shell script attempts to guess correct values for
+various system-dependent variables used during compilation.  It uses
+those values to create a `Makefile' in each directory of the package.
+It may also create one or more `.h' files containing system-dependent
+definitions.  Finally, it creates a shell script `config.status' that
+you can run in the future to recreate the current configuration, a file
+`config.cache' that saves the results of its tests to speed up
+reconfiguring, and a file `config.log' containing compiler output
+(useful mainly for debugging `configure').
+
+   If you need to do unusual things to compile the package, please try
+to figure out how `configure' could check whether to do them, and mail
+diffs or instructions to the address given in the `README' so they can
+be considered for the next release.  If at some point `config.cache'
+contains results you don't want to keep, you may remove or edit it.
+
+   The file `configure.in' is used to create `configure' by a program
+called `autoconf'.  You only need `configure.in' if you want to change
+it or regenerate `configure' using a newer version of `autoconf'.
+
+The simplest way to compile this package is:
+
+  1. `cd' to the directory containing the package's source code and type
+     `./configure' to configure the package for your system.  If you're
+     using `csh' on an old version of System V, you might need to type
+     `sh ./configure' instead to prevent `csh' from trying to execute
+     `configure' itself.
+
+     Running `configure' takes awhile.  While running, it prints some
+     messages telling which features it is checking for.
+
+  2. Type `make' to compile the package.
+
+  3. Optionally, type `make check' to run any self-tests that come with
+     the package.
+
+  4. Type `make install' to install the programs and any data files and
+     documentation.
+
+  5. You can remove the program binaries and object files from the
+     source code directory by typing `make clean'.  To also remove the
+     files that `configure' created (so you can compile the package for
+     a different kind of computer), type `make distclean'.  There is
+     also a `make maintainer-clean' target, but that is intended mainly
+     for the package's developers.  If you use it, you may have to get
+     all sorts of other programs in order to regenerate files that came
+     with the distribution.
+
+Compilers and Options
+=====================
+
+   Some systems require unusual options for compilation or linking that
+the `configure' script does not know about.  You can give `configure'
+initial values for variables by setting them in the environment.  Using
+a Bourne-compatible shell, you can do that on the command line like
+this:
+     CC=c89 CFLAGS=-O2 LIBS=-lposix ./configure
+
+Or on systems that have the `env' program, you can do it like this:
+     env CPPFLAGS=-I/usr/local/include LDFLAGS=-s ./configure
+
+Compiling For Multiple Architectures
+====================================
+
+   You can compile the package for more than one kind of computer at the
+same time, by placing the object files for each architecture in their
+own directory.  To do this, you must use a version of `make' that
+supports the `VPATH' variable, such as GNU `make'.  `cd' to the
+directory where you want the object files and executables to go and run
+the `configure' script.  `configure' automatically checks for the
+source code in the directory that `configure' is in and in `..'.
+
+   If you have to use a `make' that does not supports the `VPATH'
+variable, you have to compile the package for one architecture at a time
+in the source code directory.  After you have installed the package for
+one architecture, use `make distclean' before reconfiguring for another
+architecture.
+
+Installation Names
+==================
+
+   By default, `make install' will install the package's files in
+`/usr/local/bin', `/usr/local/man', etc.  You can specify an
+installation prefix other than `/usr/local' by giving `configure' the
+option `--prefix=PATH'.
+
+   You can specify separate installation prefixes for
+architecture-specific files and architecture-independent files.  If you
+give `configure' the option `--exec-prefix=PATH', the package will use
+PATH as the prefix for installing programs and libraries.
+Documentation and other data files will still use the regular prefix.
+
+   In addition, if you use an unusual directory layout you can give
+options like `--bindir=PATH' to specify different values for particular
+kinds of files.  Run `configure --help' for a list of the directories
+you can set and what kinds of files go in them.
+
+   If the package supports it, you can cause programs to be installed
+with an extra prefix or suffix on their names by giving `configure' the
+option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
+
+Optional Features
+=================
+
+   Some packages pay attention to `--enable-FEATURE' options to
+`configure', where FEATURE indicates an optional part of the package.
+They may also pay attention to `--with-PACKAGE' options, where PACKAGE
+is something like `gnu-as' or `x' (for the X Window System).  The
+`README' should mention any `--enable-' and `--with-' options that the
+package recognizes.
+
+   For packages that use the X Window System, `configure' can usually
+find the X include and library files automatically, but if it doesn't,
+you can use the `configure' options `--x-includes=DIR' and
+`--x-libraries=DIR' to specify their locations.
+
+Specifying the System Type
+==========================
+
+   There may be some features `configure' can not figure out
+automatically, but needs to determine by the type of host the package
+will run on.  Usually `configure' can figure that out, but if it prints
+a message saying it can not guess the host type, give it the
+`--host=TYPE' option.  TYPE can either be a short name for the system
+type, such as `sun4', or a canonical name with three fields:
+     CPU-COMPANY-SYSTEM
+
+See the file `config.sub' for the possible values of each field.  If
+`config.sub' isn't included in this package, then this package doesn't
+need to know the host type.
+
+   If you are building compiler tools for cross-compiling, you can also
+use the `--target=TYPE' option to select the type of system they will
+produce code for and the `--build=TYPE' option to select the type of
+system on which you are compiling the package.
+
+Sharing Defaults
+================
+
+   If you want to set default values for `configure' scripts to share,
+you can create a site shell script called `config.site' that gives
+default values for variables like `CC', `cache_file', and `prefix'.
+`configure' looks for `PREFIX/share/config.site' if it exists, then
+`PREFIX/etc/config.site' if it exists.  Or, you can set the
+`CONFIG_SITE' environment variable to the location of the site script.
+A warning: not all `configure' scripts look for a site script.
+
+Operation Controls
+==================
+
+   `configure' recognizes the following options to control how it
+operates.
+
+`--cache-file=FILE'
+     Use and save the results of the tests in FILE instead of
+     `./config.cache'.  Set FILE to `/dev/null' to disable caching, for
+     debugging `configure'.
+
+`--help'
+     Print a summary of the options to `configure', and exit.
+
+`--quiet'
+`--silent'
+`-q'
+     Do not print messages saying which checks are being made.  To
+     suppress all normal output, redirect it to `/dev/null' (any error
+     messages will still be shown).
+
+`--srcdir=DIR'
+     Look for the package's source code in directory DIR.  Usually
+     `configure' can determine that directory automatically.
+
+`--version'
+     Print the version of Autoconf used to generate the `configure'
+     script, and exit.
+
+`configure' also accepts some other, not widely useful, options.
+

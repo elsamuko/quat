@@ -1,0 +1,187 @@
+2002-05-27 02:48  dirk
+
+	 Changed to double buffered main window, Deleted ZBuffer|Save as it
+	doesn't make much sense, Put messages into status bar, implemented
+	a proper help file path, added an iss file for Inno Setup
+	(Windows), now inipath and pngpath really are the paths, not
+	pathnames
+
+2002-05-18 01:38  dirk
+
+	 changed configure.in to use fltk-config to detect FLTK, improved
+	the switch parser.
+
+2002-04-27 02:14  dirk
+
+	 Added documentation browser.
+
+2002-04-13 01:48  dirk
+
+	 Added new icon, fixed bug in configure.in
+
+2002-04-05 03:03  dirk
+
+	 Simplified MainWindow.cxx by moving string/file operations to
+	pathname class. Bugfix: An empty image (calc stopped during
+	'recalc') wasn't written correctly.
+
+2002-04-04 03:46  dirk
+
+	 Switched to FLTK 1.1, added tooltips, made Preview Window
+	resizable and with the correct aspect ratio, configure scripts
+	rewritten again, many other internal changes (mostly structural
+	simplifications, string instead of char[]), fixed buffer underrun
+	in calculat.c.
+
+2001-09-02 02:37  dirk
+
+	 Added icon to Windows and Unix versions, separate path for PNG
+	files and INI files in file chooser, new resolution shortcuts for
+	DIN A4, bugfix: parameters in Other Editor now updated when INI
+	file read in Parameter Editor, limit for resolution changed from
+	100000 to 32767, new fl_ask when reading from INI (whether to start
+	from default parameters), Parameter Editor now shows a message if
+	an image is open, changed name of text version to quat-txt, bugfix:
+	Quat hanged under Unix if a directory was selected instead an INI
+	file, configure.in rewritten to use features of Autoconf 2.5.
+
+2001-08-09 22:32  dirk
+
+	 same as before, part 2 (forgot to commit recursively...)
+
+2001-08-09 22:30  dirk
+
+	 Changed version to 1.12 development, switched to autoconf version
+	2.5, fixed intersection editor which did not work with more than
+	one intersection plane, added range checks in Object Editor and
+	fixed a problem with high bailout values, which were written to
+	ini, but couldn't be read.
+
+2001-07-09 03:29  dirk
+
+	 Again changes in configure script. Fixed message if file version >
+	prog version.
+
+2001-07-01 02:46  dirk
+
+	 Changed #define 'unix' to '__unix__' in textver.c because native
+	cc on alpha only defines __unix__ and gcc defines both,  corrected
+	INSTALL, updated docs to reflect 1.11
+
+2001-06-28 02:14  dirk
+
+	 Changed autoconf configure scripts
+
+2001-06-22 03:07  dirk
+
+	 Cleanups in configure scripts
+
+2001-06-19 23:01  dirk
+
+	 Removed warnings in C code (mostly because of signedness), fixed
+	serious ANSI-C++ issues (dynamic arrays, copying of arrays),
+	workaround a bug of egcs-1.0.3 and recent FLTK 1.0.11 (a *const*
+	conversion problem with XPM's)
+
+2001-05-20 03:08  dirk
+
+	 Further modifications for compiling with gcc-3.0.
+
+2001-05-14 01:53  dirk
+
+	 Made some source changes for better compilation on other systems.
+	(E.g. glibc2 or gcc-3.0 systems).  Changed version number to 1.11.
+
+2000-10-23 02:04  dirk
+
+	 Added possibility to interrupt calculation in text version for
+	Unix.
+
+2000-10-16 15:18  dirk
+
+	 Added obj-files of examples, which were missing; Resized the
+	Mandel Preview to its old size again; updated docs; minor changes
+	in configure script; (some experiments with ncurses for text
+	version)
+
+2000-10-12 02:50  dirk
+
+	 Speed ups (for Cubic Julia and x*ln(x)-c), Fixed a Floating Point
+	Exception (caused by uninitialized doubles), some fixes in the
+	configure script
+
+2000-10-11 01:26  dirk
+
+	 Changed version to 1.10b, changed quAt chunk format (added 4 extra
+	parameters), added new fractal formulas, sped up lambda formula
+
+2000-09-24 19:31  dirk
+
+	 Added files for autoconf configuration to CVS.
+
+2000-09-24 19:26  dirk
+
+	 Changed autoconf configuration, fixed the bug that no extensions
+	were added in save operations when a dot was in the path of the
+	file, also fixed the bug that Quat couldn't read ini files with the
+	new formulas.
+
+2000-09-23 12:34  dirk
+
+	 Added two new iteration formulas and fixed a buffer overflow with
+	sprintf.
+
+2000-08-29 01:36  dirk
+
+	 added some memory allocation failure tweaks.
+
+2000-08-26 02:18  dirk
+
+	 ColorEditor: added FL_Output to show current range / number of
+	ranges
+
+2000-08-19 17:22  dirk
+
+	 Changed version to 1.02 development, now shows version of file at
+	open
+
+2000-08-18 17:07  dirk
+
+	 Corrected the formula for the normal vector (light changed with
+	changes of z res) and changed state to development
+
+2000-08-16 01:03  dirk
+
+	 changed Makefile.am (delete CVS dirs when make distcheck)
+
+2000-08-15 23:41  dirk
+
+	 Changed version to 1.01, state to release, updated docs and
+	modified Makefile.am to delete the CVS dirs when make distcheck
+
+2000-08-11 01:52  dirk
+
+	 range-checking for orbit functions
+
+2000-08-10 14:46  dirk
+
+	 fixed the bug that caused random crashs when exiting
+	ParameterEditor. Also fixed a bug that could cause a crash on exit
+	of Quat
+
+2000-08-06 23:39  dirk
+
+	 changed version number to 1.00b and set development state.
+
+2000-08-06 00:57  dirk
+
+	 added binary files
+
+2000-08-06 00:49  dirk
+
+	 Initial revision
+
+2000-08-06 00:49  dirk
+
+	 initial import into CVS
+

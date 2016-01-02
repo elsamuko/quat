@@ -1,0 +1,46 @@
+# Library makefile for Quat.
+
+CPPFILES =
+
+CFILES = calculat.c \
+	colors.c \
+	files.c \
+	iter.c \
+	png.c \
+	qmath.c \
+	quat.c
+
+CLEAN =
+
+################################################################
+
+include ../makeinclude
+
+LIBRARY = $(LIBNAME)
+
+OBJECTS = $(CPPFILES:.cxx=.o) $(CFILES:.c=.o)
+
+all:	$(LIBRARY) $(DSONAME)
+
+$(LIBRARY): $(OBJECTS)
+	@echo $(LIBCOMMAND) $@ ...
+	@$(LIBCOMMAND) $@ $(OBJECTS)
+	@$(RANLIB) $@
+
+clean:
+	del *.o *.a makedepend
+	del Makefile
+
+.SUFFIXES:	.c .cxx .h .o
+
+.cxx.o :
+	$(CXX) -I.. -I(ZLIB_INCLUDE) $(CXXFLAGS) -c $<
+.c.o :
+	$(CC) -I.. -I$(ZLIB_INCLUDE) $(CFLAGS) -DGUI -c -o $@ $<
+
+makedepend:
+	$(MAKEDEPEND) -I$(ZLIB_INCLUDE) -I.. $(CXXFLAGS) $(CPPFILES) $(CFILES) > makedepend
+include makedepend
+
+################################################################
+

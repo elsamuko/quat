@@ -1,0 +1,399 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0100 
+header_name {.h} 
+code_name {.cxx} 
+gridx 10 
+gridy 10 
+snap 3
+decl {// Quat - A 3D fractal generation program
+// Copyright (C) 1997-2000 Dirk Meyer
+// (email: dirk.meyer@studserv.uni-stuttgart.de)
+// mail:  Dirk Meyer
+//        Marbacher Weg 29
+//        D-71334 Waiblingen
+//        Germany
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+
+declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
+} {
+  decl {\#include <config.h>} {}
+} 
+
+decl {\#include "MainWindow.h"} {} 
+
+decl {extern MainWindow* MainWinPtr;} {} 
+
+decl {\#include "ObjectEditor.h"} {} 
+
+decl {\#include "ViewEditor.h"} {} 
+
+decl {\#include "ColorEditor.h"} {} 
+
+decl {\#include "IntersecEditor.h"} {} 
+
+decl {\#include "OtherEditor.h"} {} 
+
+decl {class ObjectEditor;} {public
+} 
+
+decl {class ViewEditor;} {public
+} 
+
+decl {class ColorEditor;} {public
+} 
+
+decl {class IntersecEditor;} {public
+} 
+
+decl {class OtherEditor;} {public
+} 
+
+decl {\#include "JuliaPreview.h"} {selected
+} 
+
+decl {class JuliaPreview;} {public
+} 
+
+decl {\#include "ViewSelector.h"} {} 
+
+decl {class ViewSelector;} {public
+} 
+
+decl {\#include "quat.h"} {} 
+
+decl {\#include <FL/fl_ask.H>} {} 
+
+decl {\#include "structs.h"} {public
+} 
+
+decl {\#include "dragWindow.h"} {} 
+
+decl {class dragWindow;} {public
+} 
+
+decl {\#include <cmath>    // sqrt} {} 
+
+class ParameterEditor {open
+} {
+  Function {ParameterEditor() : _state(0), _result(0)} {} {
+    Fl_Window dialog {
+      label {Parameter Editor}
+      xywh {213 180 587 357} visible
+    } {
+      Fl_Tabs tabs {
+        xywh {10 0 420 240}
+      } {
+        Fl_Box Object {
+          label Object
+          xywh {10 20 420 220} hide
+          class ObjectEditor
+        }
+        Fl_Box View {
+          label View
+          xywh {10 20 420 220} hide
+          class ViewEditor
+        }
+        Fl_Box Color {
+          label Color
+          xywh {10 20 420 220}
+          class ColorEditor
+        }
+        Fl_Box Intersection {
+          label Intersection
+          xywh {10 20 420 220} hide
+          class IntersecEditor
+        }
+        Fl_Box Other {
+          label Other
+          xywh {10 20 420 220} hide
+          class OtherEditor
+        }
+      }
+      Fl_Box info {
+        label {For information only.
+To edit values, please
+close image first.}
+        xywh {450 20 120 50} labelsize 12 labelcolor 1 align 21 hide
+      }
+      Fl_Return_Button ok_button {
+        label OK
+        callback {dialog->hide();
+window_preview->hide();
+_result = 1;}
+        xywh {450 20 130 30} shortcut 0xff0d labeltype ENGRAVED_LABEL labelsize 12
+      }
+      Fl_Button cancel_button {
+        label Cancel
+        callback {dialog->hide();
+window_preview->hide();
+_result = 0;}
+        xywh {450 70 130 30} shortcut 0xff1b labeltype ENGRAVED_LABEL labelsize 12
+      }
+      Fl_Button button_reset {
+        label Reset
+        callback {if (fl_ask("This will reset all parameters to their default values. Continue?")) {
+	frac_cpp f; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
+	SetDefaults(&f, &vi, &r, col, cut);
+	set(f, vi, r, col, cut);
+}}
+        tooltip {Reset all parameters in the editor.} xywh {480 120 50 20} labelsize 12 hotspot
+      }
+      Fl_Button button_import {
+        label Import
+        callback {frac_cpp f; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
+get(f, vi, r, col, cut);
+if (MainWinPtr->Parameters_ReadPNG(f, vi, r, col, cut, _state==2)) {
+//	Object->set(f);
+//	View->set(vi);
+//	Color->set(r, col);
+//	Intersection->set(cut);
+//	Other->set(vi);
+	set(f, vi, r, col, cut);
+}}
+        tooltip {Read parameters from a PNG into the editor.} xywh {530 120 50 20} labelsize 12
+      }
+      Fl_Button button_read {
+        label Read
+        callback {frac_cpp f; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
+get(f, vi, r, col, cut);
+if (MainWinPtr->Parameters_ReadINI(f, vi, r, col, cut)) {
+//	Object->set(f);
+//	View->set(vi);
+//	Color->set(r, col);
+//	Intersection->set(cut);
+//	Other->set(vi);
+	set(f, vi, r, col, cut);
+}}
+        tooltip {Read parameters from an INI file into editor.} xywh {480 140 50 20} labelsize 12
+      }
+      Fl_Button {} {
+        label Write
+        callback {frac_cpp fr; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
+get(fr, vi, r, col, cut);
+MainWinPtr->Parameters_SaveAs(fr, vi, r, col, cut);}
+        tooltip {Write current parameters to INI file.} xywh {530 140 50 20} labelsize 12
+      }
+      Fl_Box {} {
+        label Preview
+        tooltip {Preview section.} xywh {10 250 350 100} box ENGRAVED_BOX align 21
+      }
+      Fl_Light_Button own {
+        label {&own}
+        tooltip {On: Use the current view and color parameters for the preview.
+Off: Use defaults in case you're lost.} xywh {20 290 50 20} shortcut 0x8006f value 1 labelsize 12
+      }
+      Fl_Light_Button stereo {
+        label {S&tereo}
+        tooltip {Enable for a stereoscopic preview.} xywh {80 290 60 20} shortcut 0x80074 labelsize 12 deactivate
+      }
+      Fl_Light_Button button_show {
+        label {&show}
+        callback {if (o->value()) {
+	window_preview->show();
+} else {
+	window_preview->hide();
+	dialog->show();  // raise (Windows bug)
+}}
+        tooltip {Show / Hide Julia Preview Window.} xywh {20 320 50 20} shortcut 0x80073 labelsize 12
+      }
+      Fl_Button DoPreview {
+        label {&Calc}
+        callback {if (!window_preview->shown()) {
+	button_show->value(1);
+	window_preview->show();
+}
+calcPreview();
+Preview->redraw();}
+        tooltip {Calculate a preview from the current parameters.} xywh {80 320 60 20} shortcut 0x80063 labelsize 12
+      }
+      Fl_Value_Slider preview_size {
+        label {Preview size}
+        xywh {160 320 170 20} type Horizontal labelsize 12 align 5 minimum 4800 maximum 76800 step 10 value 4800
+      }
+      Fl_Box {} {
+        label {from beside}
+        xywh {370 260 70 20} labelsize 12 align 20
+      }
+      Fl_Box vsbeside {
+        label {from beside}
+        tooltip {Drag to move the view point.} xywh {370 280 100 70} box EMBOSSED_FRAME labeltype NO_LABEL labelsize 12 align 5
+        class ViewSelector
+      }
+      Fl_Box {} {
+        label {from front}
+        xywh {480 260 60 20} labelsize 12 align 20
+      }
+      Fl_Box vsfront {
+        label {from front}
+        tooltip {Drag to move the view point.} xywh {480 280 100 70} box EMBOSSED_FRAME labeltype NO_LABEL labelsize 12 align 5
+        class ViewSelector
+      }
+      Fl_Box {} {
+        label {from above}
+        xywh {480 170 70 20} labelsize 12 align 20
+      }
+      Fl_Box vsabove {
+        label {from above}
+        tooltip {Drag to move the view point.} xywh {480 190 100 70} box EMBOSSED_FRAME labeltype NO_LABEL labelsize 12 align 5
+        class ViewSelector
+      }
+    }
+    Fl_Window window_preview {
+      label {Julia Preview Window}
+      xywh {402 380 204 84} box EMBOSSED_BOX
+      class dragWindow non_modal noborder visible
+    } {
+      Fl_Box Preview {
+        label label
+        tooltip {Julia set preview window.} xywh {2 2 200 80} box FLAT_BOX labeltype NO_LABEL labelsize 12
+        class JuliaPreview
+      }
+    }
+    code {vsabove->SetInputs(View->vre,View-> vj); 
+vsfront->SetInputs(View->vre, View->vi); 
+vsbeside->SetInputs(View->vj, View->vi); 
+vsabove->Init(0,2,1,-1); vsbeside->Init(2,1,-1,1); vsfront->Init(0,1,1,1);
+View->setSelectors(vsabove, vsbeside, vsfront, stereo);
+Other->setSelectors(vsabove, vsbeside, vsfront);
+Preview->setbutton3d(DoPreview);} {}
+    code {window_preview->resize(dialog->x()+150, 
+	dialog->y()+250, window_preview->w(),
+	window_preview->h());} {}
+  }
+  Function {run()} {return_type int
+  } {
+    code {tabs->value(Object);
+	dialog->show();
+	while (dialog->shown() && MainWinPtr->shown())
+	{
+		Fl::wait();
+		for (;;) 
+		{
+			Fl_Widget *o = Fl::readqueue();
+			if (!o) break;
+		}
+	}
+	if (dialog->shown()) dialog->hide();
+	return _result;} {}
+  }
+  Function {set(const frac_cpp& f, const view_cpp &v, const realpal_cpp &r, const colscheme_cpp& colscheme, const cutbuf_cpp& cutbuf)} {} {
+    code {Object->set(f);
+View->set(v);
+Color->set(r, colscheme);
+Intersection->set(cutbuf);
+Other->set(v);} {}
+  }
+  Function {get(frac_cpp& f, view_cpp& v, realpal_cpp& r, colscheme_cpp& colscheme, cutbuf_cpp& cutbuf)} {} {
+    code {Object->get(f);
+View->get(v);
+Color->get(r, colscheme);
+Intersection->get(cutbuf);
+Other->get(v);} {}
+  }
+  Function {SetState(int state)} {return_type void
+  } {
+    code {if (_state == state) return;
+_state = state;
+if (state==1)
+{
+	vsbeside->deactivate();
+	vsabove->deactivate();
+	vsfront->deactivate();
+	button_reset->deactivate();
+	button_read->deactivate();
+	button_import->deactivate();
+//	tabs->deactivate();
+	Object->deactiv();
+	View->deactivate();
+	Color->deactiv();
+	Intersection->deactiv();
+	Other->deactivate();
+//	deactiv();
+//	Object->deactiv->deactivate();
+//	View->deactivate();
+//	Color->deactiv();
+//	Intersection->deactiv->deactivate();
+//	Other->deactivate();
+	ok_button->hide();
+	info->show();
+}
+if (state==2)
+{
+	vsbeside->deactivate();
+	vsfront->deactivate();
+	vsabove->deactivate();
+	button_reset->deactivate();
+//	Object->deactiv->deactivate();
+	Object->deactiv();
+	View->group_v->deactivate();
+	View->group_up->deactivate();
+	View->lxr->deactivate();
+	View->group_interocular->deactivate();
+	View->group_move->deactivate();
+//	Intersection->deactiv->deactivate();
+	Intersection->deactiv();
+	Other->group_res->deactivate();
+	Other->antialiasing->deactivate();
+	Other->group_buttons->deactivate();
+}} {}
+  }
+  Function {~ParameterEditor()} {} {
+    code {delete dialog;
+delete window_preview;} {}
+  }
+  Function {calcPreview()} {return_type void
+  } {
+    code {frac_cpp f;
+view_cpp v;
+realpal_cpp pal;
+colscheme_cpp col;
+cutbuf_cpp cut;
+
+bool ster = stereo->value() && stereo->active()
+	&& own->value();
+
+get(f, v, pal, col, cut);
+
+double rx = v.xres;
+double ry = v.yres;
+if (!own->value()) {
+	rx = 80.0; ry = 60.0;
+}
+double ratio = rx/ry;
+int x = (int)(sqrt(ratio*preview_size->value())+0.5);
+int y = (int)((double)x/ratio+0.5);
+if (ster) x *= 2;
+
+if (Preview->w() != x || Preview->h() != y) {
+	window_preview->remove(Preview);
+	delete Preview;
+	window_preview->resize(window_preview->x(), window_preview->y(),
+		x+Fl::box_dw(window_preview->box())-1, y+Fl::box_dh(window_preview->box())-1);
+	window_preview->begin();
+	Preview = new JuliaPreview(Fl::box_dx(window_preview->box()), Fl::box_dy(window_preview->box()), x, y);
+	window_preview->end();
+}
+
+Preview->setbutton3d(DoPreview);
+Preview->ownView(own->value());
+Preview->stereo(ster);
+Preview->set(f, v, pal, col, cut);
+Preview->CalcImage3D();
+return;} {}
+  }
+  decl {int _state;} {}
+  decl {int _result;} {}
+} 

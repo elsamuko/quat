@@ -1,0 +1,307 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0100 
+header_name {.h} 
+code_name {.cxx} 
+gridx 5 
+gridy 5 
+snap 3
+decl {// Quat - A 3D fractal generation program
+// Copyright (C) 1997-2000 Dirk Meyer
+// (email: dirk.meyer@studserv.uni-stuttgart.de)
+// mail:  Dirk Meyer
+//        Marbacher Weg 29
+//        D-71334 Waiblingen
+//        Germany
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+
+declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
+} {
+  decl {\#include <config.h>} {}
+} 
+
+decl {//\#include <iostream>} {} 
+
+decl {//\#include <string.h>} {} 
+
+decl {\#include <cmath> // fabs} {} 
+
+decl {\#include "ChildWindow.h"} {} 
+
+decl {class ChildWindow;} {public
+} 
+
+decl {\#include "structs.h"} {public
+} 
+
+decl {\#define VD(a) (a)->value()} {} 
+
+decl {\#define VI(a) static_cast<int>((a)->value())} {} 
+
+decl {\#include "MandelPreview.h"} {} 
+
+decl {class MandelPreview;} {public
+} 
+
+class ObjectEditor {open : {public Fl_Group}
+} {
+  Function {ObjectEditor(int X, int Y, int W, int H, const char *label) : Fl_Group(X, Y, W, H, label)} {open
+  } {
+    Fl_Window win {open
+      xywh {342 298 416 216}
+      class ChildWindow noborder visible
+    } {
+      Fl_Value_Input maxiter {
+        label {Max.
+Iteration}
+        callback {MP->maxiter(VI(o));
+frac.maxiter = VI(o);
+o->color(FL_WHITE);
+if (VI(o)<=0) o->color(FL_RED);
+if (VI(o)>65535) o->color(FL_RED);
+o->redraw();}
+        tooltip {Highest number of iterations done.} xywh {10 35 60 20} labelsize 12 align 5 minimum 1 maximum 1e+20 step 1 textsize 12
+      }
+      Fl_Value_Input lvalue {
+        label {4th-dim.
+Intersection}
+        callback {frac.lvalue = VD(o);
+o->color(FL_WHITE);
+if (fabs(VD(o))>2.0) o->color(FL_YELLOW);
+if (fabs(VD(o))>=1000000.0) o->color(FL_RED);
+o->redraw();}
+        tooltip {The constant value for the 4th part of a quaternion.} xywh {75 35 95 20} labelsize 12 align 5 minimum -1e+20 maximum 1e+20 textsize 12
+      }
+      Fl_Value_Input bailout {
+        label Bailout
+        callback {MP->bailout(VD(o));
+frac.bailout = VD(o);
+o->color(FL_WHITE);
+if (VD(o) <= 0.0 || VD(o) >= 1E20) o->color(FL_RED);
+else if (VD(o) < 4.0) o->color(FL_YELLOW);
+else o->color(FL_WHITE);
+o->redraw();}
+        tooltip {If this value is exceeded, iteration is ready.} xywh {175 35 95 20} labelsize 12 align 5 maximum 1e+20 textsize 12
+      }
+      Fl_Choice formula {
+        label {Iteration  
+Formula  }
+        callback {MP->formula(VI(o));
+frac.formula = VI(o);
+formula_changed();}
+        tooltip {The formula that gets iterated.} xywh {65 65 205 30} down_box BORDER_BOX labelsize 12 textsize 12
+      } {
+        menuitem {} {
+          label {Classical Julia}
+          xywh {35 35 100 20} shortcut 0x61 labelsize 12
+        }
+        menuitem {} {
+          label {Lambda Julia}
+          xywh {30 30 100 20} shortcut 0x62 labelsize 12
+        }
+        menuitem {} {
+          label {x[n+1] = x[n]*ln(x[n]) - c}
+          xywh {40 40 100 20} shortcut 0x63 labelsize 12
+        }
+        menuitem {} {
+          label {Cubic Julia}
+          xywh {50 50 100 20} shortcut 0x64 labelsize 12
+        }
+        menuitem {} {
+          label {x[n+1] = x[n]^p1-c}
+          xywh {40 40 100 20} shortcut 0x65 labelsize 12
+        }
+      }
+      Fl_Value_Input cre {
+        label {c (1, i, j, k parts)}
+        callback {MP->SetCX(VD(o));
+frac.c[0] = VD(o);} selected
+        tooltip {Real part of c.} xywh {10 125 95 20} labelsize 12 align 5 minimum -1e+20 maximum 1e+20 textsize 12
+      }
+      Fl_Value_Input ci {
+        label {value:}
+        callback {MP->SetCY(VD(o));
+frac.c[1] = VD(o);}
+        tooltip {1st imaginary (i) part of c.} xywh {10 145 95 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+      }
+      Fl_Value_Input cj {
+        label {value:}
+        callback {MP->cj(VD(o));
+frac.c[2] = VD(o);}
+        tooltip {2nd imaginary (j) part of c.} xywh {10 165 95 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+      }
+      Fl_Value_Input ck {
+        label {value:}
+        callback {MP->ck(VD(o));
+frac.c[3] = VD(o);}
+        tooltip {3rd imaginary part (k) of c.} xywh {10 185 95 19} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+      }
+      Fl_Group paramgroup {
+        xywh {280 20 115 125}
+      } {
+        Fl_Box {} {
+          label Parameter
+          xywh {285 20 105 125} box UP_BOX labelsize 12 align 21
+        }
+        Fl_Scrollbar paramscroll {
+          xywh {290 120 95 15} type Horizontal
+        }
+      }
+      Fl_Group {} {
+        xywh {225 165 80 40}
+      } {
+        Fl_Button {} {
+          label up
+          callback {MP->MoveUp();}
+          tooltip {Navigation in Mandelbrot Preview.} xywh {225 165 40 20} shortcut 0x80069 labelsize 12
+        }
+        Fl_Button {} {
+          label {<}
+          callback {MP->MoveLeft();}
+          tooltip {Navigation in Mandelbrot Preview: to the left.} xywh {225 185 20 20} shortcut 0x8006a labelsize 12
+        }
+        Fl_Button {} {
+          label {+}
+          callback {MP->ZoomIn();}
+          tooltip {Zoom In.} xywh {245 185 20 20} shortcut 0x2b labelsize 12
+        }
+        Fl_Button {} {
+          label {-}
+          callback {MP->ZoomOut();}
+          tooltip {Zoom out.} xywh {265 185 20 20} shortcut 0x2d labelsize 12
+        }
+        Fl_Button {} {
+          label {>}
+          callback {MP->MoveRight();}
+          tooltip {Navigation in Mandelbrot Preview: to the right.} xywh {285 185 20 20} shortcut 0x8006c labelsize 12
+        }
+        Fl_Button {} {
+          label down
+          callback {MP->MoveDown();}
+          tooltip {Navigation in Mandelbrot Preview.} xywh {265 165 40 20} shortcut 0x8006b labelsize 12
+        }
+      }
+      Fl_Button redraw {
+        label {&redraw}
+        callback {MP->CalcImage();
+MP->redraw();
+MP->CheckUpdate();}
+        tooltip {Redraws the Mandebrot Preview.} xywh {225 125 45 20} shortcut 0x80072 labelsize 12 deactivate
+      }
+      Fl_Box MP {
+        label label
+        tooltip {Mandelbrot preview:
+for easy selection of c (real- and i- part)
+Red frame: Redraw required.} xywh {110 125 110 80} box EMBOSSED_FRAME labeltype NO_LABEL labelsize 12
+        class MandelPreview
+      }
+      Fl_Group paramgroup2 {
+        xywh {290 20 95 100}
+      } {
+        Fl_Value_Input p_re {
+          label p1
+          callback {MP->p(paramscroll->value()-1, 0, VD(o));
+frac.p[paramscroll->value()-1][0] = VD(o);
+//cout << paramscroll->value() << endl;}
+          tooltip {Real part of p1.} xywh {290 35 95 20} labelsize 12 align 9 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input p_i {
+          label {value:}
+          callback {MP->p(paramscroll->value()-1, 1, VD(o));
+frac.p[paramscroll->value()-1][1] = VD(o);}
+          tooltip {1st imaginary (i) part of p1.} xywh {290 56 95 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input p_j {
+          label {value:}
+          callback {MP->p(paramscroll->value()-1, 2, VD(o));
+frac.p[paramscroll->value()-1][2] = VD(o);}
+          tooltip {2nd imaginary (j) part of p1.} xywh {290 76 95 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input p_k {
+          label {value:}
+          callback {MP->p(paramscroll->value()-1, 3, VD(o));
+frac.p[paramscroll->value()-1][3] = VD(o);}
+          tooltip {3rd imaginary (k) part of p1.} xywh {290 96 95 19} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+      }
+    }
+    code {MP->SetInputs(cre, ci, redraw);
+end(); // VERY IMPORTANT!
+win->position(X+2, Y+2);
+// DON'T delete win in destructor (or elsewhere) 
+// it's automatically deleted by Fl_Group} {}
+  }
+  Function {set(const frac_cpp& f)} {return_type void
+  } {
+    code {frac = f;
+maxiter->value(f.maxiter); maxiter->do_callback();
+lvalue->value(f.lvalue); lvalue->do_callback();
+bailout->value(f.bailout); bailout->do_callback();
+formula->value(f.formula); formula->do_callback(); // Also calls formula_changed()
+cre->value(f.c[0]); cre->do_callback();
+ci->value(f.c[1]); ci->do_callback();
+cj->value(f.c[2]); cj->do_callback();
+ck->value(f.c[3]); ck->do_callback();
+for (int j=0; j<4; j++) for (int i=0; i<4; i++) MP->p(j, i, f.p[j][i]);
+MP->CalcImage(); MP->CheckUpdate();} {}
+  }
+  Function {get(frac_cpp& f)} {return_type void
+  } {
+    code {f = frac;
+return;} {}
+  }
+  Function {formula_changed()} {return_type void
+  } {
+    code {int pno = 0;
+switch (frac.formula) {
+	case 4: pno = 1; break;
+	default: pno = 0; break;
+}
+
+if (pno == 0) { 
+	paramgroup->hide();
+	paramgroup2->hide();
+}
+else {
+	paramgroup->show();
+	paramgroup2->show();
+}
+
+paramscroll->scrollvalue(1,1,1,pno);
+if (pno != 0) paramscroll_changed();} {}
+  }
+  Function {paramscroll_changed()} {return_type void
+  } {
+    code {int i = paramscroll->value();
+p_re->value(frac.p[i-1][0]);
+p_i->value(frac.p[i-1][1]);
+p_j->value(frac.p[i-1][2]);
+p_k->value(frac.p[i-1][3]);} {}
+  }
+  decl {frac_cpp frac;} {}
+  Function {deactiv()} {return_type void
+  } {
+    code {maxiter->deactivate();
+lvalue->deactivate();
+bailout->deactivate();
+formula->deactivate();
+cre->deactivate();
+ci->deactivate();
+cj->deactivate();
+ck->deactivate();
+MP->deactivate();
+paramgroup2->deactivate();} {}
+  }
+} 

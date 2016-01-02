@@ -1,0 +1,315 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Dirk Meyer">
+   <title>Quat: Online documentation</title>
+</head>
+<body>
+
+<h1>
+<a NAME="a4"></a>4. Structure of the initialization file(s)</h1>
+<p>If you use a version with a user interface (called "UI" in the following)
+you can skip this section 4 (but you should read the sub-sections 4.1-4.4,
+where you'll find the descriptions of the parameters in the Editors).
+
+<p>In text files the parameters necessary to start a calculation are defined.
+(As mentioned above: once the calculation had been started, they are superfluous.)
+Their structure is quite simple:
+<br>The double cross (<tt>#</tt>) introduces a comment. Everything written
+after it in the same line is ignored. Normally a line begins with a key
+word, which is followed by one ore more parameters.
+
+<p>The parameters and
+the key word have to be in the same line and have to be seperated by blanks.
+Following types of parameters are possible:
+<br>int: integer values (like 1, -1, 0, 2, 3, 1001, ...)
+<br>float: floating point values (like -0.2353, 21.21324, 0.001, ...)
+<br>strings: strings of characters
+<p>If a key word is not mentioned, a default value will be used instead.
+Some example files are included in the program's distribution kit. You
+should look at them, for many things will become clear in an instant simply
+by looking at them, whereas it is more difficult to understand it only
+theoretically.
+
+<h2>
+<a NAME="a41"></a>4.1 Key words for definition of fractal object and view</h2>
+
+<ul>
+<li><a NAME="a41c"></a><i>c</i>
+<br>followed by four float parameters. UI: located in
+<a href="quat-us-3.html#aObjectEditor">Object Editor</a>.
+<br>They define the real and three imaginary parts of the constant <i>c</i>
+in the formula <nobr>"x<sub>n+1</sub> = x<sub>n</sub><sup>2</sup> - c"</nobr> or the
+other one supported. The four float numbers are 1, i, j and k parts of
+the hypercomplex number.
+<br>These parameters determine the shape and the structure of the fractal.
+To get good results, they should be near the origin (in 4d space!), that
+means they should range from -2 to 2.
+<br>Note: It is interesting to experiment with this (that's where the fun
+comes in)!</li>
+
+<li><a NAME="a41bailout"></a><i>bailout</i>
+<br>one float parameter follows. UI: located in
+<a href="quat-us-3.html#aObjectEditor">Object Editor</a>.
+<br>defines the value (as float number) from which the iteration sequence
+is assumed to go towards infinity. Then the calculation of the point is
+finished. Corresponds to the parameter with the same name in the program
+"Fractint".</li>
+
+<li><a NAME="a41maxiter"></a><i>maxiter</i></li>
+<br>One int parameter follows. UI: located in
+<a href="quat-us-3.html#aObjectEditor">Object Editor</a>.
+<br>is the maximum number of iterations being calculated.
+<br>If the value <i>bailout</i> (see above) isn't exceeded after maxiter iterations,
+the iteration sequence is assumed to converge towards zero or as to be
+periodic and therefore belonging to the julia set (the object).
+<br>This value can be found in every fractal program with a comparable
+name. In contrast to 2d fractal programs this value shouldn't be too high
+in Quat (much less than 100): The value increases detail, which is wanted in
+2d, but not nice in 3d, since the surface of the object gets in the worst
+theoretical case infinitely rugged.</li>
+
+<li><a NAME="a41lvalue"></a><i>lvalue</i></li>
+<br>One float parameter follows. UI: located in
+<a href="quat-us-3.html#aObjectEditor">Object Editor</a>.
+<br>a constant float value (for the fourth component of a point in space),
+which represents the fourth dimension. As start value x<sub>0</sub> for
+an iteration the point in space is taken which has to be calculated. Doing
+this we have only three components. The fourth component is set to <i>lvalue</i>.</li>
+
+<li><a NAME="a41formula"></a><i>formula</i>
+<br>One int parameter follows. UI: located in
+<a href="quat-us-3.html#aObjectEditor">Object Editor</a>.
+<br>Defines which iteration formula is to be iterated. The values "0" to
+"4" are allowed, which correspond to the following formulas
+<table BORDER CELLSPACING=0 CELLPADDING=0 >
+<tr>
+<td>0&nbsp;</td>
+
+<td>Classical Julia&nbsp;&nbsp;</td>
+
+<td>x<sub><font size=-1>n+1</font></sub> = x<font size=-1><sub>n</sub><sup>2</sup></font>
+- c</td>
+</tr>
+
+<tr>
+<td>1&nbsp;</td>
+
+<td>Lambda Julia</td>
+
+<td>x<sub><font size=-1>n+1</font></sub> = cx<sub><font size=-1>n</font></sub>(1-x<sub><font size=-1>n</font></sub>)</td>
+</tr>
+<tr><td>2&nbsp;</td><td>&nbsp;</td>
+<td>x<sub>n+1</sub> = x<sub>n</sub>*ln(x<sub>n</sub>) - c</td></tr>
+
+<tr><td>3&nbsp;</td><td>Cubic Julia</td>
+<td>x<sub>n+1</sub> = x<sub>n</sub><sup>3</sup> - c</td></tr>
+
+<tr><td>4&nbsp;</td><td>&nbsp;</td>
+<td>x<sub>n+1</sub> = x<sub>n</sub><sup>p1</sup> - c</td></tr>
+</table></li>
+
+<li><a NAME="a41p"></a><i>p1</i>, <i>p2</i>, <i>p3</i> and <i>p4</i>
+<br>four float parameters follow each. UI: located in
+<a href="quat-us-3.html#aObjectEditor">Object Editor</a> (visible only if it
+makes sense).
+<br>They are extra parameters for the iteration formula. Up to now only
+<i>p1</i> is needed. <i>p1</i> is, for example, the exponent in the 5th iteration
+formula (x^p1-c). The 4 values are the 4 parts of a quaternion.</li>
+
+<li><a NAME="a41viewpoint"></a><i>viewpoint</i>
+<br>Three float parameters follow. UI: located in
+<a href="quat-us-3.html#aViewEditor">View Editor</a>.
+<br>It's a vector in Q-Space that defines the point in space which is center
+of the view plane (from which the object is seen.) See also
+<a href="quat-us-2.html#a22">Section&nbsp;2.2</a>.</li>
+
+<li><a NAME="a41up"></a><i>up</i></li>
+<br>Three float parameters follow. UI: located in
+<a href="quat-us-3.html#aViewEditor">View Editor</a>.
+<br>It is a vector in Q-Space, which defines the up direction. This vector
+must not be perpendicular to the view plane! See also
+<a href="quat-us-2.html#a22">Section&nbsp;2.2</a>.</li>
+
+<li><a NAME="a41light"></a><i>light</i>
+<br>Three float parameters follow. UI: located in
+<a href="quat-us-3.html#aViewEditor">View Editor</a>.
+<br>It's a vector in the view coordinate system, which describe the position
+of the light source relatively to the position of the viewer (<i>viewpoint</i>)
+measured in view coordinate system units.</li>
+
+<li><a NAME="a41lxr"></a><i>lxr</i>
+<br>one float parameter follows. UI: located in
+<a href="quat-us-3.html#aViewEditor">View Editor</a>.
+<br>Defines the length of the "screen" on the view plane in Q-Space. Determines
+the size of the view window/object. See also
+<a href="quat-us-2.html#a22">Section 2.2</a>.</li>
+
+<li><a NAME="a41move"></a><i>move</i>
+<br>Two float parameters follow. UI: located in
+<a href="quat-us-3.html#aViewEditor">View Editor</a>.
+<br>Defines the way how the view window is shifted (in it's own coordinate
+directions X and Y) See also <a href="quat-us-2.html#a22">Section 2.2</a>.</li>
+
+<li><a NAME="a41interocular"></a><i>interocular</i>
+<br>One float parameter follows. UI: located in
+<a href="quat-us-3.html#aViewEditor">View Editor</a>.
+<br>If this value is zero, a 2d projection of the 3d object is generated.
+If you set it to a nonzero value, two 2d projections of the object are
+generated, one for the left eye (=the right image) and one for the right
+eye (=the left image). If you know how to fuse them, you can see the object
+in true 3D! Great experience! See "<a href="quat-us-5.html#a53">Cross eyed view</a>"
+for explanation of how to fuse the images.
+<br>The value is the distance that the two different view points for the
+different eyes have in Q-Space. It should be lower than <i>lxr</i>.</li>
+
+<li><a NAME="a41phong"></a><i>phong</i>
+<br>two float parameters follow. UI: located in
+<a href="quat-us-3.html#aOtherEditor">"Other Editor"</a>.
+<br>The first number defines the maximum intensity of the phong highlight
+(ranges from 0 to 1), and the latter how sharp the phong highlight will
+be (how fast the brightness gets near the usual brightness without highlight.).
+Ranges from 1 to infinity.
+<br>A "phong highlight" is a glaring light reflexion as it can be seen
+on a billard-ball for example.</li>
+
+<li><a NAME="a41ambient"></a><i>ambient</i>
+<br>one float parameter follows. UI: located in
+<a href="quat-us-3.html#aOtherEditor">"Other Editor"</a>.
+<br>Defines the brightness of ambient light. Range from 0 to 1.</li>
+
+<li><a NAME="a41antialiasing"></a><i>antialiasing</i>
+<br>one int parameter follows. UI: located in
+<a href="quat-us-3.html#aOtherEditor">"Other Editor"</a>.
+<br>To reduce moire patterns (regular patterns on the objects consisting
+of black pixels) some intermediate points are calculated instead of one
+pixel. The average of these intermediate points' brightness is taken as
+the brightness of the pixel. The parameter behind this keyword defines
+how many intermediate points are calculated. For example, the effect of
+"<tt>antialiasing 2</tt>" is that a pixel is replaced by a 2x2 rectangle.
+So 4 points are calculated and the average of their brightnesses is the
+brightness of the pixel. Of course, this decreases the calculation speed
+to one fourth!
+<br>The value has to be between 1 and 5 inclusive.</li>
+</ul>
+
+<h2>
+<a NAME="a42"></a>4.2 Key words for definition of colors</h2>
+
+<p>A color in Quat is represented by a red-green-blue triple, where red, green
+and blue are numbers from 0.0 to 1.0.
+
+<p>When using a color together with other colors (as it is in a palette)
+every color needs some kind of factor, that defines the amount of the palette
+to be occupied by the color. Same is true for color ranges. The factors
+or weightings of all colors and/or color ranges are summed up by Quat to
+find out what 100% are.
+
+<p>It is possible to define many colors and color ranges, which taken
+together are building the palette. The color described first in the file
+corresponds to the value "0.0", the last one "1.0". This will become important
+when we'll see how to get the color we want through a mathematical formula.
+The key words are:
+
+<ul>
+<li><i>color</i>
+<br>four float parameters follow. UI: indirectly located in
+<a href="quat-us-3.html#aColorEditor">Color Editor</a>.
+(Create a color range with both colors the same.)
+<br>The first number is the weight of the color (meaningless, if the whole
+palette is built by one single color) MUST NOT BE ZERO. The remaining three
+parameters are intensity of red, green and blue (in this order). They are
+values between 0.0 (no intensity) and 1.0 (maximum intensity)</li>
+
+<li><i>colorrange</i>
+<br>seven float parameters follow. UI: located in
+<a href="quat-us-3.html#aColorEditor">Color Editor</a>.
+<br>The 1st number is the weight (see <i>color</i>), the next three the color
+at which the color range starts and the last three the color, where the
+color range ends at. Inbetween those two colors the colors are interpolated.</li>
+</ul>
+
+<h2>
+<a NAME="a43"></a>4.3 Key words for definition of intersection objects</h2>
+Objects can be defined (only planes yet), which intersect with the fractal
+object.
+<br>Key words:
+
+<ul>
+<li><a NAME="a43plane"></a><i>plane</i>
+<br>six float parameters follow. UI: Located in
+<a href="quat-us-3.html#aIntersectionEditor">Intersection Editor</a>.
+<br>Defines a plane which divides the space into two half-spaces. The first
+three parameters describe a vector that is perpendicular to the plane (normal
+vector), the last three the point at which the plane is fixed. The normal
+vector points into the half-space which will be cut away from the fractal.</li>
+</ul>
+
+<h2>
+<a NAME="a44"></a>4.4 Other key words</h2>
+
+<ul>
+<li><i>include</i>
+<br>inserts another text file. The result is the same as if the statements
+put in the included file would be given directly at the location of <i>include</i>.
+<br><i>include</i> is followed by a string parameter, that gives the name of
+the file (with suffix!) to include. You should avoid using pathnames here.</li>
+
+<li><a NAME="a44resolution"></a><i>resolution</i>
+<br>three int parameters follow. UI: located in
+<a href="quat-us-3.html#aOtherEditor">"Other Editor"</a>.
+<br>The first two numbers define the size of the image in pixels to calculate
+(the 1st the X, the 2nd the Y direction). The last determines the image's
+resolution in Z direction (perpendicular on screen).
+<br>The bigger the value, the smaller the steps that are taken to look
+for the fractal in Z direction will get. This value should be approximately
+as big as the Y resolution. Is it too small, the calculation becomes faster,
+but it could happen that the edges of the fractal get frayed out, because
+at special places (preferably at the edges) the fractal is not hit. (See
+Appendix <a href="quat-us-5.html#a52">5.2 </a>for examples.)</li>
+
+<li><a NAME="a44colorscheme"></a><i>colorscheme</i>
+<br>string follows. UI: located in
+<a href="quat-us-3.html#aColorEditor">Color Editor</a>.
+<br>This is the place to define the formula, which determines the color
+of the fractal in correlation to the point in space. The formula should
+give values between 0 and 1 in the chosen region of space. If it leaves
+this range of values, Quat will do some kind of "floating point modulo",
+which will reduce the result to the range between 0 and 1. Does the palette
+consist only of one single color, the formula could simply be written as
+"<tt>0</tt>".
+<br>Following variables are predefined: <tt>x</tt>, <tt>y</tt> and <tt>z</tt>.
+They are the X, Y and
+Z coordinate of the point in space (to be more exactly: the 1, i and j
+values of the point in Q-Space), whose color should be calculated. You
+can use brackets to give some order to the operations. Along with the usual
+mathematical operations (+,-,*,/) power (^) you can use following functions:
+<br><tt>sin, cos, tan, sqr, sqrt, exp, ln, atan, asin, acos, round, trunc,
+abs, random</tt>
+<br><tt>sin(x)</tt>: the sine of x (x in radians)
+<br><tt>cos(x)</tt>: the cosine of x (x in radians)
+<br><tt>tan(x)</tt>: tangens of x (x in radians)
+<br><tt>sqr(x)</tt>: x to square (<tt>x*x</tt>)
+<br><tt>sqrt(x)</tt>: the square root of x
+<br><tt>exp(x)</tt>: <tt>e^x</tt>. (e to the power of x). <tt>e</tt> is the Eulerian number (2.718....)
+<br><tt>ln(x)</tt>: inverse function to <tt>exp(x)</tt>. Natural logarithm.
+<br><tt>atan(x)</tt>: arcus tangens of x. Inverse function to tangens.
+<br><tt>asin(x)</tt>: arcus sine of x. Inverse function to sine.
+<br><tt>acos(x)</tt>: arcus cosine of x. Inverse function to cosine.
+<br><tt>round(x)</tt>: rounds x as usual: e.g. <tt>round(2.5)=3.0</tt>; <tt>round(2.4999)=2.0</tt>;
+<br><tt>trunc(x)</tt>: the largest integer that is less than or equal to x. E.g.
+<tt>trunc(2.0)=2.0</tt>; <tt>trunc(2.5)=2.0</tt>; <tt>trunc(2.99) = 2.0</tt>;
+<br><tt>abs(x)</tt>: absolute value: <tt>abs(x)=x</tt> if <tt>x>0</tt> and <tt>-x</tt> if <tt>x&lt;0</tt>
+<br><tt>random(x)</tt>: a random value in range from 0 to x.
+<p>Special functions for fractal calculation are:
+<br><tt>orbite(n)</tt>: The 1-part of the Quaternion after n iterations.
+<br><tt>orbitj(n)</tt>: The i-part of the Quaternion after n iterations.
+<br><tt>orbitk(n)</tt>: The j-part of the Quaternion after n iterations.
+<br><tt>orbitl(n)</tt>: The k-part of the Quaternion after n iterations.
+<p>You can get an object oriented coloring by using the <tt>orbit?</tt> functions.
+</li>
+</ul>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+# Top-level makefile for Quat.
+
+#SHELL=cmd.exe
+
+all: makeinclude makefiles
+	echo "=== making kernel ==="
+	$(MAKE) -C kernel
+	echo "=== making gui ==="
+	$(MAKE) -C gui
+
+clean:
+	$(MAKE) clean -C kernel
+	$(MAKE) clean -C gui
+	del makeinclude
+	del Makefile
+
+#config.h: makefiles/config.mingw32
+#	copy $< $@
+
+makeinclude: makefiles/makeinclude.mingw32
+	copy $< $@
+
+makefiles: kernel/Makefile gui/Makefile
+
+kernel/Makefile: Makefiles/kernel/Makefile.mingw32
+	copy $< $@
+
+gui/Makefile: Makefiles/gui/Makefile.mingw32
+	copy $< $@

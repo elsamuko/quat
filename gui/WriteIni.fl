@@ -1,0 +1,89 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0100 
+header_name {.h} 
+code_name {.cxx} 
+gridx 5 
+gridy 5 
+snap 3
+decl {// Quat - A 3D fractal generation program
+// Copyright (C) 1997-2000 Dirk Meyer
+// (email: dirk.meyer@studserv.uni-stuttgart.de)
+// mail:  Dirk Meyer
+//        Marbacher Weg 29
+//        D-71334 Waiblingen
+//        Germany
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+
+declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
+} {
+  decl {\#include <config.h>} {}
+} 
+
+decl {bool WriteINI_state = false;} {} 
+
+Function {WriteINI(int& mode)} {return_type bool
+} {
+  Fl_Window win {
+    label {Write Parameters to INI file}
+    xywh {367 321 210 187}
+    code0 {\#include "common.h" // PS_ -Defines} modal visible
+  } {
+    Fl_Check_Button OBJ {
+      label {Object Data}
+      xywh {55 40 95 25} down_box DOWN_BOX value 1 selection_color 2 labelsize 12
+    }
+    Fl_Check_Button VIEW {
+      label {View Data}
+      xywh {55 60 90 25} down_box DOWN_BOX value 1 selection_color 2 labelsize 12
+    }
+    Fl_Check_Button COL {
+      label {Color Data}
+      xywh {55 80 90 25} down_box DOWN_BOX value 1 selection_color 2 labelsize 12
+    }
+    Fl_Check_Button OTHER {
+      label {Other Data} selected
+      xywh {55 100 90 25} down_box DOWN_BOX value 1 selection_color 2 labelsize 12
+    }
+    Fl_Box {} {
+      label {Which data to write:}
+      xywh {30 15 140 15} labelsize 12 align 21
+    }
+    Fl_Return_Button ok_button {
+      label OK
+      callback {WriteINI_state = true; win->hide();}
+      xywh {15 150 80 25} shortcut 0xff0d labelsize 12
+    }
+    Fl_Button cancel_button {
+      label Cancel
+      callback {WriteINI_state = false; win->hide();}
+      xywh {115 150 80 25} shortcut 0xff1b
+    }
+  }
+  code {win->show();
+while (win->shown())
+{
+	Fl::wait();
+}
+mode = 0;
+if (OBJ->value()) mode |= PS_OBJ;
+if (VIEW->value()) mode |= PS_VIEW;
+if (COL->value()) mode |= PS_COL;
+if (OTHER->value()) mode |= PS_OTHER;
+
+delete win;
+
+return WriteINI_state;} {}
+} 

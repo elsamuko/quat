@@ -1,0 +1,324 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0100 
+header_name {.h} 
+code_name {.cxx} 
+gridx 5 
+gridy 5 
+snap 3
+decl {// Quat - A 3D fractal generation program
+// Copyright (C) 1997-2000 Dirk Meyer
+// (email: dirk.meyer@studserv.uni-stuttgart.de)
+// mail:  Dirk Meyer
+//        Marbacher Weg 29
+//        D-71334 Waiblingen
+//        Germany
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+
+declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
+} {
+  decl {\#include <config.h>} {}
+} 
+
+decl {\#include "structs.h"} {public
+} 
+
+decl {\#include "ChildWindow.h"} {} 
+
+decl {class ChildWindow;} {public
+} 
+
+decl {\#include "ViewSelector.h"} {} 
+
+decl {class ViewSelector;} {public
+} 
+
+decl {\#include <FL/math.h>} {} 
+
+decl {\#include <cassert>} {} 
+
+class ViewEditor {open : {public Fl_Group}
+} {
+  Function {ViewEditor(int X, int Y, int W, int H, const char *label) : Fl_Group(X,Y,W,H,label)} {open
+  } {
+    Fl_Window win {open
+      xywh {323 298 416 216}
+      class ChildWindow noborder visible
+    } {
+      Fl_Group {} {
+        label {QSpace coordinates (1, i, j)}
+        tooltip {All parameters in this box are coordinates in Quaternion space.} xywh {5 5 260 200} box ENGRAVED_BOX labelsize 12 align 21
+      } {}
+      Fl_Group group_v {
+        label v open
+        tooltip {The view point represents the center point of the screen in QSpace.
+You can also use the three View Selectors to set the View Point with the mouse.} xywh {15 30 110 75} labeltype NO_LABEL
+      } {
+        Fl_Value_Input vre {
+          label {View Point}
+          callback {view.s[0] = o->value();
+for (int i=0; i<3; i++) 
+  vs[i]->viewpointre(o->value());
+if (radio2->value()) { ocular_dist->value(newdist()); ocular_dist->do_callback(); }
+if (radio1->value()) ocular_angle->value(newangle());
+checkValidity();}
+          tooltip {Real part of View Point.} xywh {15 45 110 20} labelsize 12 align 5 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input vi {
+          label {value:}
+          callback {view.s[1] = o->value();
+for (int i=0; i<3; i++)
+  vs[i]->viewpointi(o->value());
+if (radio2->value()) { ocular_dist->value(newdist()); ocular_dist->do_callback(); }
+if (radio1->value()) ocular_angle->value(newangle());
+checkValidity();}
+          tooltip {1st imaginary (i) part of View Point.} xywh {15 65 110 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input vj {
+          label {value:}
+          callback {view.s[2] = o->value();
+for (int i=0; i<3; i++)
+  vs[i]->viewpointj(o->value());
+if (radio2->value()) { ocular_dist->value(newdist()); ocular_dist->do_callback(); }
+if (radio1->value()) ocular_angle->value(newangle());
+checkValidity();}
+          tooltip {2nd imaginary (j) part of View Point.} xywh {15 85 110 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+      }
+      Fl_Group group_up {
+        label up
+        tooltip {Needed for orientation of the screen in QSpace.
+Defines the vertical direction of screen.} xywh {15 120 110 75} labeltype NO_LABEL
+      } {
+        Fl_Value_Input upre {
+          label {Up (Orientation)}
+          callback {view.up[0] = o->value();
+for (int i=0; i<3; i++) vs[i]->upre(o->value());
+checkValidity();}
+          tooltip {Real part of Up.} xywh {15 135 110 20} labelsize 12 align 5 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input upi {
+          label {value:}
+          callback {view.up[1] = o->value();
+for (int i=0; i<3; i++) vs[i]->upi(o->value());
+checkValidity();}
+          tooltip {1st imaginary (i) part of Up.} xywh {15 155 110 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input upj {
+          label {value:}
+          callback {view.up[2] = o->value();
+for (int i=0; i<3; i++) vs[i]->upj(o->value());
+checkValidity();}
+          tooltip {2nd imaginary (j) part of Up.} xywh {15 175 110 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+      }
+      Fl_Value_Input lxr {
+        label {Length of View
+Plane's X-Axis}
+        callback {view.LXR = o->value();
+for (int i=0; i<3; i++) vs[i]->LXR(o->value());
+checkValidity();}
+        tooltip {Use this to scale the screen (image).} xywh {145 65 110 20} labelsize 12 align 5 minimum -1e+20 maximum 1e+20 textsize 12
+      }
+      Fl_Group group_interocular {
+        label Interocular open
+        xywh {145 115 110 85} labelsize 12 align 5
+      } {
+        Fl_Value_Input ocular_dist {
+          label Distance
+          callback {view.interocular = o->value();
+ocular_angle->value(newangle());
+checkValidity();}
+          tooltip {Distance (in QSpace) between the two eyes. If nonzero, you'll get a stereo image.} xywh {165 135 90 20} labelsize 12 align 5 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input ocular_angle {
+          label {Angle (°)}
+          callback {view.interocular = newdist();
+ocular_dist->value(view.interocular);
+checkValidity();}
+          tooltip {Angle between the two eyes. If nonzero, you'll get a stereo image.} xywh {165 175 90 20} labelsize 12 align 5 maximum 360 textsize 12 deactivate
+        }
+        Fl_Round_Button radio1 {
+          label button
+          callback {ocular_angle->deactivate();
+ocular_dist->activate();}
+          tooltip {If selected: Interocular distance constant while moving the View Point.} xywh {145 130 20 30} type Radio down_box DOWN_BOX value 1 selection_color 2 labeltype NO_LABEL labelsize 12
+        }
+        Fl_Round_Button radio2 {
+          label button
+          callback {ocular_dist->deactivate();
+ocular_angle->activate();}
+          tooltip {If selected: Angle is constant while moving the View Point.} xywh {145 170 20 30} type Radio down_box DOWN_BOX selection_color 2 labeltype NO_LABEL labelsize 12
+        }
+      }
+      Fl_Group {} {
+        label {Viewplane coord.} selected
+        tooltip {All coordinates in this box are measured relative to the view plane.
+X=horizontal, Y=vertical, Z=perpendicular to screen.} xywh {275 5 130 200} box ENGRAVED_BOX labelsize 12 align 21
+      } {}
+      Fl_Group {} {
+        label light
+        tooltip {Measured from the View Point.} xywh {285 30 110 75} labeltype NO_LABEL
+      } {
+        Fl_Value_Input lightx {
+          label {Light Source}
+          callback {view.light[0] = o->value();}
+          tooltip {X coordinate of Light Source.} xywh {285 45 110 20} labelsize 12 align 5 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input lighty {
+          label {value:}
+          callback {view.light[1] = o->value();}
+          tooltip {Y coordinate of Light Source.} xywh {285 65 110 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input lightz {
+          label {value:}
+          callback {view.light[2] = o->value();}
+          tooltip {Z coordinate of Light Source.} xywh {285 85 110 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+      }
+      Fl_Group group_move {
+        label move
+        tooltip {Move the view plane parallel to itself.} xywh {285 120 110 55} labeltype NO_LABEL
+      } {
+        Fl_Value_Input movex {
+          label Move
+          callback {view.Mov[0] = o->value();
+for (int i=0; i<3; i++) vs[i]->movex(o->value());}
+          tooltip {Movement in X direction.} xywh {285 135 110 20} labelsize 12 align 5 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+        Fl_Value_Input movey {
+          label {value:}
+          callback {view.Mov[1] = o->value();
+for (int i=0; i<3; i++) vs[i]->movey(o->value());}
+          tooltip {Movement in Y direction.} xywh {285 155 110 20} labeltype NO_LABEL labelsize 12 minimum -1e+20 maximum 1e+20 textsize 12
+        }
+      }
+    }
+    code {memset(&view, 0, sizeof(view));
+end(); // VERY IMPORTANT!
+win->position(X+2, Y+2);
+// DON'T delete win in destructor (or elsewhere) 
+// it's automatically deleted by Fl_Group} {}
+  }
+  Function {setSelectors(ViewSelector *vsa, ViewSelector *vsb, ViewSelector *vsf, Fl_Light_Button *ster)} {return_type void
+  } {
+    code {vs[0] = vsa; vs[1] = vsb; vs[2] = vsf;
+stereo = ster;} {}
+  }
+  Function {set(const view_cpp& v)} {return_type void
+  } {
+    code {for (int i=0; i<3; i++) assert(vs[i] != 0);
+assert(stereo != 0);
+view = v;
+vre->value(v.s[0]); vi->value(v.s[1]); vj->value(v.s[2]);
+upre->value(v.up[0]); upi->value(v.up[1]); upj->value(v.up[2]);
+lxr->value(v.LXR);
+ocular_dist->value(v.interocular);
+lightx->value(v.light[0]); lighty->value(v.light[1]); lightz->value(v.light[2]);
+movex->value(v.Mov[0]);
+movey->value(v.Mov[1]);
+
+// Set Angle, set ViewSelectors and checkValidity:
+ocular_dist->do_callback();
+vre->do_callback(); vi->do_callback(); vj->do_callback();
+upre->do_callback(); upi->do_callback(); upj->do_callback();
+lxr->do_callback(); movex->do_callback(); movey->do_callback();
+
+return;} {}
+  }
+  Function {get(view_cpp& v)} {return_type void
+  } {
+    code {// Don't do v=view, because there are other members
+// which aren't in the ViewEditor
+
+v.s[0] = view.s[0]; v.s[1] = view.s[1]; v.s[2] = view.s[2];
+v.up[0] = view.up[0]; v.up[1] = view.up[1];  v.up[2] = view.up[2];
+v.LXR = view.LXR;
+v.interocular = view.interocular;
+v.light[0] = view.light[0];
+v.light[1] = view.light[1];
+v.light[2] = view.light[2];
+v.Mov[0] = view.Mov[0];
+v.Mov[1] = view.Mov[1];
+
+return;} {}
+  }
+  decl {view_cpp view;} {}
+  decl {ViewSelector *vs[3];} {}
+  decl {Fl_Light_Button *stereo;} {}
+  Function {parallel(double a[], double b[])} {return_type bool
+  } {
+    code {double c[3] = {0.0, 0.0, 0.0};
+c[0] = a[1]*b[2] - a[2]*b[1];
+c[1] = a[2]*b[0] - a[0]*b[2];
+c[2] = a[0]*b[1] - a[1]*b[0];
+//double ab = c[0]*c[0] + c[1]*c[1] + c[2]*c[2];
+return (vec_abs(c)==0.0);} {}
+  }
+  Function {vec_abs(double a[])} {return_type double
+  } {
+    code {return sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2]);} {}
+  }
+  Function {newangle()} {return_type double
+  } {
+    code {double a = vec_abs(view.s);
+if (a==0.0 && view.interocular != 0.0) return 180.0;
+else if (a==0.0) return(ocular_angle->value());
+else return atan(view.interocular/(2.0*a))*360.0/M_PI;} {}
+  }
+  Function {newdist()} {return_type double
+  } {
+    code {return 2.0*vec_abs(view.s)*tan(M_PI*ocular_angle->value()/360.0);} {}
+  }
+  Function {checkValidity()} {return_type void
+  } {
+    code {const Fl_Color okc = FL_WHITE;
+const Fl_Color ndefc = FL_RED;
+Fl_Color vre_c = okc, vi_c = okc, vj_c = okc, 
+	upre_c = okc, upi_c = okc, upj_c = okc, 
+	lxr_c = okc, od_c = okc, oa_c = okc;
+
+if (vec_abs(view.s) == 0.0) {
+	vre_c = ndefc; vi_c = ndefc; vj_c = ndefc;
+}
+else if (parallel(view.s, view.up)) {
+	upre_c = ndefc; upi_c = ndefc; upj_c = ndefc;
+}
+
+if (view.LXR <= 0.0) lxr_c = ndefc;
+
+if (view.interocular < 0.0) {
+	od_c = ndefc; oa_c = ndefc;
+}
+
+if (vre_c != vre->color()) { vre->color(vre_c); vre->redraw(); }
+if (vi_c != vi->color()) { vi->color(vi_c); vi->redraw(); }
+if (vj_c != vj->color()) { vj->color(vj_c); vj->redraw(); }
+
+if (upre_c != upre->color()) { upre->color(upre_c); upre->redraw(); }
+if (upi_c != upi->color()) { upi->color(upi_c); upi->redraw(); }
+if (upj_c != upj->color()) { upj->color(upj_c); upj->redraw(); }
+
+if (lxr_c != lxr->color()) { lxr->color(lxr_c); lxr->redraw(); }
+
+if (od_c != ocular_dist->color()) { ocular_dist->color(od_c); ocular_dist->redraw(); }
+if (oa_c != ocular_angle->color()) { ocular_angle->color(oa_c); ocular_angle->redraw(); }
+
+if (view.interocular == 0.0 && stereo->active()) stereo->deactivate();
+if (view.interocular != 0.0 && !stereo->active()) stereo->activate();
+
+return;} {}
+  }
+} 

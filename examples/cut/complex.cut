@@ -1,0 +1,3 @@
+#the only defined objects here:
+#plane <normal-vector> <point>
+plane 0 0 1   0 0 0

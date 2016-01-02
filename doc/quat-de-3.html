@@ -1,0 +1,477 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Dirk Meyer">
+   <title>Quat: Online-Dokumentation</title>
+</head>
+<body>
+
+<h1>
+<a NAME="a3"></a>3. Bedienung</h1>
+
+<h2>
+<a NAME="a31"></a>3.1 Benutzen der Version mit Benutzeroberfl&auml;che
+(Windows, X Window System)</h2>
+Starten von Quat:
+
+<ul><li>
+Windows 95/98/ME/XP/NT/2000: Quat wird gestartet, indem man im Explorer auf das
+Quat-Symbol doppelklickt.</li>
+<li>X Window System: Starten Sie Quat in einem Terminal, indem Sie in das Verzeichnis
+wechseln, in das Sie Quat entpackt haben und dann "<tt>quat</tt>" eingeben,
+oder indem Sie auf das entsprechende Symbol in einem Dateimanager klicken.
+<br>Sie k&ouml;nnen beim Aufruf auch die bei X &uuml;blichen Argumente
+angeben, wie "<tt>-geometry 200x160</tt>" oder "<tt>-display foggy:0.0</tt>".
+Sie k&ouml;nnen auch den Namen einer Datei (PNG oder ZPN) angeben, die
+beim Start automatisch ge&ouml;ffnet wird. Allerdings mu&szlig; der Dateiname
+dann der erste Parameter sein.</li>
+</ul>
+
+Beschreibung der Men&uuml;punkte:
+<p><b>"Image"-Men&uuml;:</b>
+
+<p><tt><b>Image | Open...</b></tt><br>
+(Bild | &Ouml;ffnen). &Ouml;ffnet ein Bild (PNG-Datei), zeigt es an
+und l&auml;dt die Parameter, die in ihm gespeichert sind. Abschlie&szlig;end
+zeigt Quat an, wie weit das Bild bereits berechnet ist.
+<br>M&ouml;glicherweise erhalten Sie die Fehlermeldung "PNG file has no
+QUAT chunk". Das passiert, wenn Sie versuchen, eine PNG-Datei zu &ouml;ffnen,
+die von einem anderen Programm geschrieben wurde. In diesem Fall kann Quat
+die fraktalen Parameter nicht lesen und das Bild ist nutzlos f&uuml;r Quat.
+
+<p><tt><b>Image | Close</b></tt>
+<br>(Bild | Schlie&szlig;en). Schlie&szlig;t das Bild, l&auml;&szlig;t
+aber die dazugeh&ouml;rigen Parameter im Speicher. Wenn Sie einige Parameter
+eines Bildes &auml;ndern wollen, m&uuml;ssen Sie erst das Bild schlie&szlig;en,
+dann die Parameter ver&auml;ndern und als letzten Schritt das Bild neu
+berechnen.
+
+<p><tt><b>Image | Save</b></tt>
+<br>(Bild | Speichern). Speichert das Bild (PNG) unter dem Namen, der in
+der Titelzeile angezeigt wird. Oft ist dieser Name computergeneriert mit
+einer Nummer am Ende.
+<br>Alle Parameter, die ben&ouml;tigt werden, um das Bild neu zu berechnen,
+werden zusammen mit dem Bild gespeichert.
+
+<p><tt><b>Image | Save As...</b></tt>
+<br>(Bild | Speichern unter). Speichert das Bild wie unter "Image | Save"
+beschrieben, blo&szlig; mit einem benutzerdefinierten Namen. Den Namen
+k&ouml;nnen Sie in dem Dialog eingeben, der erscheint, nachdem Sie diesen
+Men&uuml;punkt angew&auml;hlt haben.
+
+<p><tt><b>Image | Adjust Window</b></tt>
+<br>(Bild | Fenster einstellen). Setzt die Gr&ouml;&szlig;e des Fensters
+entsprechend der Bildgr&ouml;&szlig;e (solange es auf den Bildschirm pa&szlig;t).
+
+<p><tt><b>Image | Exit</b></tt>
+<br>(Bild | Beenden). Beendet Quat.
+
+<p><b>"Calculation"-Men&uuml;:</b>
+
+<p><tt><b>Calculation | Start/Resume an image</b></tt>
+<br>(Berechnung | Starten/Fortsetzen eines Bildes). Beginnt die Berechnung
+eines Bildes unter Benutzung der aktuellen Parameter (siehe "Parameters"-Men&uuml;)
+oder setzt eine unterbrochene Berechnung fort.
+<br>Wenn ein ZBuffer ge&ouml;ffnet ist (der vollst&auml;ndig berechnet
+ist), k&ouml;nnen Sie ihn mit diesem Men&uuml;punkt zu einem
+Bild machen (siehe <a href="quat-de-2.html#a23">Abschnitt 2.3</a>).
+<br>Ein Bild ist ein fraktales Objekt, das beleuchtet und gef&auml;rbt
+ist, im Gegensatz zu einem ZBuffer.
+
+<p><tt><b>Calculation | Start/Resume a ZBuffer</b></tt>
+<br>(Berechnung | Starten/Fortsetzen eines ZBuffers). Beginnt die Berechnung
+eines ZBuffers unter Benutzung der aktuellen Parameter (siehe "Parameters"-Men&uuml;)
+oder setzt eine unterbrochene Berechnung fort.
+<br>Ein ZBuffer hat die Form eines fraktalen Objektes, aber es ist nicht
+beleuchtet oder eingef&auml;rbt. Die Berechnung eines ZBuffers erledigt
+den langsamen Teil der ganzen Berechnung, den ZBuffer in ein Bild zu verwandeln
+ist relativ schnell. Der Vorteil von ZBuffern ist, da&szlig; man noch einige
+Parameter, die die Form des Fraktals nicht beeinflussen (Beleuchtung und
+Farbe), &auml;ndern kann und dann recht schnell ein Bild berechnen kann.
+Wenn Sie das Aussehen des Fraktals nicht m&ouml;gen, schlie&szlig;en Sie
+einfach das Bild, wodurch Sie wieder zum ZBuffer zur&uuml;ckgelangen. Mehr
+&uuml;ber ZBuffer in <a href="quat-de-2.html#a23">Abschnitt 2.3</a>.
+
+<p><tt><b>Calculation | Stop</b></tt>
+<br>(Berechnung | Stop). Unterbricht eine laufende Berechnung (sowohl die
+eines Bildes, als auch eines ZBuffers). Sie k&ouml;nnen die Berechnung
+fortsetzen, siehe die beiden Men&uuml;punkte oben.
+
+<p><b>"Parameters"-Men&uuml;:</b>
+
+<p><tt><b>Parameters | Reset</b></tt>
+<br>(Parameter | Zur&uuml;cksetzen). Setzt alle Parameter zur&uuml;ck auf
+ihre Vorgabewerte. Wenn Sie mit diesen Werten ein Bild berechnen, erhalten
+Sie eine blaue Kugel.
+
+<p><tt><b>Parameters | Read from INI...</b></tt>
+<br>(Parameter | Lies aus INI). Liest die Parameter ein, die n&ouml;tig
+sind, um ein Bild zu erstellen.
+Nach der Auswahl einer INI-Datei werden Sie gefragt, ob Sie von den
+voreingestellten Parametern ausgehen wollen. ("Do you want to start from
+default parameters? (Recommended.)") Das empfiehlt sich, wenn die INI-Datei
+ein komplettes Bild beschreibt. Wenn es aber beispielsweise nur darum geht,
+eine andere Farbpalette zu laden, sollte man nat&uuml;rlich <b>nicht</b>
+von den Voreinstellungen ausgehen.
+<br>Die INI-Datei kann mit "Save As" oder mit einem Texteditor erstellt
+worden sein. Eine INI-Datei beinhaltet die Daten, die n&ouml;tig sind,
+um ein Bild zu generieren.
+
+<p><tt><b>Parameters | Read from PNG...</b></tt>
+<br>(Parameter | Lies aus PNG). Alle Daten zur Bilderzeugung werden mit
+dem Bild selbst mitgespeichert (in &Uuml;bereinstimmung mit der
+PNG-Spezifikation).
+Dieser Men&uuml;punkt liest die Daten aus dem Bild wieder ein, um ein neues
+zu erzeugen oder die Parameter zu editieren.
+
+<p><tt><b>Parameters | Save As...</b></tt>
+<br>(Parameter | Speichern unter). Speichert die Parameter in einer INI-Datei,
+die eine einfache Textdatei ist und mit einem Texteditor bearbeitet werden
+kann. Dieser Befehl ist n&uuml;tzlich, wenn Sie das Bild mit der Textversion
+von Quat berechnen wollen. (Die Textversion benutzt INI-Dateien, um die
+Parameter zu erhalten, die sie ben&ouml;tigt).
+<br>Sie k&ouml;nnen w&auml;hlen, welche Gruppe von Parametern gespeichert
+werden soll: "Object Data" (Objektdaten), "View Data" (Ansicht), "Color Data"
+(Farbinformation) oder "Other Data" (Sonstige).
+
+<p><b>Die Editoren (in denen Sie die Parameter eingeben k&ouml;nnen):</b>
+
+<p><tt><b>Parameters | Edit...</b></tt>
+<br>(Parameter | Bearbeiten). Es &ouml;ffnet sich der sog. "Parameter Editor", der folgenderma&szlig;en
+aussieht (hier gezeigt: X-Window-Version Die Karteikarte "Object" ist gew&auml;hlt.
+Das kleine schwarze Fenster ist die Julia-Vorschau, die man frei verschieben
+kann.):
+
+<center>
+<p><img SRC="oe.png" NOSAVE height=382 width=593></center>
+
+<p>In diesem Dialog k&ouml;nnen Sie alle Parameter einstellen, die das
+Fraktal bestimmen. Sie k&ouml;nnen sich zus&auml;tzlich eine Vorschau zu
+den jeweils aktuell eingestellten Parametern berechnen lassen.
+<br>Mit den Tabs ("Reitern") k&ouml;nnen Sie w&auml;hlen, welche Art von
+Parametern Sie ver&auml;ndern wollen:
+
+<ul>
+<li>Object (Objekt): Die fraktalen Parameter, die die Form des Objektes bestimmen.</li>
+<li>View (Ansicht): Parameter wie Ansichstpunkt, Zoom, Beleuchtung und 3D-Stereo.</li>
+<li>Color (Farbe): Die (True-Color!)-Farbpalette des Bildes und die Farbformel,
+die die Palette in Beziehung zum Objekt setzt.</li>
+<li>Intersection (Schnitt): Hier k&ouml;nnen Sie Teile des Objektes abschneiden
+(Schnittebenen definieren), um ins Innere eines Fraktals sehen zu k&ouml;nnen.</li>
+<li>Other (Sonstige): Alle anderen Parameter wie die Aufl&ouml;sung des Bildes,
+Umgebungslicht, Anti-Aliasing und Phong-Highlight.</li>
+</ul>
+
+Analog zur Bezeichnung "Parameter Editor" wird im folgenden der Parameter
+Editor mit aktivierter "Object"-Karteikarte als "Object Editor" bezeichnet,
+bei aktivierter "View"-Karteikarte "View Editor" und so weiter. Von allen
+Editoren sind Screenshots abgebildet.
+<br>Egal, welche der Karteikarten Sie w&auml;hlen, es sind immer das Preview-Fenster
+(Vorschau), Ansicht-Ausw&auml;hler ("from beside", "from front", "from above")
+und die Aktionsbuttons ("Reset", "Import", "Read" und "Write") zu sehen.
+Diese Elemente werden im Folgenden erkl&auml;rt.
+
+<p>Im Vorschaufenster wird das Fraktal berechnet, wie es bei der aktuellen
+Wahl der Parameter aussehen w&uuml;rde. Das ist praktisch zum Herumexperimentieren,
+da sich selten die Auswirkung beim &Auml;ndern eines Parameters einfach
+voraussagen l&auml;&szlig;t.
+<br>Der Button "Calc" (Berechne) berechnet die Vorschau und zeigt sie rechts
+an. Ist gleichzeitig der Button "own" (eigene) aktiviert (aktiv = gelbes Licht),
+so werden tats&auml;chlich die Parameter zur Berechnung benutzt, die momentan
+im Editor eingestellt sind. (Au&szlig;er nat&uuml;rlich der Aufl&ouml;sung
+und auch dem Anti-Aliasing). Ist dieser Knopf nicht aktiv, so wird eine
+Standard-Sicht des Fraktals berechnet. Das kann z. B. notwendig sein, wenn
+man sich "verirrt" hat, oder beispielsweise als Farbe aus Versehen schwarz
+gew&auml;hlt hat.
+<p>Ist im View Editor eine "Interocular Distance" (Abstand zwischen den
+Augen) ungleich Null eingetragen, so kann mit dem "Stereo"-Button gew&auml;hlt
+werden, ob die Vorschau in Stereo (langsamer, daf&uuml;r wirklich dreidimensional)
+oder in Mono berechnet wird. Das reale Bild wird in diesem Fall immer in
+Stereo berechnet.
+<br>Der Button "show" (zeige) zeigt/versteckt das Julia-Vorschau-Fenster.
+
+<p>Die View-Selektoren (Ansicht-Ausw&auml;hler) sind eigentlich eine Erg&auml;nzung
+zum View Editor, die aber aus Platzgr&uuml;nden im gemeinsamen Bereich
+untergebracht werden mu&szlig;ten. Eine Besprechung ihrer Funktionalit&auml;t
+siehe View Editor.
+
+<p>Die Aktions-Buttons entsprechen den Befehlen im "Parameters"-Men&uuml;,
+sie erlauben es also, im Parameter Editor eine INI-Datei zu lesen, die
+Parameter (oder Teile davon) abzuspeichern, die Parameter zur&uuml;ckzusetzen
+oder sie aus einem PNG-Bild zu importieren.
+Diese Aktionen beziehen sich alle auf den Parameter-Editor, wenn Sie also
+Parameter importieren und den Editor durch "Cancel" (Abbrechen) verlassen,
+sind die vorherigen Parameter wieder gesetzt.
+
+<p><a NAME="aObjectEditor"></a><b>Der Object Editor:</b>
+<br>In diesem Dialog k&ouml;nnen Sie die fraktalen Daten des Objektes angeben.
+Diese Daten bestimmen die Gestalt des Fraktals. F&uuml;r folgende Schl&uuml;sselw&ouml;rter
+k&ouml;nnen Werte eingegeben werden:
+<i><a href="quat-de-4.html#a41maxiter">Max.&nbsp;Iteration&nbsp;(maxiter)</a></i>,
+<i><a href="quat-de-4.html#a41lvalue">4th-dim.&nbsp;Intersection&nbsp;(lvalue)</a></i>,
+<i><a href="quat-de-4.html#a41bailout">Bailout</a></i>,
+<i><a href="quat-de-4.html#a41formula">Iteration&nbsp;Formula</a></i> und
+<i><a href="quat-de-4.html#a41c">c</a></i>.
+(Siehe deren Beschreibungen in Abschnitt
+<a href="quat-de-4.html#a41">4.1</a>)
+
+<p>Wenn eine Iterationsformel (<i>Iteration Formula</i>) gew&auml;hlt ist,
+die einen zus&auml;tzlichen Parameter <i>p1</i> ben&ouml;tigt, wird
+eine Gruppe von 4 Eingabefeldern angezeigt, in der Sie diesen Parameter
+eingeben k&ouml;nnen (bzw. die 1-, i-, j-, k-Teile des Parameters).
+
+<p>Es gibt ein Fenster (genannt Mandel-Vorschau), in dem die Mandelbrotmenge
+(das Apfelm&auml;nnchen) angezeigt wird (oder genauer, einen zweidimensionalen
+Schnitt aus der vierdimensionalen Verallgemeinerung der Mandelbrotmenge).
+Sie kann als Landkarte f&uuml;r "Julia-Mengen" (den Objekten, die Quat
+berechnet) angesehen werden. Das rote Kreuz markiert den gew&auml;hlten
+Punkt <i>c</i>. Jeder Punkt <i>c</i> erzeugt eine andere Julia-Menge. Punkte, die
+innerhalb der Mandelbrot-Menge (also dem schwarzen Gebiet) liegen, f&uuml;hren
+zu verbundenen Julia-Mengen, im anderen Fall zu unterteilten.
+
+<p>Sie k&ouml;nnen mit der Maus an eine beliebige Stelle des Mandel-Vorschau-Fensters
+klicken (oder auch ziehen), um das rote Kreuz zu verschieben. Die ersten
+beiden Teile des Parameters <i>c</i> werden dementsprechend aktualisiert.
+<br>Wenn es notwendig sein sollte, die Mandel-Vorschau zu aktualisieren,
+bekommt das Fenster einen roten Rahmen. Dr&uuml;cken Sie dann den "Redraw"-Button
+(Neuzeichnen). Das ist z. B. notwendig, wenn einer der Parameter <i>bailout</i>,
+<i>maxiter</i> oder die letzen beiden Teile des Parameters <i>c</i> ge&auml;ndert
+wurden.
+
+<p>Die sechs Buttons rechts der Mandel-Vorschau dienen der Navigation in
+der Mandelbrotmenge. Der Bereich der Mandelbrotmenge, der angezeigt wird, kann
+verschoben und gezoomt werden.
+<br>Der Button "up" (hoch) bewegt den sichtbaren Ausschnitt nach oben,
+"down" (runter) nach unten. Der Button "&lt;" ganz links nach links, der
+rechts nach rechts. Die beiden Buttons in der Mitte zoomen in die Mandelbrotmenge
+hinein (+) und heraus (-).
+
+<p><a NAME="aViewEditor"></a><b>Der View Editor</b>
+<br>Der Parameter Editor mit selektierter View-Karteikarte sieht folgenderma&szlig;en
+aus (gezeigt: Linux-Version):
+
+<center>
+<p><img SRC="ve.png" NOSAVE height=382 width=593></center>
+
+<p>In diesem Dialog wird definiert, wie das Objekt gesehen werden soll.
+Die Bildebene, auf die das Fraktal projiziert wird, wird durch folgende
+Parameter festgelegt:
+<i><a href="quat-de-4.html#a41viewpoint">View&nbsp;Point</a></i> (Sichtpunkt),
+<i><a href="quat-de-4.html#a41up">Up&nbsp;(Orientation)</a></i> (Oben, Orientierung),
+<i><a href="quat-de-4.html#a41move">Move</a></i> (Verschieben),
+<i><a href="quat-de-4.html#a41lxr">Length&nbsp;of&nbsp;View&nbsp;Plane's&nbsp;X-Axis</a></i>
+(L&auml;nge der X-Achse der Sichtebene) und
+<i><a href="quat-de-4.html#a41interocular">Interocular&nbsp;Distance</a></i> (Augenabstand).
+Die Lichtquelle
+(<i><a href="quat-de-4.html#a41light">Light&nbsp;Source</a></i>) wird hier ebenfalls
+angegeben. (Siehe Beschreibungen in Abschnitt <a href="quat-de-4.html#a41">4.1</a>).
+
+<p>Unter der Eingabezeile f&uuml;r "interocular distance" ist ein Winkel
+angegeben. Sie k&ouml;nnen w&auml;hlen, ob bei Ver&auml;nderungen des Sichtpunktes
+der Winkel oder der Abstand der Augen festgehalten werden soll. Wenn Sie
+ein 3D-Stereo-Paar generieren wollen, sollte dieser Winkel zwischen 5 und
+8 Grad betragen. Wenn "interocular" Null ist (und damit auch der Winkel),
+wird eine 2d-Projektion des fraktalen Objektes erzeugt.
+
+<p>Da es langweilig w&auml;re, wenn man nur Werte eingeben k&ouml;nnte,
+die man auch in einem Texteditor angeben k&ouml;nnte (INI-Datei), befinden
+sich drei Ansichten des Sichtpunktes und der Bildebene im Parameter Editor.
+(Man sieht den Sichtpunkt von oben "from above", von der Seite "from beside"
+und von vorne "from front"). Die schwarzen Pfeile sind die Achsen im Quaternionen-Raum
+(bzw. im dreidimensionalen Unterraum, der durch <i>4th-dim.&nbsp;Intersection</i>
+definiert wird). "1" ist die ganz normale reelle Zahlenachse, "i" die imagin&auml;re
+Achse (wie bei den komplexen Zahlen; diese beiden werden bei jedem 2D-Fraktalprogramm
+benutzt) und "j" ist die Achse in die dritte Dimension (Es gibt hier keine
+"k"-Achse, da der k-Wert konstant gehalten wird [=<i>4th.-dim.&nbsp;Intersection</i>]).
+<br>Die Pfeile deuten die Richtung der positiven Zahlen an, die L&auml;nge
+der Pfeile entspricht der L&auml;nge 2 im Q-Raum.
+<br>Das kleine blaue Rechteck markiert den Sichtpunkt (<i>view point</i>), das
+gr&uuml;ne Rechteck stellt die Bildebene dar. Wenn man in das blaue Rechteck
+klickt, kann man durch Ziehen der Maus den Sichtpunkt verschieben. Manche
+Positionen f&uuml;r den Sichtpunkt sind nicht definiert (wenn er (0,0,0)
+ist oder wenn er so liegt, da&szlig; der <i>up</i>-Vektor rechtwinklig zur Bildebene
+liegt). In diesem Fall werden die Eingabefelder, die daf&uuml;r verantwortlich
+sind, rot unterlegt.
+<br>Der kleine t&uuml;rkise Kreis ist der Ursprung des Bildkoordinatensystems
+(= der linke obere Punkt auf dem Bildschirm).
+
+<p><a NAME="aColorEditor"></a><b>Der Color Editor</b>
+<br>Hier eine Abbildung des Parameter Editors mit seleketierter Karteikarte
+"Color" (Linux-Version).
+
+<center>
+<p><img SRC="ce.png" NOSAVE height=382 width=593></center>
+
+<p>Hier k&ouml;nnen Farben (oder besser, Farbverl&auml;ufe) definiert werden.
+Oben ist eine Laufleiste zu sehen, die dazu dient, denjenigen Farbverlauf
+auszuw&auml;hlen, den man editieren m&ouml;chte. Sie k&ouml;nnen dazu entweder
+die Pfeil-Buttons (wie bei einer normalen Bildlaufleiste) benutzen, oder
+direkt in den Farbverlauf klicken.
+
+<p>Darunter in der linken Spalte ("Range") sind zwei Buttons "Add" und
+"Del" (Hinzuf&uuml;gen und L&ouml;schen). "Add" f&uuml;gt eine neue Farbe
+vor der aktuellen Position in der Palette hinzu, "Del" l&ouml;scht die
+aktuell ausgew&auml;hlte. Es mu&szlig; mindestens eine Farbe existieren,
+aber nicht mehr als 30. F&uuml;r jeden Farbverlauf k&ouml;nnen Sie eine
+Startfarbe ("Color 1"), eine Endfarbe ("Color 2") und eine Gewichtung ("Weighting")
+angeben. Die Gewichtung gibt an, welcher Anteil an der gesamten Palette
+der Farbverlauf ausmacht. Dieser Wert darf nicht Null sein. (Siehe auch
+Abschnitt <a href="quat-de-4.html#a42">4.2</a>)
+
+<p>Wenn Sie die Buttons "Sel" neben der jeweiligen Farbe anklicken, erhalten
+Sie einen Dialog, um eine Farbe auszuw&auml;hlen. Falls Sie anstatt eines
+Farbverlaufs nur eine einfache Farbe definieren wollen, setzen Sie beide
+Farben des Farbverlaufs (Color 1 und Color 2) auf dieselben Werte.
+
+<p>Mit "Copy" wird die jeweilige Farbe in die Zwischenablage kopiert (nicht
+in die globale von Windows/X, sondern in das Feld rechts oben im Dialog),
+mit "Paste" k&ouml;nnen Sie die jeweilige Farbe durch die Farbe in der
+Zwischenablage ersetzen.
+
+<p>Unten ist das Eingabefeld, in das Sie die Farb-Formel eintragen k&ouml;nnen,
+entweder direkt, oder durch Anklicken einer vordefinierten Formel. (Beschreibung
+siehe Schl&uuml;sselwort "<a href="quat-de-4.html#a44colorscheme">colorscheme</a>").
+Eine Farb-Formel stellt eine Verbindung her zwischen bestimmten Parametern des
+Fraktals (z.B. den Q-Raum-Koordinaten des Objektpunktes "x", "y" und "z") und
+der Farbpalette, wie sie im Farbbalken oben dargestellt wird.<br>
+Die linke Seite des Farbbalkens entspricht der "0", die rechte der "1".
+
+<table width="95%" bgcolor="#ffff30" cellspacing=0><tr><td bgcolor="#ffff30">
+Ein Beispiel: Wenn Sie von den voreingestellten Parametern (blaue Kugel)
+ausgehen ("Reset" anklicken) und einfach "x" als Farbformel eingeben,
+wird die Palette von links nach rechts auf die Kugel "abgebildet". (Dr&uuml;cken
+Sie "Calc", um eine Vorschau anzuzeigen.)<br>
+Wenn Sie's nicht m&ouml;gen, da&szlig; die Palette in der Mitte der Kugel wieder
+von vorne anf&auml;ngt, probieren Sie "x+0.5" als Farbformel. Jetzt (nach
+Berechnung der Vorschau) sind alle Farben nach links verschoben. Das ist noch
+nicht ganz, was wir vorhaben, wir m&uuml;ssen die Abbildung noch ein bi&szlig;chen
+strecken:<br>
+Probieren Sie jetzt "0.8*x+0.5". Das Gebiet in der Mitte, das die ganze Kugel
+&uuml;berdecken soll, ist gr&ouml;&szlig;er, aber noch nicht gro&szlig; genug.
+Nach etwas Herumprobieren stellen wir fest, da&szlig; "0.5*x+0.5" das
+gew&uuml;nschte Resultat liefert. Diese Formel bildet die gesamte Palette von links
+nach rechts auf die Kugel ab.<br>
+Sie k&ouml;nnen noch die Palette &auml;ndern, um sich zu &uuml;berzeugen, da&szlig;
+die Farben unabh&auml;ngig von ihrer "Abbildung" sind und umgekehrt.<br>
+Und Sie k&ouml;nnen das selbe ausgehend von "y" oder "x+y" als Farbformel machen.
+</td></tr></table>
+
+<p><a NAME="aIntersectionEditor"></a><b>Der Intersection Editor</b>
+<br>Ein Screenshot des Intersection Editors (Linux Version):
+
+<center>
+<p><img SRC="ie.png" NOSAVE height=382 width=593></center>
+
+<p>Wird benutzt, um Schnittebenen zu definieren. Die Laufleiste links hat
+genau denselben Zweck wie die beim Farbeditor oben: das zu bearbeitende
+Objekt auszuw&auml;hlen. Die Buttons "Add" und "Del" funktionieren ebenfalls
+wie oben, der eine f&uuml;gt eine neue Schnittebene hinzu, der andere l&ouml;scht
+die gerade gew&auml;hlte. Es k&ouml;nnen zwischen 0 und 20 Schnittebenen
+eingerichtet werden. Eine Ebene wird definiert durch den Normalenvektor
+(der in den Halbraum zeigt, der vom Objekt weggeschnitten wird), der nicht
+Null sein darf, und einem Aufpunkt auf der Ebene. (Siehe auch Abschnitt
+<a href="quat-de-4.html#a43">4.3</a>)
+
+<a NAME="aOtherEditor"></a><p><b>Andere Parameter:</b>
+<center>
+<p><img SRC="ote.png" NOSAVE height=382 width=593></center>
+
+<p>Die anderen Parameter sind:
+<i><a href="quat-de-4.html#a44resolution">Image&nbsp;Resolution</a></i>,
+<i><a href="quat-de-4.html#a41phong">Phong&nbsp;Hightlight</a></i>,
+<i><a href="quat-de-4.html#a41ambient">Ambient&nbsp;Light</a></i> und
+<i><a href="quat-de-4.html#a41antialiasing">Antialiasing</a></i>.
+Beschreibung des ersten
+siehe Abschnitt <a href="quat-de-4.html#a44">4.4</a>, der letzten drei siehe Abschnitt
+<a href="quat-de-4.html#a41">4.1</a>.
+<br>In diesem Dialog befinden sich f&uuml;nf Buttons, die als Abk&uuml;rzung
+f&uuml;r bestimmte Aufl&ouml;sungen dienen. Wenn Sie einen davon dr&uuml;cken,
+wird die Aufl&ouml;sung auf die angegebenen Werte gesetzt.
+
+<p><b>"ZBuffer"-Men&uuml;:</b>
+<p>Zu ZBuffern lesen Sie bitte <a href="quat-de-2.html#a23">Abschnitt 2.3</a>. Die Men&uuml;punkte
+in diesem Men&uuml; dienen dem Laden, Speichern und Schlie&szlig;en
+eines ZBuffers. Sie haben dieselbe Bedeutung wie die Kommandos f&uuml;r Bilder, blo&szlig;
+da&szlig; sie sich nat&uuml;rlich auf einen ZBuffer beziehen.
+
+<p><b>"Help"-Men&uuml;:</b>
+
+<p><tt><b>Help | Manual</b></tt>
+<br>(Hilfe | Anleitung). Zeigt die Dokumentation, die Sie momentan lesen.
+
+<p><tt><b>Help | About</b></tt>
+<br>(Hilfe | &Uuml;ber). Zeigt Informationen &uuml;ber Quat.
+
+<h2>
+<a NAME="a33"></a>3.2 Benutzen der Textversion</h2>
+(Gilt nicht f&uuml;r die Versionen mit Benutzeroberf&auml;che.)
+<br>Quat versteht die folgenden Parameter, die ihm &uuml;bergeben werden:
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=0 width=600>
+<tr>
+<td width=300>-i &lt;INI-Datei>&nbsp;</td>
+
+<td>Berechnet ein Bild aus einer INI-Datei. (INI-Dateien werden benutzt,
+um Quat mit den Werten zu f&uuml;ttern, die das Fraktal und die Ansicht,
+etc., bestimmen.)</td>
+</tr>
+
+<tr>
+<td>-z &lt;INI-Datei></td>
+
+<td>Berechnet einen ZBuffer (Dateityp ZPN) aus einer INI-Datei&nbsp;</td>
+</tr>
+
+<tr>
+<td>-i &lt;ZPN-Datei></td>
+
+<td>Erzeugt ein Bild unter Verwendung eines vorher berechneten ZBuffers.
+(Ist nat&uuml;rlich wesentlich schneller als die Erzeugung aus einer INI-Datei.)</td>
+</tr>
+
+<tr>
+<td>-i &lt;ZPN-Datei> &lt;INI-Datei>&nbsp;</td>
+
+<td>Erzeugt ein Bild aus einem ZBuffer, ersetzt jedoch bestimmte Parameter
+(z.B. Farbgebung) durch die in der INI-Datei angegebenen Werte.</td>
+</tr>
+
+<tr>
+<td>-p &lt;PNG- oder ZPN-Datei></td>
+
+<td>Liest die Parameter, mit denen das betreffende Bild/ZBuffer berechnet
+wurde und schreibt sie in eine INI-Datei.</td>
+</tr>
+
+<tr>
+<td>-c &lt;PNG- oder ZPN-Datei></td>
+
+<td>Setzt die Berechnung eines unfertigen Bildes oder ZBuffers fort. Die
+INI-Datei, aus der das Bild/ZBuffer generiert wurde, wird <b>nicht</b>
+mehr ben&ouml;tigt.</td>
+</tr>
+
+<tr>
+<td>-h</td>
+
+<td>Anzeigen einer Kurzinformation</td>
+</tr>
+</table>
+
+<p>Ein Aufruf sieht also beispielsweise so aus:
+<p><tt>quat -i test.ini</tt>
+<p>Eine Berechnung wird abgebrochen, indem
+<ul>
+<li>
+DOS-Version: Eine Taste gedr&uuml;ckt wird</li>
+
+<li>
+sonstige Textversionen: (der Computer ausgeschaltet wird). Die Textversion
+kann nicht regul&auml;r abgebrochen werden, da ich keinen f&uuml;r alle
+Systeme funktionierenden (ANSI-C) Weg kenne, die Tastatur abzufragen...
+:-(</li>
+</ul>
+
+</body>
+</html>

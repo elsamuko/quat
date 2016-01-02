@@ -1,0 +1,242 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Dirk Meyer">
+   <title>Quat: Online-Dokumentation</title>
+</head>
+<body>
+
+<h1>
+<a NAME="a5"></a>5. Anhang</h1>
+
+<h2>
+<a NAME="a51"></a>5.1 Erkundung eines 3D-Fraktals</h2>
+Der folgende Abschnitt beschreibt, wie man "Fractint", ein sehr gutes (2D-)Fraktalprogramm,
+dazu benutzen kann, neue Objekte zu entdecken. Die Vorgehensweise ist die
+selbe wie die im "Object Editor" verwirklichte (anhand der Mandelbrot-Menge
+einen vielversprechenden Punkt ausw&auml;hlen und 2D-Schnitte der Julia-Menge
+anfertigen). F&uuml;r Benutzer der Benutzeroberfl&auml;chen-Version ist
+der Abschnitt daher evtl. weniger interessant.
+<br>Man kann das gro&szlig;artige Programm "Fractint 19.3" benutzen, das
+zweidimensionale Schnitte durch den 4D-Raum der Quaternionen in rasanter
+Geschwindigkeit berechnen kann, um vielversprechende Formen zu finden.
+Fractint von der "Stone Soup Group" ist Freeware und im Internet als DOS-
+und X-Window-Version verf&uuml;gbar. (z.B. bei
+<a href="http://spanky.triumf.ca/www/fractint/fractint.html">http://spanky.triumf.ca/www/fractint/fractint.html</a>)
+<br>Eine Eigenart der Julia-Mengen (also der von Quat berechneten Objekte)
+ist, da&szlig; sich ihr Aussehen anhand der zugeh&ouml;rigen Mandelbrot-Menge
+"voraussagen" l&auml;&szlig;t.
+<br>Die Mandelbrot-Menge ist besser bekannt unter dem Namen "Apfelm&auml;nnchen".
+Auch von ihr gibt es eine vierdimensionale Verallgemeinerung auf Basis
+der hyperkomplexen Zahlen. Jedem Punkt der Mandelbrot-Menge ist eine Julia-Menge
+zugeordnet. (&Uuml;ber den Parameter <i>c</i>). Das Aussehen der Julia-Menge
+h&auml;ngt vom Bereich ab, aus dem <i>c</i> gew&auml;hlt wurde. (Nicht vergessen:
+Jeder Punkt auf dem Bildschirm repr&auml;sentiert eine Zahl). Man kann
+z.B. <i>c</i> w&auml;hlen im Hauptk&ouml;rper des Apfelm&auml;nnchens, im "Kopf",
+einem "Nebenapfel", ...
+<br>Mit Fractint 19.3 (DOS) geht man dazu folgenderma&szlig;en vor:
+<ul>
+<li>
+Fraktal-Typ "<tt>quat</tt>" w&auml;hlen.</li>
+
+<br>Dieser Typ ist das hyperkomplexe Apfelm&auml;nnchen. Es k&ouml;nnen
+zwei Parameter eingebeben werden, "<tt>cj</tt>" und "<tt>ck</tt>". Diese
+Parameter entsprechen dem k- und dem l-Teil in "Quat". Vorsicht: Fractint
+benutzt die Formel x<sub>n+1</sub> = x<sub>n</sub><sup>2</sup> <b>+</b>
+c, Quat x<sub>n+1</sub> = x<sub>n</sub><sup>2</sup><b>-</b> c.
+<br>Das f&uuml;hrt dazu, da&szlig; die Komponenten von <i>c</i> in Quat negativ
+genommen werden m&uuml;ssen, um das selbe Objekt wie in Fractint zu erhalten.
+<br>Also, zur&uuml;ck zu Fractint: "<tt>cj</tt>" und "<tt>ck</tt>" bestimmen
+also den Wert der beiden Dimensionen, die f&uuml;r den 2D-Schnitt konstant
+gehalten werden. Sind beide Parameter "<tt>0</tt>", so erh&auml;lt man
+(logischerweise) das ganz normale Apfelm&auml;nnchen.
+<li>
+als Iterationstiefe ("Maximum Iterations" im Men&uuml; "basic options &lt;x>")
+denjenigen Wert eingeben, der auch in Quat verwendet werden soll. (einen
+wesentlich kleineren als die vorgegebenen 150, z.B. 14, hohe Iterationstiefen
+sehen bei dreidimensionalen Fraktalen nicht gut aus, siehe auch in <a href="quat-de-4.html#a41">4.1</a>
+die Beschreibung des Parameters <i>maxiter</i>).</li>
+
+<li>
+wenn der Schnitt fertig berechnet ist (Piepston), die Leertaste dr&uuml;cken.</li>
+
+<br>Es erscheint ein Fadenkreuz, mit dem man Real- und 1. Imagin&auml;rteil
+der zu berechnenden Julia-Menge festlegt. Dr&uuml;ckt man die Taste "n",
+so werden diese zwei Werte in der 1. Zeile angezeigt. Mit der Maus oder
+den Cursortasten kann man mit dem Fadenkreuz herumfahren, um Real- und
+1. Imagin&auml;rkomponente von "c" festzulegen. (die 2 weiteren Imagin&auml;rkomponenten
+sind bereits dadurch festgelegt, wie der 2D-Schnitt des Apfelm&auml;nnchens
+gew&auml;hlt wurde, namentlich durch die Parameter "<tt>cj</tt>" und "<tt>ck</tt>",
+s.o.)
+<li>
+Nochmals die Leertaste dr&uuml;cken.</li>
+
+<br>Zu dem gew&auml;hlten Wert wird die korrespondierende Julia-Menge berechnet,
+und zwar der Schnitt der 4D-Menge mit der komplexen (2D-)Ebene. Man kann
+nun wiederum den Schnitt verschieben, um eine Vorahnung zu bekommen, wie
+das Objekt dreidimensional aussieht. Dazu kann man:
+<li>
+"z" dr&uuml;cken.</li>
+
+<br>Man sieht einige Eingabefelder, die ersten 4 stellen die hyperkomplexe
+Zahl "c" dar, die soeben gew&auml;hlt wurde. "<tt>zj</tt>" und "<tt>zk</tt>"
+bestimmen, wo in der 4D-Julia-Menge der Schnitt gemacht werden soll. "<tt>zj</tt>"
+geht mit der Schnittebene sozusagen "in den Raum hinaus", "<tt>zk</tt>"
+entspricht dem Parameter <i>lvalue</i> in Quat. H&auml;lt man "<tt>zk</tt>"
+fest und berechnet Schnitte f&uuml;r verschiedene "<tt>zj</tt>", so erh&auml;lt
+man einen Eindruck des von Quat berechneten Objekts, indem man die verschiedenen
+Schnitte im Geiste hintereinander "stapelt".
+<br>Der Bildschirm in Fractint sieht beispielsweise so aus:
+<br><tt>c1 -0.48</tt>
+<br><tt>ci -0.45</tt>
+<br><tt>cj 0.1</tt>
+<br><tt>ck -0.5</tt>
+<br><tt>zj 0</tt>
+<br><tt>zk 0.3</tt>
+<br><tt>Bailout value 0</tt>
+<br>Das wird f&uuml;r Quat in der OBJ-Datei folgenderma&szlig;en &uuml;bersetzt:
+<br><tt>c 0.48 0.45 -0.1 0.5</tt>
+<br><tt>lvalue 0.3</tt>
+<br><tt>maxiter 14</tt>
+<br><tt>bailout 64</tt>
+<br>F&uuml;r <i>maxiter</i> denjenigen Wert einsetzen, der im Bildschirm
+"<tt>basic options &lt;x></tt>" unter "Maximum Iterations" steht.
+<br>Der Wert "<tt>zj</tt>" bei Fractint ist f&uuml;r Quat bedeutungslos,
+da anstelle eines 2D-Schnittes ein 3D-Schnitt gemacht wird.
+<br>Steht bei Fractint unter "<tt>Bailout value</tt>" eine 0, so wird der
+Default-Wert von 64 verwendet, man mu&szlig; bei Quat daher 64 angeben.
+<li>
+Dr&uuml;ckt man wiederum die Leertaste, so gelangt man zur&uuml;ck zur
+Mandelbrot-Menge, das Spiel beginnt von vorne.</li>
+</ul>
+Viel Spa&szlig; beim Entdecken!
+<h2>
+<a NAME="a52"></a>5.2 Beispiele f&uuml;r die Wirkungsweise einiger Parameter</h2>
+Im Folgenden wird dargestellt, wie die Aufl&ouml;sung in z-Richtung ein
+Bild verfremden/verf&auml;lschen kann und wie man mit Antialiasing den
+Moire-Effekt beseitigt. Alle Bilder sind JPEG's mit niedriger Qualit&auml;t.
+<br>&nbsp;
+<table BORDER CELLSPACING=5 CELLPADDING=0 width=900>
+<tr>
+<td><img SRC="ex_1.jpg" height=225 width=300></td>
+<td><img SRC="ex_2.jpg" height=225 width=300></td>
+<td><img SRC="ex_3.jpg" height=225 width=300></td>
+<td>&nbsp;</td>
+</tr><tr>
+<td VALIGN=TOP WIDTH="300">Bild 1: Ein Bild mit zu geringer Tiefenaufl&ouml;sung
+(240): "resolution 320 240 240". Man sieht gut die ausgefransten (gezackten)
+R&auml;nder der blau eingef&auml;rbten Objektteile. An diesen Stellen ist
+das Fraktal so d&uuml;nn, da&szlig; es bei der Berechnung mit 240 als z-Aufl&ouml;sung
+nicht getroffen wird.
+<br>Es wird kein Antialiasing durchgef&uuml;hrt: "antialiasing 1"</td>
+
+<td VALIGN=TOP WIDTH="300">Bild 2: Bei diesem Bild ist die z-Aufl&ouml;sung
+deutlich erh&ouml;ht (2048): "resolution 320 240 2048". Die R&auml;nder
+sind nicht mehr ausgefranst.&nbsp;
+<br>Allerdings erkennt man noch leicht st&ouml;rende Pixelmuster, die vom
+sogenannten Moire-Effekt herr&uuml;hren (beispielsweise auf den orangenen
+Bildteilen). Mit Antialiasing kann man sie beseitigen. Hier wird keines
+vorgenommen: "antialiasing 1"</td>
+
+<td VALIGN=TOP WIDTH="300">Bild 3: Dies ist das Referenzbild.
+<br>Es hat die gen&uuml;gend hohe z-Aufl&ouml;sung von 2048: "resolution
+320 240 2048", wie das Bild links.
+<br>F&uuml;r Antialiasing wird der Wert 4 verwendet: "antialiasing 4"
+<br>Jeder Pixel auf dem Objekt wird also gemittelt aus 4x4 Unterpixeln.</td>
+<td>&nbsp;</td>
+</tr>
+</table>
+
+<h2>
+<a NAME="a53"></a>5.3 Der Kreuzblick (zur echt dreidimensionalen Wahrnehmung
+eines Objektes)</h2>
+Vielleicht ist Ihnen seit den "Magisches Auge"-B&uuml;chern bekannt, da&szlig;
+spezielle Blickarten (<b>ohne</b> Hilfsmittel wie z.B. 3D-Brillen) ganz
+erstaunliche dreidimensionale Wahrnehmungen hervorrufen k&ouml;nnen. Das
+von Quat verwendete Prinzip ist ein anderes als das der "Magisches Auge"-Bilder
+(Autostereogramme), meiner Meinung nach ist es erheblich einfacher zu lernen
+und erbringt tolle Resultate!
+<br>Das Prinzip ist das folgende: Es werden zwei Bilder aus leicht unterschiedlichen
+Blickwinkeln berechnet und nebeneinander dargestellt. Das rechte Bild ist
+f&uuml;r das linke Auge und das linke Bild f&uuml;r das rechte Auge. Daher
+der Name "Kreuzblick".
+<br>Wenn Sie einmal Ihren Daumen ca. 10 cm vor ihre Augen halten und ganz
+normal anschauen, und nun Ihre Aufmerksamkeit auf den Hintergrund hinter
+dem Daumen richten, ohne direkt darauf zu schauen, so werden sie sehen,
+da&szlig; Sie den Hintergrund doppelt sehen. Hier setzt das Prinzip an.
+<center>
+<p><img SRC="Dendr_st.jpg" ALT="3D-Stereo-Beispielbild" height=240 width=640></center>
+
+<p>Sehen Sie sich das obige Beispielbild an. Setzen Sie sich dazu in ganz
+normalem Arbeitsabstand vor den Bildschirm und halten Sie den Daumen zwischen
+Augen und Bildschirm (mehr zum Auge hin). Sie sollten gerade davor sitzen
+und nicht den Kopf neigen oder von der Seite hinsehen. Blicken Sie ganz
+normal auf den Daumen. Achten Sie auf die beiden Bilder auf dem Bildschirm
+(ohne direkt hinzublicken, also immer auf den Daumen sehen!)
+<br>Wenn Sie jetzt 4 Bilder sehen, so ist der Daumen zu nah am Auge. Gehen
+Sie mit dem Daumen ein bi&szlig;chen weiter weg von den Augen und schauen
+sie erneut auf den Daumen, w&auml;hrend Sie auf den Hintergrund achten.
+Probieren Sie solange mit verschiedenen Abst&auml;nden Daumen-Auge, bis
+Sie nur noch 3 Bilder sehen. Nun ist das mittlere dreidimensional, vermutlich
+aber noch nicht scharf. Das Scharfstellen ist anfangs eine Sache der Konzentration,
+it wachsender &Uuml;bung geht es einfacher. Achten Sie eine Weile auf das
+noch unscharfe Bild (nicht direkt hinsehen). Irgendwann beginnt das Gehirn
+zu erkennen, da&szlig; die Daten, die es empf&auml;ngt, durchaus einen
+Sinn ergeben, und versucht scharfzustellen. F&uuml;r manche Menschen ist
+dieser Proze&szlig; etwas schwieriger (so war es f&uuml;r mich), andere
+sind Naturtalente.
+<br>Dieser Blick ist &uuml;brigens keine exotische Eigenart von Quat, im
+Internet sind solche Stereo-Bilder weit verbreitet. Es ist beispielsweise
+auf diese Art auch m&ouml;glich, Photographien von Landschaften dreidimensional
+zu sehen.
+<h2>
+<a NAME="a54"></a>5.4 Die Initialisierungsdatei(en)</h2>
+Initialisierungsdateien werden dazu verwendet, Quat mit den zur Berechnung
+eines Bildes n&ouml;tigen Parametern zu f&uuml;ttern.
+<br><b>Benutzer einer Version mit Benutzeroberfl&auml;che (Windows, X Window
+System)</b>: Obwohl dieser Abschnitt auch auf diese Versionen anwendbar
+ist, werden ihn die meisten Benutzer vermutlich nicht lesen m&uuml;ssen.
+In ihnen kann man bequem Dialoge verwenden, um die Parameter einzugeben
+- allerdings, wer will, kann auch Initialisierungsdateien benutzen.
+<p>In der Textversion wird zum Starten einer Berechnung eine sogenannte
+"Initialisierungsdatei" ben&ouml;tigt, in der das Objekt, die Ansicht,
+die Farben und Schnittebenen definiert werden k&ouml;nnen. Diese Datei
+(und alle mittels "include" eingef&uuml;gten, s.u.) sind simple Textdateien,
+die mit jedem Texteditor erstellt werden k&ouml;nnen. (z.B. "edit" unter
+DOS, "notepad" unter Windows, "vi" unter Unix).
+<br>Die verwendete Syntax ist sehr einfach, in jeder Zeile steht ein Schl&uuml;sselwort
+und danach folgt eine bestimmte Anzahl von Parametern. (z.B. definiert
+"viewpoint 0 0 1" den Sichtpunkt)
+<br>In dieser Initialisierungsdatei k&ouml;nnen andere Dateien automatisch
+eingef&uuml;gt werden (mittels des Schl&uuml;sselwortes "include"). Es
+ist so m&ouml;glich, Farbverl&auml;ufe getrennt von fraktalen Daten oder
+Schnittebenen zu speichern (in Dateien mit einer anderen Endung z.B.).
+Wird eine solche Datei an einer bestimmten Stelle in der Initialisierungsdatei
+"included", so wird sie dort eingef&uuml;gt, als w&uuml;rde dort ihr gesamter
+Inhalt stehen. Die Initialisierungsdatei dient nur dem Starten der Berechnung.
+Hat man erstmal eine Berechnung begonnen, so ben&ouml;tigt man sie nicht
+mehr. Die Fraktaldaten sind im PNG-Bild selbst gespeichert und k&ouml;nnen
+daraus wieder rekonstruiert werden.
+<p>Vorschlag zur Aufteilung der Daten in verschiedene Dateien:
+<br>INI&nbsp;&nbsp;&nbsp; Dieser Dateityp ist von Quat fest vorgegeben.
+Es ist die Initialisierungsdatei. In ihr kann die gesamte Information,
+die zur Erzeugung eines Bildes n&ouml;tig ist, gespeichert werden, oder
+es k&ouml;nnen auch andere Dateien (wie hier vorgeschlagen) "include"d
+werden.
+<br>OBJ&nbsp;&nbsp;&nbsp; In Dateien mit dieser Endung werden die fraktalen
+Parameter, die die Form bestimmen, die Ansicht, von der aus das Fraktal
+gezeigt werden soll, sowie einige Raytracing-spezifische Parameter, die
+die Beleuchtung spezifizieren, definiert.
+<br>COL&nbsp;&nbsp;&nbsp; Hierin wird eine Farbe oder ein Farbverlauf gespeichert.
+<br>CUT&nbsp;&nbsp;&nbsp; Diese Dateien dienen der Angabe einer Schnittebenen-Konfiguration
+(in den meisten F&auml;llen wohl nur eine einzige Schnittebene).
+<p>Dieses Konzept mag auf den ersten Blick kompliziert aussehen, es bietet
+aber eine hohe Flexibilit&auml;t. So k&ouml;nnen Fraktale schnell mit anderen
+Farben "ausgestattet" werden oder neue Schnittebenen hinzugef&uuml;gt werden,
+ohne an der Objektdefinition selbst etwas zu &auml;ndern: Es wird einfach
+nur eine Zeile in der INI-Datei ver&auml;ndert. Aber f&uuml;r alle, die
+das immernoch f&uuml;r zu kompliziert halten: Man kann alle Schl&uuml;sselw&ouml;rter
+auch in der Initialisierungsdatei benutzen.
+</body>
+</html>

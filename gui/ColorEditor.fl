@@ -1,0 +1,298 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0100 
+header_name {.h} 
+code_name {.cxx} 
+gridx 5 
+gridy 5 
+snap 3
+decl {// Quat - A 3D fractal generation program
+// Copyright (C) 1997-2000 Dirk Meyer
+// (email: dirk.meyer@studserv.uni-stuttgart.de)
+// mail:  Dirk Meyer
+//        Marbacher Weg 29
+//        D-71334 Waiblingen
+//        Germany
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+
+declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
+} {
+  decl {\#include <config.h>} {}
+} 
+
+decl {\#include <FL/Fl_Group.H>} {public
+} 
+
+decl {\#include <FL/Fl_Color_Chooser.H>} {} 
+
+decl {class ColorPreview;} {public
+} 
+
+decl {class ColorClipboard;} {public
+} 
+
+decl {\#include "ColorPreview.h"} {} 
+
+decl {\#include "ColorClipboard.h"} {} 
+
+decl {\#include "structs.h"} {public
+} 
+
+decl {class ChildWindow;} {public
+} 
+
+decl {\#include "ChildWindow.h"} {} 
+
+class ColorEditor {open : {public Fl_Group}
+} {
+  Function {ColorEditor(int X, int Y, int W, int H, const char *label) : Fl_Group(X,Y,W,H,label)} {open
+  } {
+    Fl_Window win {open selected
+      xywh {352 13 416 216}
+      class ChildWindow noborder visible
+    } {
+      Fl_Group {} {
+        label Range
+        tooltip {A color range begins with color 1 and fades smoothly into color 2.} xywh {10 50 100 90} box EMBOSSED_FRAME labelsize 12 align 21
+      } {}
+      Fl_Group {} {
+        label {Color 1}
+        tooltip {Start color of the selected color range.} xywh {110 50 150 90} box EMBOSSED_FRAME labelsize 12 align 21
+      } {}
+      Fl_Group {} {
+        label {Color 2}
+        tooltip {End color of the selected color range.} xywh {260 50 150 90} box EMBOSSED_FRAME labelsize 12 align 21
+      } {}
+      Fl_Box CP {
+        label label
+        tooltip {Select the color range to edit.} xywh {10 5 370 20} box UP_BOX labeltype NO_LABEL labelsize 12
+        class ColorPreview
+      }
+      Fl_Box clip {
+        label label
+        tooltip {Displays the color currently in clipboard.} xywh {390 5 20 20} box DOWN_BOX labeltype NO_LABEL labelsize 12 align 16
+        class ColorClipboard
+      }
+      Fl_Box {} {
+        label 0
+        xywh {30 25 20 10} box FLAT_BOX labelsize 10
+      }
+      Fl_Box {} {
+        label 1
+        xywh {340 25 20 10} box FLAT_BOX labelsize 10
+      }
+      Fl_Output range {
+        tooltip {Currently selected color range / number of color ranges in palette.} xywh {180 25 40 15} textsize 11
+      }
+      Fl_Button add {
+        label Add
+        callback {CP->add();}
+        tooltip {Insert a new color range before the selected one.} xywh {20 70 40 20} labelsize 12
+      }
+      Fl_Button del {
+        label Del
+        callback {CP->del();}
+        tooltip {Delete the selected color range.} xywh {60 70 40 20} labelsize 12 deactivate
+      }
+      Fl_Value_Input weight {
+        label Weighting
+        callback {CP->weight(CP->current(), o->value());}
+        tooltip {Size of the selected color range in the palette.} xywh {20 110 80 20} labelsize 12 align 5 minimum 1e-05 maximum 100 textsize 12
+      }
+      Fl_Value_Input red1 {
+        label R
+        callback {CP->red1(CP->current(), o->value());}
+        tooltip Red xywh {130 70 80 20} labelsize 12 textsize 12
+      }
+      Fl_Value_Input green1 {
+        label G
+        callback {CP->green1(CP->current(), o->value());}
+        tooltip Green xywh {130 90 80 20} labelsize 12 textsize 12
+      }
+      Fl_Value_Input blue1 {
+        label B
+        callback {CP->blue1(CP->current(), o->value());}
+        tooltip Blue xywh {130 110 80 20} labelsize 12 textsize 12
+      }
+      Fl_Button button_sel1 {
+        label Sel
+        callback {{
+	double r = red1->value();
+	double g = green1->value();
+	double b = blue1->value();
+	if (fl_color_chooser("Select Color 1", r, g, b)) 
+	{
+		red1->value(r); green1->value(g); blue1->value(b);
+		red1->do_callback(); green1->do_callback(); blue1->do_callback();
+	}
+}}
+        tooltip {Graphically select color 1.} xywh {210 70 40 20} labelsize 12
+      }
+      Fl_Button button_copy1 {
+        label Copy
+        callback {clip->Set(red1->value(), green1->value(), blue1->value()); clip->redraw();}
+        tooltip {Copy color 1 to clipboard.} xywh {210 90 40 20} labelsize 12
+      }
+      Fl_Button button_paste1 {
+        label Paste
+        callback {red1->value(clip->GetRed()); green1->value(clip->GetGreen()); blue1->value(clip->GetBlue());
+red1->do_callback(); green1->do_callback(); blue1->do_callback();}
+        tooltip {Copy clipboard to color 1.} xywh {210 110 40 20} labelsize 12
+      }
+      Fl_Value_Input red2 {
+        label R
+        callback {CP->red2(CP->current(), o->value());}
+        tooltip Red xywh {280 70 80 20} labelsize 12 textsize 12
+      }
+      Fl_Value_Input green2 {
+        label G
+        callback {CP->green2(CP->current(), o->value());}
+        tooltip Green xywh {280 90 80 20} labelsize 12 textsize 12
+      }
+      Fl_Value_Input blue2 {
+        label B
+        callback {CP->blue2(CP->current(), o->value());}
+        tooltip Blue xywh {280 110 80 20} labelsize 12 textsize 12
+      }
+      Fl_Button button_sel2 {
+        label Sel
+        callback {{
+	double r = red2->value();
+	double g = green2->value();
+	double b = blue2->value();
+	if (fl_color_chooser("Select Color 2", r, g, b))
+	{
+		red2->value(r); green2->value(g); blue2->value(b);
+		red2->do_callback(); green2->do_callback(); blue2->do_callback();
+	}
+}}
+        tooltip {Graphically select color 2.} xywh {360 70 40 20} labelsize 12
+      }
+      Fl_Button button_copy2 {
+        label Copy
+        callback {clip->Set(red2->value(), green2->value(), blue2->value()); clip->redraw();}
+        tooltip {Copy color 2 to clipboard.} xywh {360 90 40 20} labelsize 12
+      }
+      Fl_Button button_paste2 {
+        label Paste
+        callback {red2->value(clip->GetRed()); green2->value(clip->GetGreen()); blue2->value(clip->GetBlue());
+red2->do_callback(); green2->do_callback(); blue2->do_callback();}
+        tooltip {Copy clipboard to color 2.} xywh {360 110 40 20} labelsize 12
+      }
+      Fl_Choice choice_formula {
+        label {Color Formula}
+        tooltip {Click here for example formulas.} xywh {10 190 20 20} down_box DOWN_BOX labelsize 12 align 5 textsize 12
+      } {
+        menuitem {} {
+          label { These are only examples.}
+          xywh {50 50 100 20} labelsize 12 labelcolor 72 deactivate
+        }
+        menuitem {} {
+          label { You can also enter your own formula!}
+          xywh {50 50 100 20} labelsize 12 labelcolor 72 deactivate
+        }
+        menuitem {} {
+          label { 0}
+          callback {ColorFormula->value(o->text());}
+          xywh {50 50 100 20} labelsize 12
+        }
+        menuitem {} {
+          label { 0.36*x-0.5       \# linear in x-dir}
+          callback {ColorFormula->value(o->text());}
+          xywh {50 50 100 20} labelsize 12
+        }
+        menuitem {} {
+          label { 0.48*y-0.5      \# linear in y-dir.}
+          callback {ColorFormula->value(o->text());}
+          xywh {50 50 100 20} labelsize 12
+        }
+        menuitem {} {
+          label { 0.25*z-0.5      \# linear in z-dir.}
+          callback {ColorFormula->value(o->text());}
+          xywh {50 50 100 20} labelsize 12
+        }
+        menuitem {} {
+          label { 0.7*sqrt(x^2+y^2+z^2)     \# spherical}
+          callback {ColorFormula->value(o->text());}
+          xywh {50 50 100 20} labelsize 12
+        }
+        menuitem {} {
+          label { x+y     \# diagonal striped}
+          callback {ColorFormula->value(o->text());}
+          xywh {50 50 100 20} labelsize 12
+        }
+        menuitem {} {
+          label { (sin(7*x)+sin(7*y)+sin(7*z)+3)/6  \# big speckles}
+          callback {ColorFormula->value(o->text());}
+          xywh {50 50 100 20} labelsize 12
+        }
+        menuitem {} {
+          label { y+0.2*sin(15*x)    \# spikes}
+          callback {ColorFormula->value(o->text());}
+          xywh {50 50 100 20} labelsize 12
+        }
+        menuitem {} {
+          label { sqrt((orbite(5)-x)^2+(orbitj(5)-y)^2+(orbitk(5)-z)^2+(orbitl(5)-orbitl(0))^2)}
+          callback {ColorFormula->value(o->text());}
+          xywh {30 30 100 20} labelsize 12
+        }
+      }
+      Fl_Input ColorFormula {
+        label {Color Formula}
+        tooltip {The result of a color formula is an index into the palette.
+So you can establish a connection between points
+in space and colors} xywh {30 190 380 20} labeltype NO_LABEL labelsize 12 align 5 textsize 12
+      }
+    }
+    code {CP->SetInputs(add,del,weight,red1,green1,blue1,red2,green2,blue2,range);
+end(); // VERY IMPORTANT!
+win->position(X+2, Y+2);
+// DON'T delete win in destructor (or elsewhere) 
+// it's automatically deleted by Fl_Group} {}
+  }
+  Function {set(const realpal_cpp& p, const colscheme_cpp& scheme)} {open return_type void
+  } {
+    code {CP->SetPal(p);
+ColorFormula->value(reinterpret_cast<const char*>(&scheme));
+
+return;} {}
+  }
+  Function {get(realpal_cpp& p, colscheme_cpp& scheme)} {open return_type void
+  } {
+    code {CP->GetPal(p);
+strcpy(scheme, ColorFormula->value());
+return;} {}
+  }
+  Function {deactiv()} {open return_type void
+  } {
+    code {add->deactivate();
+del->deactivate();
+weight->deactivate();
+button_sel1->deactivate();
+button_copy1->deactivate();
+button_paste1->deactivate();
+red1->deactivate();
+green1->deactivate();
+blue1->deactivate();
+button_sel2->deactivate();
+button_copy2->deactivate();
+button_paste2->deactivate();
+red2->deactivate();
+green2->deactivate();
+blue2->deactivate();
+choice_formula->deactivate();
+ColorFormula->deactivate();} {}
+  }
+} 

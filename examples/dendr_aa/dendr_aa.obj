@@ -1,0 +1,26 @@
+
+# These are the values for the constant c, which defines the shape of the fractal.
+c -0.000001 1 0 0
+
+# other parameters required for iteration
+bailout 16
+maxiter 12
+lvalue 0.1
+formula 0
+
+# the viewpoint
+viewpoint 0.64012527982 0.22574272673 1.10872893327
+
+# where´s up?
+up 0 1 0
+
+# now we need some light
+light -2 -20 -20
+
+# parameters which define view
+move 0 0
+lxr 3.5
+
+# some raytracing parameters
+phong 1 30
+ambient 0.04

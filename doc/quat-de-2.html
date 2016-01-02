@@ -1,0 +1,210 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Dirk Meyer">
+   <title>Quat: Online-Dokumentation</title>
+</head>
+<body>
+
+<h1>
+<a NAME="a2"></a>2. Generelle Hinweise</h1>
+
+<h2>
+<a NAME="a21"></a>2.1 Mathematische Grundlagen zur Berechnung von Fraktalen</h2>
+Kernst&uuml;ck der Berechnung von Fraktalen ist eine iterative Formel.
+(Es gibt noch andere Arten von Fraktalen, am h&auml;ufigsten anzutreffen
+ist jedoch die hier beschriebene Sorte). "Iterativ" bedeutet, da&szlig;
+der Wert, den die Formel ergab, im n&auml;chsten Schritt wieder in die
+Formel eingesetzt wird und so zu einem neuen Wert f&uuml;hrt, der wiederum
+eingesetzt wird, und so weiter. Einen solchen Schritt nennt man eine Iteration.
+Als Startwert wird der Punkt benutzt, der berechnet werden soll.
+
+<p>Ein Punkt in diesem Zusammenhang ist eine komplexe Zahl (im Falle eines
+zweidimensionalen Fraktals). Eine komplexe Zahl besteht aus 2 voneinander
+unabh&auml;ngigen Komponenten, die man Real- und Imagin&auml;rteil nennt.
+Ist der Imagin&auml;rteil Null, so entsprechen die komplexen Zahlen den
+reellen (also z.B. 1.23324, -23, ...). Zur Kennzeichnung des Imagin&auml;rteils
+dient der Buchstabe "i", wobei gilt: i*i=-1. (Hieran sieht man, da&szlig;
+"i" keine reelle Zahl sein kann, denn keine reelle Zahl im Quadrat ergibt
+-1.)
+<br>Eine komplexe Zahl c schreibt sich also allgemein so: c = a + i*b
+<br>Hierbei ist a der Real- und b der Imagin&auml;rteil. In zweidimensionalen
+Fraktalprogrammen identifiziert man den Realteil mit der x-Koordinate auf
+dem Schirm, den Imagin&auml;rteil mit der y-Koordinate.
+
+<p>Quat ben&ouml;tigt zur Berechnung seiner dreidimensionalen Fraktale
+Zahlen, die aus noch einer Komponente mehr bestehen, die dann mit der z-Koordinate
+gleichgesetzt wird. Solche Zahlen gibt es nicht, es gibt jedoch welche
+mit 4 Komponenten: Die Hamilton'schen Quaternionen (auch hyperkomplexe
+Zahlen genannt). Sie besitzen einen Realteil und 3 imagin&auml;re Teile.
+Die Bezeichnungen f&uuml;r diese Teile lauten <b>1</b>, <b>i</b>, <b>j</b>
+und <b>k</b>. "1" entspricht dem Realteil, "i" dem Imagin&auml;rteil der
+komplexen Zahlen. Sind also j- und k-Teil Null, so haben wir wieder die
+alten komplexen Zahlen. Zwischen 1, i, j und k bestehen bestimmte Rechenregeln
+f&uuml;r die Multiplikation. (Hier besteht ein Unterschied zwischen Quaternionen
+und hyperkomplexen Zahlen, der uns aber nicht interessieren mu&szlig;.
+Quat verwendet Quaternionen, der Einfachheit halber werden beide Begriffe
+im Folgenden aber austauschbar verwendet.)
+
+<p>4 Komponenten w&uuml;rden sogar f&uuml;r vierdimensionale Fraktale ausreichen,
+aus naheliegenden praktischen Beschr&auml;nkungen (s. oben) und der Beschr&auml;nktheit
+des menschlichen Wahrnehmungsverm&ouml;gens (also nicht aus Unf&auml;higkeit
+des Programmierers...) kann Quat "nur" dreidimensionale Fraktale erzeugen.
+Die zus&auml;tzliche 4. Dimension (4. Komponente) wird auf einen konstanten
+Wert gesetzt, der &uuml;ber den Parameter
+<i><a href="quat-de-4.html#a41lvalue">4th-dim.&nbsp;Intersection</a></i>
+im "Object Editor" festgelegt wird. Diese Vorgehensweise erzeugt einen dreidimensionalen
+Schnitt aus einem vierdimensionalen Fraktal, analog zum zweidimensionalen
+Schnitt, den gew&ouml;hnliche Fraktalprogramme aus den von Quat berechneten
+dreidimensionalen Fraktalen machen.
+
+<p>Zur&uuml;ck zu unserer Iterationsformel. Quat benutzt u.a. eine der folgenden
+Formeln:
+<nobr>x<sub>n+1</sub> = x<sub>n</sub><sup>2</sup> - c</nobr> oder
+<nobr>x<sub>n+1</sub> = cx<sub>n</sub>(1-x<sub>n</sub>)</nobr>
+<br>x<sub>0</sub> ist der Startwert ( = Punkt, der berechnet werden soll)
+<br>"n" ist ein Abz&auml;hlindex, mit dem die "x" durchnumeriert werden
+(n=0,1,2,3...). Der in der Formel auftretende Wert "c" ist wiederum eine
+hyperkomplexe Zahl, die w&auml;hrend der ganzen Berechnung konstant bleibt
+und im Object Editor als Parameter
+<i><a href="quat-de-4.html#a41c">c</a></i>
+festgelegt wird. <i>c</i> bestimmt die Form des Fraktals.
+
+<p>Man stellt fest, da&szlig; die durch die Iterationsformel definierte
+Folge der x<sub>n</sub> (auch "Orbit" genannt) drei verschiedene Verhaltensweisen
+an den Tag legt:
+
+<ol>
+<li>Sie geht gegen einen festen Wert (z.B. gegen Null)</li>
+<li>Sie pendelt periodisch zwischen mehreren Werten</li>
+<li>Sie wird immer gr&ouml;&szlig;er und geht damit gegen Unendlich.</li>
+</ol>
+
+Das von Quat gezeichnete Objekt ist die Menge aller Punkte (= Zahlen) x<sub>0</sub>,
+f&uuml;r die die durch die Formel definierte Folge nicht gegen Unendlich
+geht. (Die also Verhalten 1. oder 2. zeigt).
+
+<p>Diese Formulierung ist noch nicht ganz exakt: Es besteht das praktische
+Problem, da&szlig; ein Computer die Iteration nicht ad infinitum ausf&uuml;hren
+kann, um zu sehen, ob die Folge sich einpendelt oder nicht. (Das liegt
+an der Beschr&auml;nktheit der menschlichen Lebensdauer, wiederum nicht
+an der Unf&auml;higkeit des Programmierers :-) ). Deshalb wird nach
+einer gewissen Anzahl von Iterationen abgebrochen. Die maximale Zahl von
+Iterationen wird im Object Editor durch den Parameter
+<i><a href="quat-de-4.html#a41maxiter">Max.&nbsp;Iteration</a></i>
+festgelegt (im Folgenden auch einfach <i>maxiter</i> genannt).
+
+<p>Wie wird nach Ablauf dieser maxiter Iterationen nun festgelegt,
+ob die Folge gegen unendlich geht oder nicht? Dazu dient der Wert
+<i><a href="quat-de-4.html#a41bailout">Bailout</a></i>
+(Benennung frei nach "Fractint"). Wurde dieser Wert im Laufe der
+Iterationen &uuml;berschritten, so wird angenommen, da&szlig; die Folge
+gegen unendlich geht.
+
+<p>Nun k&ouml;nnen wir das berechnete Objekt ganz pr&auml;zise beschreiben:
+Es ist die Menge aller Punkte ( = Zahlen) x<sub>0</sub>, f&uuml;r die die
+durch die Iterationsformel definierte Folge der x<sub>n</sub> nach h&ouml;chstens
+<i>maxiter</i> Iterationen den Wert <i>bailout</i> nicht &uuml;berschritten hat.
+(Wie kompliziert doch sch&ouml;ne Formen mathematisch zu beschreiben sind...
+Andererseits: Wie sch&ouml;n doch Mathematik sein kann!)
+
+<p>Zur Beruhigung: Auch wer das alles nicht versteht oder wen's ganz einfach
+nicht interessiert, der kann trotzdem sch&ouml;ne Bilder berechnen.
+
+<h2>
+<a NAME="a22"></a>2.2 Koordinatensysteme und Festlegung der Bildebene</h2>
+Was wir bis jetzt haben, ist ein Objekt im Quaternionen-Raum (Q-Raum).
+Was wir noch nicht haben, ist ein Beobachter, der sich dieses Objekt ansieht.
+Das soll hei&szlig;en: Wir m&uuml;ssen das Objekt noch auf den Monitor
+projizieren. Dazu m&uuml;ssen wir eine Bildebene im Q-Raum definieren,
+die den Bildschirm repr&auml;sentiert. Wie also diese Bildebene das Objekt
+"sehen" w&uuml;rde, so wird es auf dem Monitor dargestellt.
+
+<p>Es ergeben sich so 2 verschiedene Koordinatensysteme: Einmal das "darzustellende"
+System (der Q-Raum), au&szlig;erdem das "darstellende" Koordinatenystem
+(Bildebene, Monitor).
+
+<p>Der Q-Raum wird aufgespannt durch 3 Achsen, die im Folgenden mit 1,
+i und j bezeichnet werden, analog zu den Komponenten der hyperkomplexen
+Zahlen (der k-Teil wird auf einen konstanten Wert gesetzt, s.o.). Die 1-Achse
+ist also die reelle Achse ("Zahlenstrahl"), die von der 1- und i-Achse
+aufgespannte Ebene die komplexe Ebene, in der 2D-Fraktalprogramme ihre
+Fraktale berechnen.
+
+<p>Auf der Bildebene liegen zwei Achsen des Bildkoordinatensystems, die
+x- und y-Achse hei&szlig;en und der horizontalen und der vertikalen Achse
+des Monitors entsprechen. Au&szlig;erdem gibt es eine z-Achse, die senkrecht
+auf der Bildebene steht und so die Richtung anzeigt, in der man auf das
+Fraktal sieht.
+
+<p>Da sich die fraktalen Objekte immer um den Ursprung im Q-Raum herum
+ansiedeln, ist folgende Art der Konstruktion der Bildebene naheliegend.
+In der Initialisierungsdatei wird dazu ein Punkt im Q-Raum festgelegt,
+der
+<i><a href="quat-de-4.html#a41viewpoint">View&nbsp;Point</a></i>.
+Die Bildebene geht durch <i>view point</i>
+und steht senkrecht auf dem Ortsvektor <i>view point</i> (<i>view point</i>
+hat also
+eine doppelte Bedeutung: Aufpunkt und Normalenvektor der Bildebene). Durch
+<i>view point</i> ist so schon die z-Achse des Bildkoordinatensystems festgelegt.
+Im Folgenden bewegen wir uns nur noch auf der Bildebene.
+
+<p>Nun wird von dieser Ebene ein rechteckiger Ausschnitt genommen (= das
+Sichtfenster), der auf der Ebene so orientiert wird, da&szlig; 2 gegen&uuml;berliegende
+Seiten des Rechtecks parallel zur Projektion des
+<i><a href="quat-de-4.html#a41up">Up&nbsp;(Orientation)</a></i>-Vektors
+(s.u.) auf die Bildebene sind. Die Richtung dieser Projektion wird y-Richtung
+genannt und entspricht nachher der vertikalen Richtung auf dem Monitor.
+Die horizontale Richtung hei&szlig;t x-Richtung und entspricht den anderen
+beiden Seiten des Rechtecks. Der <i>up</i>-Vektor definiert also, wo oben ist.
+Damit sind also schon die Richtungen der x- und y-Achse festgelegt.
+
+<p>Die Diagonalen dieses Sichtfensters schneiden sich im <i>view point</i> (das
+hei&szlig;t, da&szlig; der <i>viewpoint</i> in der Mitte des Sichtfensters/Bildschirms
+liegt). Nun wird das Sichtfenster um den <i>view point</i> herum zentrisch gestreckt
+("skaliert"), und zwar so, da&szlig; die in x-Richtung liegende Seite hinterher
+die L&auml;nge
+<i><a href="quat-de-4.html#a41lxr">Length&nbsp;of&nbsp;View&nbsp;Plane's&nbsp;X-Axis</a></i>
+hat (gemessen im Q-Raum, oft einfach <i>lxr</i> genannt),
+und das Verh&auml;ltnis von x/y dem gew&auml;hlten Aufl&ouml;sungsverh&auml;ltis
+(siehe <i><a href="quat-de-4.html#a44resolution">Image&nbsp;resolution</a></i> im "Other Editor")
+entspricht (f&uuml;r verzerrungsfreie Darstellung).
+Die Basisvektoren des Sichtfensters (gewonnen
+aus der x- und y-Richtung) haben den Betrag 1. Nun sind wir im Prinzip
+fertig. Das Bildkoordinatensystem ist vollst&auml;ndig festgelegt.
+
+<p>Um alle m&ouml;glichen Lagen des Bildschirmrechtecks erreichen zu k&ouml;nnen
+(bisher dreht sich alles um den Ursprung), wird zum Schlu&szlig; die Bildebene
+um die bei <i><a href="quat-de-4.html#a41move">Move</a></i> angegebenen Werte
+in x- und y-Richtung
+(in ihrem eigenen Koordinatensystem) verschoben.
+
+<h2>
+<a NAME="a23"></a>2.3 ZBuffer</h2>
+Diese Neuerung von Quat 0.92 erm&ouml;glicht es, die langsame fraktale
+<b>Berechnung</b>
+des Objekts von der relativ schnellen <b>Darstellung</b> zu trennen. Quat
+berechnet dazu einen sogenannten ZBuffer, in dem die Form des Objektes
+vom Betrachtungsstandpunkt aus gespeichert wird.
+
+<p>Man kann nun gewisse Parameter (Lichtquelle, Farbpalette, Farbformel,
+Phong Highlight und das Umgebungslicht) noch ver&auml;ndern, und aus dem
+ZBuffer schlie&szlig;lich ein fertiges Bild erzeugen, was relativ schnell
+geht.
+
+<center>
+<p><img SRC="chart_de.png" NOSAVE BORDER=2 height=235 width=608>
+<br>Grafik 1: Verschiedene Wege zum fertigen Bild</center>
+
+<p>ZBuffer er&ouml;ffnen ein weites Feld an Experimentierm&ouml;glichkeiten,
+man kann die beste Darstellung des Objektes durch Probieren herausfinden.
+<br>ZBuffer haben die Dateiendung "ZPN". In einem ZBuffer ist der volle
+Satz an Parametern gespeichert, wie auch in jedem Bild (PNG). ZBuffer sind
+ganz normale PNG-Dateien, sie enthalten blo&szlig; kein Bild. Manche Grafikprogramme
+erkennen sie sogar und zeigen sie problemlos an, wenn man sie &ouml;ffnet,
+andere machen es notwendig, die Endung in PNG umzubenennen. Ob das direkte
+Anzeigen allerdings einen Sinn hat, wei&szlig; ich nicht, da man mit den
+in den Dateien gespeicherten Daten in der Regel wenig anf&auml;ngt.
+</body>
+</html>

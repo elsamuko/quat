@@ -1,0 +1,326 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Dirk Meyer">
+   <title>Quat: Online-Dokumentation</title>
+</head>
+<body>
+
+<h1>
+<a NAME="a1"></a>1. Einf&uuml;hrung</h1>
+Sinn und Zweck dieses Programmes ist das Berechnen von dreidimensionalen
+Fraktalen. Die berechneten Objekte sind frei im Raum schwebende, verwickelte,
+teigartige (und nat&uuml;rlich fraktale) "Klumpen" - im Gegensatz zu dem,
+was herk&ouml;mmlicherweise im Zusammenhang mit Fraktalen als "dreidimensional"
+bezeichnet wird (eine blo&szlig;e Uminterpretation der zweidimensionalen
+Daten n&auml;mlich).
+
+<p>Die Objekte k&ouml;nnen koloriert werden, indem durch eine Formel Koordinaten
+des Raumes (oder, ab Version 1.0, andere Parameter) mit Farben verkn&uuml;pft
+werden. Die Palette der Farben kann aus bis zu 50 einzelnen Farben oder
+Farbverl&auml;ufen bestehen.
+
+<p>Zus&auml;tzlich ist es m&ouml;glich, Schnittebenen zu definieren. Es
+kann so der innere Aufbau der Fraktale dargestellt werden. Besonders interessant
+ist nat&uuml;rlich ein Schnitt mit der komplexen Ebene, man erh&auml;lt
+als Schnittfigur das normale zweidimensionale Fraktal, das z.B. auch mit
+"Fractint" berechnet werden kann. Zus&auml;tzlich sieht man aber, wie verschiedene
+Regionen des zweidimensionalen Fraktals im dreidimensionalen Raum miteinander
+verkn&uuml;pft sind.
+
+<p>Screenshot von Quat 1.2 (unter Linux):
+<p><center><img SRC="quat.png" ALT="Screenshot von Quat 1.2" height=600 width=800></center>
+
+<p>Die Berechnung und Speicherung des Bildes erfolgt grunds&auml;tzlich
+in 24bit True-Color, die Anzeige w&auml;hrend der Berechnung funktioniert
+hingegen auch in 256-Farben-Modi (allerdings in verminderter Qualit&auml;t.)
+<p>Die von Quat berechneten Fraktale entsprechen genau den herk&ouml;mmlichen,
+zweidimensionalen "Julia-Mengen", die so gut wie jedes Fraktalprogramm
+berechnen kann. (Als Iterationsformeln verf&uuml;gbar sind "Classical Julia"
+x<sub>n+1</sub> = x<sub>n</sub><sup>2</sup> - c und "Lambda Julia" x<sub>n+1</sub>=cx<sub>n</sub>(1-x<sub>n</sub>);
+x<sub>0</sub> ist der zu berechnende Bildpunkt) Um die dritte Dimension
+zu bekommen, verwendet Quat anstelle der komplexen Zahlen mit 2 Komponenten
+(Real- und Imagin&auml;rteil) sogenannte "Hamilton'sche Quaternionen".
+Sie sind eine Verallgemeinerung der komplexen Zahlen und bestehen aus 4
+Komponenten (1 Realteil und 3 Imagin&auml;rteile). Setzt man zwei der zus&auml;tzlichen
+Imagin&auml;rteile Null, so hat man wieder die ganz normalen komplexen
+Zahlen. Mit den Quaternionen (daher &uuml;brigens der Name "Quat") w&auml;re
+es also m&ouml;glich, sogar vierdimensionale Fraktale zu berechnen, berechnet
+werden aber nur dreidimensionale. (Wenn jemand einen vierdimensionalen
+Monitor erfindet, erkl&auml;re ich mich dazu bereit, mein Programm entsprechend
+umzu&auml;ndern... :-) )
+
+<p>Die Berechnung einer wirklich dreidimensionalen Ansicht (3D-Stereo)
+ist m&ouml;glich. Ohne Hilfsmittel wie 3D-Brillen kann das Fraktal als
+echt dreidimensionales Objekt gesehen werden.
+
+<p>Als Ausgabeformat wird das PNG-Format verwendet. Es ist der Nachfolger
+von GIF und bietet ebenso wie GIF eine Komprimierung der Bilddaten ohne
+Qualit&auml;tsverlust (JPEG komprimiert zwar besser, aber die Bildqualit&auml;t
+leidet darunter). N&auml;here Informationen &uuml;ber PNG:
+<a href="http://www.libpng.org/pub/png/">http://www.libpng.org/pub/png/</a>.
+Da PNG das Speichern applikationsspezifischer Daten erlaubt, speichert
+Quat s&auml;mtliche zur Erzeugung eines Bildes n&ouml;tigen Werte innerhalb
+des PNG-Bildes.
+
+<p>Quat verwendet zum Speichern der PNG-Bilder eine Library namens "ZLIB".
+Diese Library ist eine Komprimierungs-Library und hat nichts mit Fraktalberechnung
+zu tun. Sie wurde von Jean-loup Gailly und Mark Adler geschrieben. N&auml;here
+Informationen zu ZLIB: <a href="http://www.zlib.org/">http://www.zlib.org/</a>
+
+<p>Die Benutzeroberfl&auml;che wurde mit dem portablen "Fast Light Toolkit"
+(FLTK) erstellt. Die Homepage des Toolkits ist unter:
+<br><a href="http://www.fltk.org/">http://www.fltk.org/</a>
+
+<p>Quat ist freie Software. Sie k&ouml;nnen es unter den Bedingungen der
+<a href="gpl.html">GNU General Public License</a>,
+wie von der Free Software Foundation herausgegeben,
+weitergeben und/oder modifizieren, entweder unter Version 2 der Lizenz
+oder (wenn Sie es w&uuml;nschen) jeder sp&auml;teren Version.
+
+<p>Die Ver&ouml;ffentlichung dieses Programms erfolgt in der Hoffnung,
+da&szlig; es Ihnen von Nutzen sein wird, aber OHNE JEDE GEW&Auml;HRLEISTUNG
+- sogar ohne die implizite Gew&auml;hrleistung der MARKTREIFE oder der
+EIGNUNG F&Uuml;R EINEN BESTIMMTEN ZWECK. Details finden Sie in der GNU
+General Public License.
+
+<p>Sie sollten eine Kopie der GNU General Public License zusammen mit diesem
+Programm erhalten haben. Falls nicht, schreiben Sie an die Free Software
+Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+
+<p>Ein besonderer Dank an Max Schwoerer f&uuml;r die Kl&auml;rung einiger
+rechtlicher Fragen und an Oliver Siemoneit f&uuml;r die Hilfe bei der englischen
+&Uuml;bersetzung.
+<br>Vielen Dank an Larry Berlin (<a href="mailto:lberlin@sonic.net">lberlin@sonic.net</a>)
+f&uuml;r seine Hinweise zu Themen wie 3D-Stereo-Ansicht, f&uuml;r seine
+vielf&auml;ltigen Ideen zur Verbesserung des Programms (speziell der Benutzeroberfl&auml;che)
+und f&uuml;r das Testen der Vorversionen von Quat 0.92.
+<br>Larry Berlin bietet ein gro&szlig;artiges 3D-Ezine an (<a href="http://3dzine.simplenet.com/3dzine.html">http://3dzine.simplenet.com/3dzine.html</a>)
+und hat vor, dort eine Galerie von Bildern zu zeigen, die er auf der Grundlage
+der von Quat berechneten Objekte erstellt hat. Ich hatte Gelegenheit, einige
+Beispiele zu sehen. Ist wirklich einen Besuch wert!
+<br>Dank auch an Eva-Maria von Garrel f&uuml;r's Testen.
+
+<h2>
+<a NAME="a11"></a>1.1 Was ist neu?</h2>
+<h4>Version 1.20:</h4>
+Neue Features:
+<ul>
+<li>Die Vorschau im Parameter Editor ist jetzt vergr&ouml;&szlig;erbar und
+hat das selbe Seitenverh&auml;ltnis wie das zu berechnende Bild.</li>
+<li>Tooltips und integrierte Dokumentation.</li>
+<li>einige Verbesserungen der Bedienbarkeit.</li>
+<li>Windows-Version: Verwendet ein Installationsprogramm (Inno Setup)</li>
+<li>Verwendung von FLTK 1.1, das einige gro&szlig;e Verbesserungen gegen&uuml;ber
+  1.0 bietet (z.B. die Dateiauswahl)</li>
+</ul>
+Bugfixes:
+<ul>
+<li>Der Intersection Editor funktionierte nicht richtig, wenn mehr als eine
+Schnittebene eingegeben wurde.</li>
+<li>Hohe <i>Bailout</i>-Werte konnten nicht aus einer INI-Datei
+gelesen werden.</li>
+<li>Parameter im "Other Editor" wurden nicht aktualisiert, wenn im Parameter
+Editor eine INI-Datei eingelesen wurde.</li>
+<li>Unix: Quat h&auml;ngte sich auf, wenn ein Verzeichnis anstelle einer
+Datei selektiert wurde.</li>
+<li>Leere Bilder (entstanden durch Abbruch der Berechnung bevor die erste
+Zeile berechnet war) wurden nicht korrekt gespeichert.</li>
+</ul>
+
+<h4>Version 1.11: (12.7.2001)</h4>
+keine neuen Features<br>
+Bugfixes:
+<ul>
+<li>Die Berechnung in der DOS-Version kann wieder mit Tastendruck unterbrochen werden.</li>
+<li>Einige &Auml;nderungen am Source-Code zur Kompatibilit&auml;t mit  neueren Compilern.</li>
+</ul>
+
+<h4>Version 1.10: (14.12.2000)</h4>
+Neue Features:
+<ul>
+<li>Schnellere Berechnung von Bildern mit der &quot;Lambda&quot;-Formel
+(etwa 20% schneller)</li>
+<li>3 neue Iterations-Formeln zur Auswahl:
+	<ul>
+	<li>x<sub>n+1</sub> = x<sub>n</sub>*ln(x<sub>n</sub>) - c</li>
+	<li>Cubic Julia: x<sub>n+1</sub> = x<sub>n</sub><sup>3</sup> - c</li>
+	<li>x<sub>n+1</sub> = x<sub>n</sub><sup>p1</sup> - c</li>
+	</ul>
+	</li>
+<li>F&uuml;r die 3. neue Formel (die einen Parameter als Exponent ben&ouml;tigt)
+wurde das Format des PNG-quAt-Chunks ver&auml;ndert.</li>
+</ul>
+
+Buxfixes:
+<ul>
+<li>Der Normalenvektor wurde unter Umst&auml;nden falsch berechnet, was Auswirkungen
+f&uuml;r die Beleuchtung hatte. Alte Bilder, die mit Version &gt;=1.10 erneut 
+berechnet werden, k&ouml;nnen ver&auml;nderte Beleuchtung aufweisen.</li>
+<li>Dateinamen-Erweiterungen beim Speichern werden nun korrekt angeh&auml;ngt.</li>
+<li>Bei zu gro&szlig;en Bildern sollte Quat jetzt merken, wenn ihm der Speicher
+ausgeht.</li>
+</ul>
+
+<h4>Version 1.01: (16.8.2000)</h4>
+Bugfix-Release:
+<ul>
+<li>Bug behoben, der manchmal zum Absturz von Quat beim Verlassen des 
+Parameter-Editors f&uuml;hrte.</li>
+<li>Bereichs&uuml;berpr&uuml;fung des Parameters der Orbit-Funktionen</li>
+</ul>
+
+<h4>Version 1.00: (8.8.2000)</h4>
+<ul>
+<li>
+Die Benutzeroberfl&auml;che wurde komplett f&uuml;r FLTK neu geschrieben
+und verbessert.</li>
+
+<li>
+neue, objektbezogene Art der Einf&auml;rbung (durch neue Funktionen f&uuml;r
+die Farbformel: orbite, orbitj, orbitk und orbitl)</li>
+</ul>
+<h4>Version 0.92: (7.12.1998 / 0.92b: 5.10.1999)</h4>
+<ul>
+<li>
+Endlich eine [Graphische] Benutzeroberfl&auml;che f&uuml;r die Windows-
+und X-Window-Version hinzugef&uuml;gt, obwohl ich das nie vorhatte...</li>
+
+<br>Die volle Funktionalit&auml;t der bisherigen Initialisierungsdateien
+kann &uuml;ber Dialogboxen erreicht werden: Es gibt einen "Object Editor",
+einen "View Editor", einen "Color Editor", einen "Intersection Editor"
+und einen Dialog f&uuml;r die &uuml;brigen Parameter.
+<br>Es gibt jetzt auch Bildlaufleisten, falls das Bild gr&ouml;&szlig;er
+als das Fenster ist. Die Bedienung l&auml;uft im Windows-Stil ab (Image|Open,
+Image|Save, Image|Save As,...) und ben&ouml;tigt dementsprechend wesentlich
+mehr Speicher als vorher.
+<li>
+Windows-Version: in 32bit compiliert (ben&ouml;tigt daher Win 95/98/2000
+oder NT), ist wesentlich schneller als vorher, Unterst&uuml;tzung von langen
+Dateinamen, Win95 look &amp; feel.</li>
+
+<li>
+Berechnung von 3D-Stereo-Paaren, die ohne spezielle Zusatzger&auml;te echt
+dreidimensional gesehen werden k&ouml;nnen (mit dem sogenannten "Kreuzblick",
+siehe <a href="quat-de-5.html#a53">Anhang 5.3</a>). Hierf&uuml;r wurde das neue Schl&uuml;sselwort
+"<a href="quat-de-4.html#a41interocular">interocular</a>" hinzugef&uuml;gt.</li>
+
+<li>
+Neue Formel hinzugef&uuml;gt: x<sub><font size=-1>n+1</font></sub> = cx<sub><font size=-1>n</font></sub>(1-x<sub><font size=-1>n</font></sub>)</li>
+
+<li>
+Erzeugung von sogenannten "ZBuffern". Dies erm&ouml;glicht es, bestimmte
+Parameter, die nichts mit der fraktalen Bildberechnung zu tun haben (z.B.
+die Farbgebung), auch noch nach der Berechnung zu ver&auml;ndern. Man kann
+so mit dem Objekt "spielen", also z.B. verschiedene Farben ausprobieren,
+um zu sehen, was am besten aussieht, ohne lange warten zu m&uuml;ssen.</li>
+
+<li>
+Anderer, einfacherer Algorithmus zur Berechnung des Normalenvektors wird
+verwendet.</li>
+
+<li>
+Neue Funktionen f&uuml;r die Farbformel: atan, asin und acos</li>
+
+<li>
+Die Zeit, die zur Berechnung ben&ouml;tigt wurde, wird zusammen mit dem
+Bild gespeichert (allerdings nicht sehr genau, nur in Sekunden)</li>
+
+<li>
+gegen die Library zlib, version 1.1.3, gelinkt.</li>
+</ul>
+<h4>Version 0.91: (8.2.1998)</h4>
+<ul>
+<li>
+Struktur der Initialisierungsdateien ge&auml;ndert. Es kann jetzt die ganze
+Information in einer einzigen Datei gespeichert werden, das alte Schema
+ist jedoch immernoch m&ouml;glich, wenn man das Schl&uuml;sselwort "include
+&lt;Datei>" benutzt. Die Schl&uuml;sselw&ouml;rter "colorfile", "objectfile"
+und "cutfile" werden nicht mehr erkannt. (stattdessen "include" benutzen.)</li>
+
+<li>
+antialiasing Schl&uuml;sselwort hinzugef&uuml;gt. Es kann nun der Moire-Effekt
+verhindert werden, der f&uuml;r st&ouml;rende Muster auf den Objekten verantwortlich
+ist. Das Ergebnis ist in den meisten F&auml;llen eine viel bessere Bildqualit&auml;t.</li>
+
+<li>
+Formelinterpreter ("colorscheme") intern von Grund auf ge&auml;ndert.</li>
+
+<li>
+Bugfix die Option "-p" betreffend. (Segmentation fault)</li>
+
+<li>
+Bugfix: Auf Rechnertypen, bei denen das "alignment" von "doubles" eine
+Rolle spielt (z.B. DEC Alpha, nicht Intel) f&uuml;hrten Bilder mit Schnittebenen
+zu "alignment errors".</li>
+
+<li>
+Windows-Version: Verbesserte Bedienung in Win95 (Drag &amp; Drop auf Icon,
+Context-Men&uuml;).</li>
+
+<br>Lesen Sie dazu den <a href="quat-de-3.html#a32">Abschnit 3.2</a> in dieser Datei.</ul>
+<h4>Version 0.90b: (14.9.97)</h4>
+<ul>
+<li>
+Keine &Auml;nderungen am Sourcecode, nur englischsprachige Dokumentation
+hinzugef&uuml;gt</li>
+</ul>
+<h4>Version 0.90: (29.7.97)</h4>
+Erste ver&ouml;ffentlichte Version.
+<h2>
+<a NAME="a12"></a>1.2 Systemvoraussetzungen</h2>
+Im Prinzip keine, wenn Sie ANSI-C/C++-Code compilieren k&ouml;nnen... :-)
+<p>Die Voraussetzungen f&uuml;r die vorcompilierten Versionen von Quat:
+<ul>
+<li>Windows 95/98/ME/XP/NT/2000: Quat l&auml;uft wahrscheinlich auf jedem System,
+auf dem auch Windows l&auml;uft. (Ich habe nur Windows 95 ausprobiert, aber es
+gibt keinen Grund, warum es nicht auch auf sp&auml;teren Versionen laufen sollte.)
+
+<li>Linux: glibc 2.2, System basiert auf gcc 2.95 (und nicht 3.x). Getestet
+mit Slackware 8.0. Es sollte kein Problem sein, Quat unter anderen
+Linux-Distributionen zu compilieren.</li>
+
+<li>DOS: (Textversion ohne grafische Ausgabe auf dem Schirm). 486 Prozessor
+oder h&ouml;her (u.a. Pentium), 4 MB RAM (theoretischer Wert, ich hatte
+leider keinen Computer mit so wenig Speicher zum Testen zur Verf&uuml;gung).
+Unter reinem DOS (ohne Win95/98 im Hintergrund) funktioniert Quat <i>nicht</i>,
+auch wenn eine solche Version mit DJGPP problemlos compiliert werden k&ouml;nnte.</li>
+</ul>
+
+Im &uuml;brigen ist der Source-Code von Quat verf&uuml;gbar, so da&szlig;
+man sich f&uuml;r jedes System, das ANSI-C compiliert, eine Textversion
+herstellen kann (ohne grafische Ausgabe, aber mit minimalem Speicherbedarf). Sinnvoll
+ist dies z.B. f&uuml;r UNIX-Systeme, bei denen ein GNU-C-Compiler meist
+schon im Betriebssystem integriert ist. (Mit dem systemeigenen Compiler d&uuml;rfte
+es aber auch funktionieren.) C++ wird nur f&uuml;r die Benutzeroberfl&auml;che
+ben&ouml;tigt.
+
+<h2>
+<a NAME="a13"></a>1.3 Bugs und Adressen, Mailing-Liste</h2>
+Falls Sie Verbesserungsvorschl&auml;ge haben, oder einen Bug berichten
+wollen, k&ouml;nnen Sie eine Email an mich
+(<a href="mailto:dirk.meyer@studserv.uni-stuttgart.de">dirk.meyer@studserv.uni-stuttgart.de</a>)
+schicken. Ich w&uuml;rde mich sehr &uuml;ber Feedback freuen. Falls Sie
+Lust haben und programmieren k&ouml;nnen, k&ouml;nnen Sie mir auch Soure-Code
+schicken. Ich werde ihn in zuk&uuml;nftigen Versionen einbauen. (Und nat&uuml;rlich
+Sie als Autor erw&auml;hnen!)
+<br>Mir schwebt dabei das gro&szlig;e Vorbild "Fractint" vor, vielleicht
+finden sich ja auch hier ein paar Enthusiasten!
+<br>Meine herk&ouml;mmliche Adresse ist:
+<br>Dirk Meyer
+<br>Marbacher Weg 29
+<br>D-71334 Waiblingen
+<br>Germany
+<br>Die neueste Version (und der Source-Code) von Quat sollte immer &uuml;ber
+<a href="http://www.physcip.uni-stuttgart.de/phy11733/">http://www.physcip.uni-stuttgart.de/phy11733/</a>
+zu beziehen sein.
+<br>Es gibt auch eine englischsprachige Mailing-Liste, in der sowohl k&uuml;nstlerische
+Aspekte wie auch technische und mathematische Themen diskutiert werden.
+Ein Archiv alter Nachrichten der Mailing-Liste ist einsehbar unter:
+<br><a href="http://groups.yahoo.com/group/quat/">http://groups.yahoo.com/group/quat/</a>
+<br>Um sich in die Liste einzutragen und die aktuellen Nachrichten zu erhalten,
+einfach eine Email an <a href="mailto:quat-subscribe@yahoogroups.com">quat-subscribe@yahoogroups.com</a>
+schicken.
+</body>
+</html>

@@ -1,0 +1,437 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Dirk Meyer">
+   <title>Quat: Online documentation</title>
+</head>
+<body>
+
+<h1>
+<a NAME="a3"></a>3. Operations</h1>
+
+<h2>
+<a NAME="a31"></a>3.1 Using the user interface version (Windows, X Window
+System)</h2>
+
+Starting Quat:
+
+<ul>
+<li>Win95/98/ME/XP/NT/2000: Quat is started by double-clicking on the Quat symbol in
+explorer</li>
+<li>X Window System: Start Quat in a terminal by cd-ing to the directory you unpacked Quat
+to and typing "<tt>quat</tt>" or by clicking on the corresponding icon
+in a file manager.<br>
+You can also pass the usual X arguments like "<tt>-geometry 200x160</tt>",
+or "<tt>-display foggy:0.0</tt>". You can give the name of a file (png
+or zpn), which will be opened on startup. But then the file name must be
+the first parameter.</li>
+</ul>
+
+Description of the menus:
+
+<p><b>"Image" menu:</b>
+
+<p><tt><b>Image | Open...</b></tt><br>
+Opens an image (PNG file), shows it and reads the parameters stored
+in it. Quat shows how much of the image is already calculated afterwards.<br>
+You may get the error message "PNG file has no QUAT chunk". This happens
+if you try to open a PNG written by another program. In this case Quat
+can't read the fractal parameters, and the image is of no use for it.
+
+<p><tt><b>Image | Close</b></tt>
+<br>Closes the image, but keeps the parameters in memory. If you want
+to change some parameters of an image and want to recalculate it, you must
+first close the image! After closing, you can change the parameters.
+
+<p><tt><b>Image | Save</b></tt>
+<br>Save the image (PNG file) using the name shown in the title bar. Often this
+is a name generated automatically with a number at the end.
+<br>All parameters needed for recalculation of the image are stored along
+with the image.
+
+<p><tt><b>Image | Save As...</b></tt>
+<br>Like "Image | Save", but uses a custom name for the image. You can
+enter the name in the dialog which opens after selecting this command.
+
+<p><tt><b>Image | Adjust Window</b></tt>
+<br>Sets the window size to the size of the image (as long as it fits on
+screen)
+
+<p><tt><b>Image | Exit</b></tt>
+<br>Exits from Quat.
+
+<p><b>"Calculation" menu:</b>
+
+<p><tt><b>Calculation | Start/Resume an image:</b></tt>
+<br>Starts a calculation of an image using the current parameters (set through
+the "Parameters" menu) or resumes a stopped one.
+<br>If you have a ZBuffer open (which is calculated completely),
+you can turn it into an image using
+this menu item. (See <a href="quat-us-2.html#a23">section 2.3</a>)
+<br>An image is a fractal object which is lighted and colored, as opposed
+to a ZBuffer.
+
+<p><tt><b>Calculation | Start/Resume a ZBuffer:</b></tt>
+<br>Starts a calculation of a ZBuffer using the current parameters (set through
+the "Parameters" menu) or resumes a stopped one.
+<br>A ZBuffer has the shape of the fractal object, but has no colors and
+is not lighted. Calculating a ZBuffer does most of the calculation, turning
+a ZBuffer into an image is relatively fast. The advantage is, that you
+can still change the parameters (colors, light) that don't affect the shape
+of the fractal and render an image in a short time. If you don't like the
+appearance of the object, simply close the image, which will return you
+to the ZBuffer. See <a href="quat-us-2.html#a23">section 2.3</a> for more information
+on ZBuffers.
+
+<p><tt><b>Calculation | Stop:</b></tt>
+<br>Stop the running calculation (for both an image and a ZBuffer). You
+can resume calculation, using the two menu points above.
+
+<p><b>"Parameters" menu:</b>
+
+<br><tt><b>Parameters | Reset:</b></tt>
+<br>Resets the parameters to their default values. If you calculate an
+image with these values, you will get a blue sphere.
+
+<p><tt><b>Parameters | Read from INI...:</b></tt>
+<br>Reads in the parameters for creating an image. After having selected
+an INI file, you are asked whether you want to start from default parameters.
+This is recommended if the INI file describes a whole image. If you want
+to read an INI file which only consists of color information (for example),
+you do <b>not</b> want to start from default parameters, of course.
+<br>The INI file may have been created by "Save As..." or with a text editor.
+An INI file holds data necessary to generate an image.
+
+<p><tt><b>Parameters | Read from PNG...:</b></tt>
+<br>All data necessary for image generation is stored in the image itself
+(in compliance with the PNG specification). This menu point reads the parameters
+from the image for re-generation or editing.
+
+<p><tt><b>Parameters | Save As...:</b></tt>
+<br>Writes the parameters to an INI file, which is a simple text file that
+can be edited with a text editor. You can use this option if you want to
+calculate the image with the text version of Quat. (Text versions use INI
+files to get the parameters they need.)
+<br>You can choose which groups of parameters to write: Object Data, View Data,
+Color Data and Other Data.
+
+<p><b>The editors (in which you can edit the parameters):</b>
+
+<p><tt><b>Parameters | Edit...:</b></tt>
+<br>The so-called "Parameter Editor" dialog opens, which looks as follows
+(shown here: X-Window-version, the tab "Object" is selected. The small black
+window is the Julia Preview window, which is freely movable.):
+<center>
+<p><img SRC="oe.png" ALT="Object Editor" NOSAVE height=382 width=593></center>
+
+<p>In this dialog you can specify all parameters the are used to calculate
+the image. Additionally, you can get a preview for the parameters entered
+currently.
+<br>Using the tabs, you can select which kind of parameters to change:
+
+<ul>
+<li>Object: The fractal parameters which are responsible for the shape of the
+object</li>
+<li>View: Parameters like the view point, zoom, lighting and 3d-stereo</li>
+<li>Color: The (true color!) palette of the image and the color formula, which
+relates the palette to the object.</li>
+<li>Intersection: Here you can cut away parts of the object (define intersection
+planes) to view the interior of the fractal.</li>
+<li>Other: All other parameters like resolution of the image, ambient light,
+anti-aliasing and Phong highlight</li>
+</ul>
+
+In analogy to the name "Parameter Editor" the Parameter Editor with selected
+"Object" tab is called "Object Editor", with activated "View" tab "View
+Editor", and so on. There are screenshots shown here of all editors.
+<br>Nevertheless which tab you select, there's always the Preview window,
+the view selectors ("from beside", "from above" and "from front") and the
+action buttons ("Reset", "Import", "Read" and "Write") accessible. These
+elements are explained in the following.
+
+<p>The fractal is calculated as it would look like for the currently chosen
+parameters in the Preview window. This is good for experimenting, because
+it is often difficult to predict the effect of changing a parameter.
+<br>The button "Calc" calculates the preview and shows it right of it. If
+the button "own" is active when you press "Calc" (active = yellow light),
+the currently entered parameters are used for the preview (of course, except
+resolution and anti-aliasing). If "own" is not active, a standardized view
+of the fractal is calculated. This can be useful if you, for example, have
+"lost your way", or by error selected black as the only color.
+<br>If there's entered a non-zero "interocular distance" in the View Editor,
+you can choose a stereo preview using the button "Stereo". It's slower,
+but three dimensionally. By the way, in that case the real image will be
+in stereo always.
+<br>The button "show" shows/hides the Julia Preview window.
+
+<p>Actually, the view selectors are an addition to the View Editor, but
+because there is not enough space, they've been placed in the common area
+of the Parameter Editor. For how to use them, see explanation of View Editor.
+
+<p>The action buttons correspond to the commands in the "Parameters" menu,
+so they allow to read an INI file, write the parameters (or some of them)
+to an INI file, to reset the parameters or to import them from a PNG file.
+These actions all refer to the Parameter Editor, so if you import parameters
+and leave the Editor by selecting "Cancel", the original parameters are
+restored.
+
+<p><a NAME="aObjectEditor"></a><b>The Object Editor</b>
+<br>In this dialog you can specify the fractal data of the object. This
+data determines the shape of the fractal. You can enter values for following
+keywords: <i><a href="quat-us-4.html#a41maxiter">Max.&nbsp;Iteration&nbsp;(maxiter)</a></i>,
+<i><a href="quat-us-4.html#a41lvalue">4th-dim.&nbsp;Intersection&nbsp;(lvalue)</a></i>,
+<i><a href="quat-us-4.html#a41bailout">Bailout</a></i>,
+<i><a href="quat-us-4.html#a41formula">Iteration&nbsp;Formula</a></i> and
+<i><a href="quat-us-4.html#a41c">c</a></i>.
+(See their description in Section <a href="quat-us-4.html#a41">4.1</a>).
+
+<p>If an <i>Iteration Formula</i> is selected which needs an additional
+parameter <i>p1</i>, a group of 4 value inputs is shown in which you can
+enter values for this parameter (the 1, i, j and k parts of the parameter).
+
+<p>You see a <b>Mandel Preview</b> which shows the Mandelbrot set (or,
+more exactly, two dimensional intersections of the four dimensional generalization
+of the Mandelbrot set). This set can be seen as a map for "Julia sets"
+(the objects being calculated by Quat). The red cross marks the selected
+point <i>c</i>. Every point <i>c</i> generates another Julia set. Points that lie
+in the Mandelbrot set (the black figure) lead to connected Julia sets,
+the other case they are split up.
+
+<p>You can click or drag with the mouse into the Mandelbrot Preview to
+move the red cross. The values for the first two parts of <i>c</i> are updated
+accordingly.
+<br>If it's necessary to update the Mandel Preview, it gets a red border.
+Then you can click the button "redraw". This is necessary, if, for example,
+one of the parameters <i>maxiter</i>, <i>bailout</i> or the last two parts of
+<i>c</i> has been changed.
+
+<p>The six buttons right of the Mandel Preview serve the navigation in the
+Mandelbrot Preview. You can move and zoom the section of the Mandelbrot set
+that is shown.
+<br>The button "up" moves the viewable section up, "down" moves it down.
+The button on the left, "&lt;", moves left, "&gt;" moves right. The two buttons
+in the middle zoom in "+" and out "-".
+
+<p><a NAME="aViewEditor"></a><b>The View Editor</b>
+<br>The Parameter Editor with selected View tab looks as follows (shown:
+Linux version)
+<center>
+<p><img SRC="ve.png" NOSAVE height=382 width=593></center>
+
+<p>Here is the place to define how the object should be viewed. A view
+plane (on which the fractal gets projected) is defined by the parameters
+<i><a href="quat-us-4.html#a41viewpoint">View&nbsp;Point</a></i>,
+<i><a href="quat-us-4.html#a41up">Up&nbsp;(Orientation)</a></i>,
+<i><a href="quat-us-4.html#a41move">Move</a></i>,
+<i><a href="quat-us-4.html#a41lxr">Length&nbsp;of&nbsp;View&nbsp;Plane's&nbsp;X-Axis</a></i>
+and <i><a href="quat-us-4.html#a41interocular">Interocular&nbsp;Distance</a></i>.
+The <i><a href="quat-us-4.html#a41light">Light&nbsp;Source</a></i> is also defined.
+(See descriptions in Section <a href="quat-us-4.html#a41">4.1</a>).
+
+<p>Below the edit control for "interocular distance" there is an angle
+shown. You can choose whether to keep the distance or the angle constant
+while changing
+the viewpoint. (By activating the corresponding checkbox.)
+The angle should be between 5 and 8 degrees if you want
+to create a 3D stereo image pair. If interocular is zero (and thus the
+angle is also zero), a 2D projection of the fractal object is generated.
+
+<p>Because it would be boring if you could only enter values you could
+also enter in a text editor (INI file), there are three views of the <i>view
+point</i> in the Parameter Editor. (You look at it "from above", "from beside"
+and "from front".) The black arrows are the axes in Quaternion space (or
+the three-dimensional sub-space defined by <i>4th-dim.&nbsp;Intersection</i>
+[Object Editor].) "1"
+is the usual real axis, "i" the imaginary axis (same as with complex numbers;
+These two are used by every 2D fractal program) and "j" points into the
+third dimension (there is no "k" axis as the value for k is constant
+[=<i>4th-dim.&nbsp;Intersection</i>]).
+<br>The arrows point in the direction of positive values, the length of
+an arrows corresponds to the length 2 in Q-space.
+<br>The blue rectangle marks the <i>view point</i>, the green rectangle shows
+the size of the view plane. You can click into the blue rectangle and drag
+it to a position of your choice to change the view point. Some positions
+are not defined (if the view point is (0,0,0) or if the <i>up</i> vector is
+perpendicular to the view plane). In this case the controls which are responsible
+for it are highlighted red.
+<br>The small cyan circle is the origin of the view coordinate system (=
+the upper left point on screen)
+
+<p><a NAME="aColorEditor"></a><b>The Color Editor:</b>
+<br>Here's a screenshot of the Parameter Editor with selected Color tab
+(Linux version):
+<center>
+<p><img SRC="ce.png" NOSAVE height=382 width=593></center>
+
+<p>If you want to specify colors (or better, color ranges), do it here.
+At the top you see a scroll bar which you can use to select the color range
+you want to edit. You can either click directly on the color bar to edit,
+or use the arrow buttons next to it.
+
+<p>A color range is a part of the palette that begins with a color (Color 1)
+and fades smoothly into another color (Color 2).
+
+<p>Below the color bar, in the left column, there are two buttons, "Add"
+and "Del". "Add"
+adds a color range before the current position in the palette, "Del" deletes
+the active color range. There has to be at least one color range, and not
+more than 30.
+For each color range you can enter values for the start color ("Color
+1"), the end color ("Color 2") and a weighting for the color range.
+The weighting defines how much of the palette is made of the selected color
+range. This value must not be zero. (See also section
+<a href="quat-us-4.html#a42">4.2</a>).
+
+<p>If you click the button "Sel" next to each color, you get a color selection
+dialog. If you don't want to create a color range but only a color, set
+both colors (Color 1 and Color 2) of the color range to the same values.
+
+<p>"Copy" copies the corresponding color into the clipboard (not into the
+global one of Windows/X, but into the rectangle in the upper right corner).
+"Paste" replaces the corresponding color with the color in the clipboard.
+
+<p>Below you can enter the <i>Color&nbsp;Formula</i> either directly or by choosing
+one of the predefined formulas. (Also see key word
+"<a href="quat-us-4.html#a44colorscheme">colorscheme</a>")<br>
+A <i>Color&nbsp;Formula</i> establishes the connection between certain parameters
+of the fractal (for example, the QSpace coordinates of the object point
+"x", "y" and "z") and the color palette as displayed in the color bar.<br>
+The left side of the color bar corresponds to "0", the right side to "1".
+
+<table width="95%" bgcolor="#ffff30" cellspacing=0><tr><td bgcolor="#ffff30">
+For example, if you start from the default blue sphere (Choose "Reset")
+and simply enter "x"
+as <i>Color&nbsp;Formula</i>, the palette gets "mapped" from left to right
+onto the sphere. (Press Calc to generate a Preview)<br>
+If you don't like that the palette starts over in the middle
+of the sphere, try "x+0.5" as the <i>Color Formula</i>. Now (after calculating
+the Preview) all the colors
+are shifted to the left. That's not quite what we wanted, we have to stretch
+the mapping a bit:<br>
+Now try "0.8*x+0.5". The area in the middle that we want
+to cover the whole sphere is bigger, but not big enough. After some experimenting
+with the factor before the "x", we find that "0.5*x+0.5" does what we
+want. It maps the entire palette from left to right onto the sphere.<br>
+You can then change the palette, and see that the colors are independant of
+their "mapping" and vice-versa.<br>
+And you can try the same with "y" or "x+y" as a starting point.
+</td></tr></table>
+
+<p><a NAME="aIntersectionEditor"></a><b>The Intersection Editor:</b>
+<br>A screenshot of the Intersection Editor (Linux version):
+
+<center>
+<p><img SRC="ie.png" NOSAVE height=382 width=593></center>
+
+<p>Is used to define intersection planes. The scroll bar on the left has
+the same purpose as the one in the "Color Editor" described above: to select
+the object to edit. The buttons "Add" and "Del" also work like above, one
+adds a new plane, the other deletes the selected plane. There may be between
+0 and 20 intersection planes. A plane is defined by its normal vector (pointing
+into the half-space in that the object should disappear) which must not
+be zero, and a point on that plane. (See also section
+<a href="quat-us-4.html#a43">4.3</a>)
+
+<p><a NAME="aOtherEditor"></a><b>"Other Editor":</b>
+<center>
+<p><img SRC="ote.png" NOSAVE height=382 width=593></center>
+
+<p>Other Parameters are
+<i><a href="quat-us-4.html#a44resolution">Image&nbsp;Resolution</a></i>,
+<i><a href="quat-us-4.html#a41phong">Phong&nbsp;Highlight</a></i>,
+<i><a href="quat-us-4.html#a41ambient">Ambient&nbsp;Light</a></i> and
+<i><a href="quat-us-4.html#a41antialiasing">Antialiasing</a></i>.
+See section
+<a href="quat-us-4.html#a44">4.4</a> for the first one, and section
+<a href="quat-us-4.html#a41">4.1</a>
+for the last three.
+<br>In the Dialog there are five buttons (Resolution shortcuts). If you
+hit one of them the resolution is set accordingly to the button hit.
+
+<p><b>ZBuffer menu:</b>
+<p>To learn more about ZBuffers, please read
+<a href="quat-us-2.html#a23">section 2.3</a>.
+The commands in this menu are for opening, saving and closing
+a ZBuffer. They have the same meaning as the commands for images, except
+that they refer to the ZBuffer, of course.
+
+<p><b>Help menu:</b>
+
+<p><tt><b>Help | Manual</b></tt>
+<br>Shows the documentation you are reading at the moment.
+
+<p><tt><b>Help | About</b></tt>
+<br>Shows information about Quat.
+
+<h2>
+<a NAME="a33"></a>3.2 Using the text only version</h2>
+(Not applicable to versions with user interface.)
+<br>Quat understands following parameters, which are given in the command-line:
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=0 width=600>
+<tr>
+<td width=300>-i &lt;ini file>&nbsp;</td>
+
+<td>calculates an image from an ini file. (Ini files are used for feeding
+Quat with the values it needs to start a calculation)</td>
+</tr>
+
+<tr>
+<td>-z &lt;ini file></td>
+
+<td>calculates a Zbuffer (suffix ZPN) from an ini file.&nbsp;</td>
+</tr>
+
+<tr>
+<td>-i &lt;zpn file></td>
+
+<td>generates an image by using a precalculated Z buffer. (This of course
+is much faster than calculate from an ini file.)</td>
+</tr>
+
+<tr>
+<td>-i &lt;zpn file> &lt;ini file>&nbsp;</td>
+
+<td>generates an image from a Z buffer, but replaces certain parameters
+(coloring e.g.) with the values given in the ini file.</td>
+</tr>
+
+<tr>
+<td>-p &lt;png or zpn file></td>
+
+<td>reads the parameters that have been used to calculate the image/zbuffer
+and writes them to an ini file.</td>
+</tr>
+
+<tr>
+<td>-c &lt;png or zpn file></td>
+
+<td>continues calculation of an unfinished image. The ini file that has
+been used to generate the image is <b>not</b> needed.</td>
+</tr>
+
+<tr>
+<td>-h</td>
+
+<td>shows short information.</td>
+</tr>
+</table>
+
+<p>A call looks like this:
+<p><tt>quat -i test.ini</tt>
+<p>A calculation is stopped by
+<ul>
+<li>
+DOS version: pressing a key</li>
+
+<li>
+other text versions: (turning off the computer). It isn't possible
+to terminate
+the text version since I don't know how to access the keyboard in
+a way
+that works on all system platforms (ANSI C)... :-(</li>
+</ul>
+
+</body>
+</html>

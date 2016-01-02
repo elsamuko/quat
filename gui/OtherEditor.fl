@@ -1,0 +1,218 @@
+# data file for the Fltk User Interface Designer (fluid)
+version 1.0100 
+header_name {.h} 
+code_name {.cxx} 
+gridx 5 
+gridy 5 
+snap 3
+decl {// Quat - A 3D fractal generation program
+// Copyright (C) 1997-2000 Dirk Meyer
+// (email: dirk.meyer@studserv.uni-stuttgart.de)
+// mail:  Dirk Meyer
+//        Marbacher Weg 29
+//        D-71334 Waiblingen
+//        Germany
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+
+decl {\#include <cassert>} {} 
+
+decl {//\#include <cstring>} {} 
+
+decl {\#include "ChildWindow.h"} {} 
+
+decl {class ChildWindow;} {public
+} 
+
+decl {\#include "ViewSelector.h"} {} 
+
+decl {class ViewSelector;} {public
+} 
+
+decl {\#include "common.h"} {public
+} 
+
+class OtherEditor {open : {public Fl_Group}
+} {
+  Function {OtherEditor(int X, int Y, int W, int H, const char *label) : Fl_Group(X,Y,W,H,label)} {open
+  } {
+    Fl_Window win {open
+      xywh {318 319 416 216}
+      class ChildWindow noborder visible
+    } {
+      Fl_Box {} {
+        label {Image Resolution}
+        xywh {10 5 330 70} box ENGRAVED_FRAME labelsize 12 align 21
+      }
+      Fl_Group group_res {
+        xywh {10 5 330 70}
+      } {
+        Fl_Value_Input xres {
+          label {X Resolution}
+          callback {view.xres = static_cast<int>(o->value());
+for (int i=0; i<3; i++) vs[i]->xres(view.xres);
+checkValidity();}
+          tooltip {Horizontal size of the image.} xywh {20 40 90 20} labelsize 12 align 5 minimum 1 maximum 32767 step 1 textsize 12
+        }
+        Fl_Value_Input yres {
+          label {Y Resolution}
+          callback {view.yres = static_cast<int>(o->value());
+for (int i=0; i<3; i++) vs[i]->yres(view.yres);
+checkValidity();}
+          tooltip {Vertical size of the image.} xywh {130 40 90 20} labelsize 12 align 5 minimum 1 maximum 32767 step 1 textsize 12
+        }
+        Fl_Value_Input zres {
+          label {Z Resolution}
+          callback {view.zres = static_cast<int>(o->value());
+checkValidity();}
+          tooltip {Describes how exact the object is scanned.} xywh {240 40 90 20} labelsize 12 align 5 minimum 1 maximum 32767 step 1 textsize 12
+        }
+      }
+      Fl_Box {} {
+        label {Phong Highlight}
+        xywh {10 85 240 70} box ENGRAVED_FRAME labelsize 12 align 21
+      }
+      Fl_Value_Input phongmax {
+        label {max.}
+        callback {view.phongmax = o->value();
+checkValidity();}
+        tooltip {Maximum brightness of the highlight.} xywh {20 125 100 20} labelsize 12 align 5 textsize 12
+      }
+      Fl_Value_Input phongsharp {
+        label sharp
+        callback {view.phongsharp = o->value();
+checkValidity();} selected
+        tooltip {Describes how fast the highlight will fade into usual light.} xywh {140 125 100 20} labelsize 12 align 5 maximum 1e+20 textsize 12
+      }
+      Fl_Value_Input ambient {
+        label {Ambient Light}
+        callback {view.ambient = o->value();
+checkValidity();}
+        tooltip {The brightness that is even in shadowed parts of the object.} xywh {20 180 100 20} labelsize 12 align 5 maximum 1e+20 textsize 12
+      }
+      Fl_Value_Input antialiasing {
+        label Antialiasing
+        callback {view.antialiasing = static_cast<int>(o->value());
+checkValidity();}
+        tooltip {Subdivide pixels n*n times. Higher values result in smoother
+images and longer calculation time.} xywh {140 180 90 20} labelsize 12 align 5 minimum 1 maximum 5 step 1 value 1 textsize 12
+      }
+      Fl_Box {} {
+        label {Resolution shortcuts}
+        xywh {280 85 120 20} labelsize 12 align 21
+      }
+      Fl_Group group_buttons {
+        tooltip {Clicking on one of those buttons will set a predefined resolution.} xywh {280 85 110 115}
+      } {
+        Fl_Button res1 {
+          label {DIN A4 (100 dpi)}
+          callback {xres->value(1170); yres->value(828);
+xres->do_callback(); yres->do_callback();}
+          tooltip {A whole sheet of paper printed in 100 dpi.} xywh {280 100 110 20} labelsize 12
+        }
+        Fl_Button res1b {
+          label {DIN A4 (300 dpi)}
+          callback {xres->value(3511); yres->value(2483);
+xres->do_callback(); yres->do_callback();}
+          tooltip {A whole sheet of paper printed in 300 dpi.} xywh {280 120 110 20} labelsize 12
+        }
+        Fl_Button res2 {
+          label 160x120x120
+          callback {xres->value(160); yres->value(120); zres->value(120);
+xres->do_callback(); yres->do_callback(); zres->do_callback();}
+          tooltip {A small image for testing.} xywh {280 140 110 20} labelsize 12
+        }
+        Fl_Button res3 {
+          label 320x240x240
+          callback {xres->value(320); yres->value(240); zres->value(240);
+xres->do_callback(); yres->do_callback(); zres->do_callback();}
+          tooltip {Medium sized image.} xywh {280 160 110 20} labelsize 12
+        }
+        Fl_Button res4 {
+          label 640x480x480
+          callback {xres->value(640); yres->value(480); zres->value(480);
+xres->do_callback(); yres->do_callback(); zres->do_callback();}
+          tooltip {Common resolution.} xywh {280 180 110 20} labelsize 12
+        }
+      }
+    }
+    code {//memset(&view, 0, sizeof(view));
+end(); // VERY IMPORTANT!
+win->position(X+2, Y+2);
+// DON'T delete win in destructor (or elsewhere) 
+// it's automatically deleted by Fl_Group} {}
+  }
+  Function {setSelectors(ViewSelector *vsa, ViewSelector *vsb, ViewSelector *vsf)} {return_type void
+  } {
+    code {vs[0] = vsa; vs[1] = vsb; vs[2] = vsf;} {}
+  }
+  Function {set(const view_struct& v)} {return_type void
+  } {
+    code {for (int i=0; i<3; i++) assert(vs[i] != 0);
+view = v;
+xres->value(v.xres); yres->value(v.yres); zres->value(v.zres);
+phongmax->value(v.phongmax); phongsharp->value(v.phongsharp);
+ambient->value(v.ambient); antialiasing->value(v.antialiasing);
+
+// Callbacks & checkValidity
+xres->do_callback();
+yres->do_callback();
+
+return;} {}
+  }
+  Function {get(view_struct& v)} {return_type void
+  } {
+    code {// Don't do v=view, because there are other members
+// which aren't in the ViewEditor
+
+v.xres = static_cast<int>(view.xres); 
+v.yres = static_cast<int>(view.yres); 
+v.zres = static_cast<int>(view.zres);
+v.phongmax = view.phongmax; v.phongsharp = view.phongsharp;
+v.ambient = view.ambient; 
+v.antialiasing = static_cast<int>(view.antialiasing);
+
+return;} {}
+  }
+  Function {checkValidity()} {return_type void
+  } {
+    code {const Fl_Color okc = FL_WHITE;
+const Fl_Color ndefc = FL_RED;
+Fl_Color xres_c = okc, yres_c = okc, zres_c = okc,
+	pm_c = okc, ps_c = okc, amb_c = okc, ant_c = okc;
+
+if (view.xres < 1 || view.xres > 32767) xres_c = ndefc;
+if (view.yres < 1 || view.yres > 32767) yres_c = ndefc;
+if (view.zres < 1) zres_c = ndefc;
+
+if (view.phongmax < 0.0 || view.phongmax > 1.0) pm_c = ndefc;
+if (view.phongsharp < 0.0) ps_c = ndefc;
+
+if (view.ambient < 0.0 || view.ambient >1.0) amb_c = ndefc;
+if (view.antialiasing < 1 || view.antialiasing > 5) ant_c = ndefc;
+
+if (xres->color() != xres_c) { xres->color(xres_c); xres->redraw(); }
+if (yres->color() != yres_c) { yres->color(yres_c); yres->redraw(); }
+if (zres->color() != zres_c) { zres->color(zres_c); zres->redraw(); }
+if (phongmax->color() != pm_c) { phongmax->color(pm_c); phongmax->redraw(); }
+if (phongsharp->color() != ps_c) { phongsharp->color(ps_c); phongsharp->redraw(); }
+if (ambient->color() != amb_c) { ambient->color(amb_c); ambient->redraw(); }
+if (antialiasing->color() != ant_c) { antialiasing->color(ant_c); antialiasing->redraw(); }
+
+return;} {}
+  }
+  decl {view_struct view;} {}
+  decl {ViewSelector *vs[3];} {}
+} 

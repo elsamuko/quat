@@ -1,0 +1,28 @@
+# This is a sample file for Quat 0.92
+# It describes a nice 3d fractal julia set
+
+# These are the values for the constant c
+c 0.9007 -0.26795 0.3 -0.12
+
+# other stuff
+bailout 16
+maxiter 12
+lvalue 0.1
+formula 0
+
+# the viewpoint
+viewpoint 0.64012527982 0.22574272673 1.10872893327
+
+# where's up?
+up 0 -1 0
+
+# now we need some light
+light -2 -20 -20
+
+# other stuff
+move 0.2 0
+LXR 2.7
+
+# some raytracing stuff
+phong 1 30
+ambient 0.04

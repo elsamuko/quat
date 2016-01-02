@@ -1,0 +1,28 @@
+# This is a sample ini-file for Quat.
+# It describes a nice 3d fractal julia set
+
+# These are the values for the constant c
+c 0.845 -0.5 -0.113 -0.05
+
+# other stuff
+bailout 64
+maxiter 12
+lvalue 0
+formula 0
+
+# the viewpoint
+viewpoint 0 0 -2
+
+# where's up?
+up 0 1 0
+
+# now we need some light
+light -4.8 -12 -12
+
+# other stuff
+move 0 0
+LXR 3.1
+
+# some raytracing stuff
+phong 0.6 30
+ambient 0.04

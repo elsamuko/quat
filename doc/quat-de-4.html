@@ -1,0 +1,335 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Dirk Meyer">
+   <title>Quat: Online-Dokumentation</title>
+</head>
+<body>
+
+<h1>
+<a NAME="a4"></a>4. Aufbau der Initialisierungsdatei(en)</h1>
+
+<p>Wenn Sie eine Version mit Benutzeroberfl&auml;che (ab jetzt VmB angek&uuml;rzt)
+benutzen, k&ouml;nnen Sie diesen Abschnitt 4 &uuml;berspringen, doch die
+Unterabschnitte 4.1 - 4.4 sind wieder wichtig, da sie die Beschreibung
+der Parameter enthalten, die in den Editoren eingestellt werden.
+
+<p>In Textdateien werden die zum Beginnen einer Berechnung notwendigen
+Parameter angegeben. (Wie schon mehrfach gesagt: Ist die Berechnung ersteinmal
+begonnen, sind sie nicht mehr notwendig.) Ihr Aufbau ist relativ simpel:
+<br>Das Doppelkreuz (<tt>#</tt>) dient als Kommentarzeichen. Alles was in der
+selben Zeile hinter dem Doppelkreuz steht, wird ignoriert. Ansonsten beginnt
+eine Zeile mit einem Schl&uuml;sselwort, dem ein oder mehrere Parameter
+folgen.
+
+<p>Die Parameter und das Schl&uuml;sselwort m&uuml;ssen in ein und
+derselben Zeile stehen und durch Leerzeichen voneinander getrennt sein.
+Es gibt folgende Arten von Parametern:
+<br>int: Ganzzahlen (wie 1, -1, 0, 2, 3, 1001, ...)
+<br>float: Flie&szlig;kommazahlen (wie -0.2353, 21.21324, 0.001, ...)
+<br>strings: Zeichenketten
+<br>Wird ein Schl&uuml;sselwort nicht verwendet, so wird ein Vorgabe-Wert
+eingesetzt. Dem Programm sind einige Beispiel-Dateien beigef&uuml;gt, sie
+mal anzusehen und zu berechnen lohnt sich, da vieles beim Anwenden direkt
+klar wird, was hier umst&auml;ndlich beschrieben ist.
+
+<h2>
+<a NAME="a41"></a>4.1 Schl&uuml;sselw&ouml;rter zur Definition von fraktalem
+Objekt und der Ansicht</h2>
+
+<ul>
+<li>
+<a NAME="a41c"></a><i>c</i>
+<br>4 float-Parameter folgen. VmB: im
+<a href="quat-de-3.html#aObjectEditor">Object Editor</a>.
+<br>Die Zahlen geben Real- und 3 Imagin&auml;rteile der Konstanten "c"
+in der Formel <nobr>"x<sub>n+1</sub> = x<sub>n</sub><sup>2</sup> - c"</nobr> (oder der
+anderen, die unterst&uuml;tzt wird) an. Die 4 floats sind 1-, i-, j- und
+k-Teil der hyperkomplexen Zahl.
+<br>Dieser Parameter entscheidet &uuml;ber die Form und Struktur des Fraktals.
+Um gute Ergebnisse zu erzielen, sollten sich diese 4 Werte um den Nullpunkt
+bewegen (Nullpunkt im 4D-Raum!), also alle etwa im Bereich von -2 bis +2
+sein.
+<br>Aber: Herumexperimentieren lohnt sich (ist auch der Witz dieses Programms)!</li>
+
+<li><a NAME="a41bailout"></a><i>bailout</i>
+<br>ein float-Parameter folgt. VmB: im
+<a href="quat-de-3.html#aObjectEditor">Object Editor</a>.
+<br>Hier wird derjenige float-Wert angegeben, bei dessen &Uuml;berschreitung
+die Iterationsfolge als "gegen unendlich gehend" angesehen und die Berechnung
+des Punktes beendet wird.
+<br>Entspricht dem Parameter gleichen Namens des Programms "Fractint".</li>
+
+<li><a NAME="a41maxiter"></a><i>maxiter</i>
+<br>ein int-Parameter folgt. VmB: im
+<a href="quat-de-3.html#aObjectEditor">Object Editor</a>.
+<br>Ist die maximale Anzahl der Iterationen, die durchgef&uuml;hrt wird.
+<br>Wenn nach dieser Anzahl der Wert <i>bailout</i> (s.o.) nicht &uuml;berschritten
+worden ist, so wird die Iterationsfolge als "gegen Null gehend oder periodisch"
+angesehen und geh&ouml;rt somit zur Julia-Menge (also zum Objekt).
+<br>Dieser Wert kommt in jedem Fraktalprogramm unter &auml;hnlichem Namen
+vor. Im Gegensatz zu 2D-Fraktalprogrammen sollte dieser Wert bei Quat nicht
+allzu hoch gew&auml;hlt werden (kleiner als 100): Dieser Wert erh&ouml;ht
+im Prinzip den Detailreichtum des Bildes, was im 2D erw&uuml;nscht, im
+3D aber unsch&ouml;n ist, da die Oberfl&auml;chen der Objekte im Extremfall
+unendlich zerkl&uuml;ftet werden.</li>
+
+<li><a NAME="a41lvalue"></a><i>lvalue</i>
+<br>ein float-Parameter folgt. VmB: im
+<a href="quat-de-3.html#aObjectEditor">Object Editor</a>.
+<br>Der Wert (f&uuml;r die 4. Komponente eines Punktes im Raum), der die
+4. Dimension repr&auml;sentiert. Als Iterations-Startwert x<sub>0</sub>
+wird der Punkt im Raum genommen, der berechnet werden soll. Damit hat man
+erst 3 Komponenten. Die 4. Komponente wird auf den Wert <i>lvalue</i>
+gesetzt.</li>
+
+<li><a NAME="a41formula"></a><i>formula</i>
+<br>ein int-Parameter folgt. VmB: im
+<a href="quat-de-3.html#aObjectEditor">Object Editor</a>.
+<br>Bestimmt, nach welcher Iterationsformel iteriert werden soll. Hier
+sind die Werte "0" bis "4" zul&auml;ssig, die f&uuml;r folgende Formeln
+stehen:
+<table BORDER CELLSPACING=0 CELLPADDING=0 >
+<tr>
+<td>0&nbsp;</td>
+
+<td>Classical Julia&nbsp;&nbsp;</td>
+
+<td>x<sub>n+1</sub> = x<sub>n</sub><sup>2 </sup>- c</td>
+</tr>
+
+<tr>
+<td>1&nbsp;</td>
+
+<td>Lambda Julia</td>
+
+<td>x<sub><font size=-1>n+1</font></sub> = cx<sub><font size=-1>n</font></sub>(1-x<sub><font size=-1>n</font></sub>)</td>
+</tr>
+
+<tr><td>2&nbsp;</td><td>&nbsp;</td>
+<td>x<sub>n+1</sub> = x<sub>n</sub>*ln(x<sub>n</sub>) - c</td></tr>
+
+<tr><td>3&nbsp;</td><td>Cubic Julia</td>
+<td>x<sub>n+1</sub> = x<sub>n</sub><sup>3</sup> - c</td></tr>
+
+<tr><td>4&nbsp;</td><td>&nbsp;</td>
+<td>x<sub>n+1</sub> = x<sub>n</sub><sup>p1</sup> - c</td></tr>
+
+</table></li>
+
+<li><a NAME="a41p"></a><i>p1</i>, <i>p2</i>, <i>p3</i> und <i>p4</i>
+<br>vier float-Parameter folgen jeweils. VmB: im
+<a href="quat-de-3.html#aObjectEditor">Object Editor</a>
+(nur wenn sinnvoll).
+<br>p1-p4 sind weitere Parameter f&uuml;r die Iterations-Formel.
+Bislang wird nur <i>p1</i> ben&ouml;tigt, und zwar gibt <i>p1</i> beispielsweise
+in der 5. Iterationsformel (x^p1-c) den Exponenten an. Die 4 Werte
+stellen jeweils die 4 Komponenten eines Quaternions dar.</li>
+
+<li><a NAME="a41viewpoint"></a><i>viewpoint</i>
+<br>drei float-Parameter folgen. VmB: im
+<a href="quat-de-3.html#aViewEditor">View Editor</a>.
+<br>"Viewpoint" ist ein Vektor im Q-Raum. Er kennzeichnet den Punkt im
+Q-Raum, der das Zentrum der Bildebene ist (von dem aus also das Objekt
+betrachtet wird). Siehe auch <a href="quat-de-2.html#a22">Abschnitt 2.2</a>.
+</li>
+
+<li><a NAME="a41up"></a><i>up</i>
+<br>drei float-Parameter folgen. VmB: im
+<a href="quat-de-3.html#aViewEditor">View Editor</a>.
+<br>Gibt die Richtung im Raum an, wo "oben" sein soll. Dieser Vektor darf
+nicht senkrecht zur Bildebene stehen! Siehe auch <a href="quat-de-2.html#a22">Abschnitt
+2.2</a>.</li>
+
+<li><a NAME="a41light"></a><i>light</i>
+<br>drei float-Parameter folgen. VmB: im
+<a href="quat-de-3.html#aViewEditor">View Editor</a>.
+<br>Ist ein Vektor im Bildkoordinatensystem und gibt die Position der Lichtquelle
+relativ zur Position des Beobachters (<i>viewpoint</i>) an, gemessen
+in Einheiten des Bildkoordinatensystems.</li>
+
+<li><a NAME="a41lxr"></a><i>lxr</i>
+<br>1 float-Parameter folgt. VmB: im
+<a href="quat-de-3.html#aViewEditor">View Editor</a>.
+<br>Gibt die L&auml;nge des "Bildschirms" auf der Bildebene im Q-Raum an.
+Bestimmt so die Gr&ouml;&szlig;e des Sichtfensters/Objekts. Siehe auch
+<a href="quat-de-2.html#a22">Abschnitt 2.2</a>.</li>
+
+<li><a NAME="a41move"></a><i>move</i>
+<br>2 float-Parameter folgen. VmB: im
+<a href="quat-de-3.html#aViewEditor">View Editor</a>.
+<br>Hier wird angegeben, wie die Bildebene verschoben werden soll (in ihren
+eigenen Koordinatenrichtungen x und y). Siehe auch
+<a href="quat-de-2.html#a22">Abschnitt 2.2</a>.</li>
+
+<li><a NAME="a41interocular"></a><i>interocular</i>
+<br>1 float-Parameter folgt. VmB: im
+<a href="quat-de-3.html#aViewEditor">View Editor</a>.
+<br>Wenn dieser Wert Null ist, wird eine 2D-Projektion des fraktalen Objekts
+generiert. Wenn er auf einen Wert ungleich Null gesetzt wird, werden zwei
+verschiedene 2D-Projektionen berechnet, eine f&uuml;r das linke Auge (die
+rechte) und eine f&uuml;r das rechte Auge (die linke). Wenn Sie wissen,
+wie man diese Bilder zu einem einzigen verschmelzen kann, k&ouml;nnen Sie
+das Objekt echt dreidimensional sehen! Eine gro&szlig;artige Erfahrung!
+Sehen Sie nach im <a href="quat-de-5.html#a53">Anhang 5.3</a> ("Kreuzblick"), dort steht
+eine Erkl&auml;rung, wie die Bilder verschmolzen werden k&ouml;nnen.
+<br>Der Wert ist die Entfernung, die der Viewpoint f&uuml;r das linke von
+dem f&uuml;r das rechte Auge hat (im Q-Raum). Er sollte kleiner als <i>lxr</i>
+sein.</li>
+
+<li><a NAME="a41phong"></a><i>phong</i>
+<br>2 float-Parameter folgen. VmB: im
+<a href="quat-de-3.html#aOtherEditor">Other Editor</a>.
+<br>Die erste Zahl gibt die maximale Intensit&auml;t des Phong-Highlights
+an (von 0 bis 1), der zweite, wie scharf das Phong-Highlight sein soll
+(also wie schnell sich die Helligkeit der normalen Helligkeit ohne Highlight
+ann&auml;hert.) (von 0 bis unendlich)
+<br>Ein "Phong-Highlight" ist ein greller Lichtreflex, wie er z.B. auf
+einer Billardkugel beobachtet werden kann.</li>
+
+<li><a NAME="a41ambient"></a><i>ambient</i>
+<br>1 float-Parameter folgt. VmB: im
+<a href="quat-de-3.html#aOtherEditor">Other Editor</a>.
+<br>Gibt an, wie hell das Umgebungslicht sein soll. Wert zwischen 0 und
+1.</li>
+
+<li><a NAME="a41antialiasing"></a><i>antialiasing</i>
+<br>1 int-Parameter folgt. VmB: im
+<a href="quat-de-3.html#aOtherEditor">Other Editor</a>.
+<br>Um st&ouml;rende Moire-Effekte (regelm&auml;&szlig;ige Muster schwarzer
+Punkte auf den Objekten) zu verhindern, werden anstelle eines Pixels mehrere
+Zwischenpunkte berechnet und von diesen der Mittelwert der Helligkeit berechnet.
+Der Parameter hinter diesem Schl&uuml;sselwort gibt an, wieviele Zwischenpunkte
+berechnet werden. Bei "<tt>antialiasing 2</tt>" z.B. wird ein Pixel durch
+ein 2x2 Rechteck ersetzt, also 4 Punkte berechnet, deren mittlerer Helligkeitswert
+die Helligkeit des Pixels bestimmt. Nat&uuml;rlich verlangsamt dies die
+Berechnung um den Faktor 4 !
+<br>Wert mu&szlig; zwischen 1 und 5 einschlie&szlig;lich liegen.</li>
+</ul>
+
+<h2>
+<a NAME="a42"></a>4.2 Schl&uuml;sselw&ouml;rter zur Definition von Farben</h2>
+
+<p>Eine Farbe bei Quat wird repr&auml;sentiert durch ein Red-Green-Blue-Tripel,
+wobei Red, Green und Blue Werte von 0.0 bis 1.0 annehmen k&ouml;nnen.
+
+<p>In Verbindung mit anderen Farben (also in einer Palette) ben&ouml;tigt
+jede Farbe noch eine Art Gewichtung, die bestimmt, welchen Anteil an der
+Palette diese Farbe ausmacht. Gleiches gilt f&uuml;r einen Farbverlauf.
+Die Gewichtungen aller Farben/Verl&auml;ufe werden von Quat summiert, um
+festzulegen, was 100% entspricht.
+
+<p>Es k&ouml;nnen mehrere Farben und Farbverl&auml;ufe definiert werden,
+die zusammen die Palette ausmachen. Die Farbe, die als erstes angegeben
+wird, entspricht dem Wert "0.0", die letzte Farbe dem Wert "1.0". Das wird
+sp&auml;ter wichtig werden, wenn es darum geht, wie man &uuml;ber eine
+mathematische Formel eine Farbe ansteuert.
+<br>Die Schl&uuml;sselw&ouml;rter:
+
+<ul>
+<li><i>color</i>
+<br>4 float-Parameter folgen. VmB: indirekt im
+<a href="quat-de-3.html#aColorEditor">Color Editor</a>.
+(Setzen beider Farben eines Farbverlaufs auf die gleichen Werte).
+<br>Die erste Zahl gibt die Gewichtung der Farbe an (bedeutungslos, wenn
+die gesamte Palette aus nur einer Farbe besteht) und DARF NICHT NULL sein!
+Die anderen 3 die Intensit&auml;t von Rot, Gr&uuml;n und Blau (in dieser
+Reihenfolge) als Werte zwischen 0.0 (keine Intensit&auml;t) und 1.0 (maximale
+Intensit&auml;t)</li>
+
+<li><i>colorrange</i>
+<br>7 float-Parameter folgen. VmB: im
+<a href="quat-de-3.html#aColorEditor">Color Editor</a>.
+<br>Die 1. Zahl gibt die Gewichtung an (siehe "<tt>color</tt>"), die n&auml;chsten
+3 die Farbe, bei der der Farbverlauf starten soll, die letzten 3 die Farbe,
+bei der der Farbverlauf enden soll.</li>
+</ul>
+
+<h2>
+<a NAME="a43"></a>4.3 Schl&uuml;sselw&ouml;rter zur Definition von Schnittobjekten</h2>
+Es k&ouml;nnen Objekte (bis jetzt nur Ebenen) definiert werden, die mit
+dem fraktalen Objekt geschnitten werden.
+<br>Schl&uuml;sselw&ouml;rter:
+
+<ul>
+<li><i>plane</i>
+<br>6 float-Parameter folgen. VmB: im
+<a href="quat-de-3.html#aIntersectionEditor">Intersection Editor</a>.
+<br>Definiert eine Ebene, die den Raum in 2 Halbr&auml;ume unterteilt.
+Die ersten 3 Parameter geben den Normalenvektor der Ebene an, die letzten
+3 den Aufpunkt der Ebene. Der Normalenvektor zeigt in denjenigen Halbraum,
+der vom Fraktal weggeschnitten werden soll.</li>
+</ul>
+
+<h2>
+<a NAME="a44"></a>4.4 sonstige Schl&uuml;sselw&ouml;rter</h2>
+
+<ul>
+<li><i>include</i>
+<br>F&uuml;gt eine andere Textdatei ein. Das Resultat ist genauso, wie
+wenn die Angaben, die in der eingef&uuml;gten Datei stehen, direkt dort
+stehen w&uuml;rden, wo <i>include</i> steht.
+<br>Es folgt ein String-Parameter, der den Namen der einzuf&uuml;genden
+Datei (mit Endung!) angibt. Es sollte vermieden werden, hier Pfade mit
+anzugeben.</li>
+
+<li><a NAME="a44resolution"></a><i>resolution</i>
+<br>3 int-Parameter folgen. VmB: in
+<a href="quat-de-3.html#aOtherEditor">Other Editor</a>.
+<br>Die ersten beiden Zahlen geben die Gr&ouml;&szlig;e des zu berechnenden
+Bildes in Pixeln an (der erste in x- der zweite in y-Richtung). Der letzte
+bestimmt die Aufl&ouml;sung des Bildes in z-Richtung (also senkrecht zum
+Bildschirm). Je gr&ouml;&szlig;er dieser Wert ist, umso kleiner sind die
+Schritte, in denen in z-Richtung nach dem Fraktal "getastet" wird.
+<br>Dieser Wert sollte von der Gr&ouml;&szlig;enordnung der y-Aufl&ouml;sung
+sein. W&auml;hlt man ihn zu niedrig, wird zwar die Berechnung schneller,
+aber es kann sein, da&szlig; die R&auml;nder des Fraktals "ausgefranst"
+wirken, weil an bestimmten Stellen (vorzugsweise am Rand) das Fraktal nicht
+getroffen wurde. (In Anhang <a href="quat-de-5.html#a52">5.2</a> ist ein
+Beispiel daf&uuml;r zu sehen).</li>
+
+<li><a NAME="a44colorscheme"></a><i>colorscheme</i>
+<br>string folgt. VmB: im
+<a href="quat-de-3.html#aColorEditor">Color Editor</a>.
+<br>Hier wird die Formel angegeben, die die Farbe des Fraktals in Abh&auml;ngigkeit
+vom Punkt im Raum bestimmt. Die Formel sollte im gew&auml;hlten Raumausschnitt
+Werte zwischen 0 und 1 annehmen. Verl&auml;&szlig;t sie diesen Wertebereich,
+so wird durch eine Art "floating-point-modulo" das Ergebnis wieder auf
+den Bereich zwischen 0 und 1 reduziert. Besteht die Palette nur aus einer
+einzigen Farbe, so kann als Formel einfach "<tt>0</tt>" geschrieben werden.
+<br>Es sind folgende Variablen vordefiniert: <tt>x</tt>, <tt>y</tt> und <tt>z</tt>.
+Sie enthalten
+die x, y und z-Koordinate des Punktes im Raum, dessen Farbe berechnet werden
+soll. Es k&ouml;nnen Klammern zur Bestimmung der Abarbeitungsreihenfolge
+verwendet werden.
+<br>Neben den normalen mathematischen Operationen (+,-,*,/) und dem Potenzieren
+(^) sind die folgenden &uuml;blichen, mathematische Funktionen definiert:
+<br><tt>sin, cos, tan, sqr, sqrt, exp, ln, atan, asin, acos, round, trunc,
+abs, random</tt>
+<br><tt>sin(x)</tt>: Sinus von x (x im Bogenma&szlig;)
+<br><tt>cos(x)</tt>: Cosinus von x (x im Bogenma&szlig;)
+<br><tt>tan(x)</tt>: Tangens von x (x im Bogenma&szlig;)
+<br><tt>sqr(x)</tt>: x im Quadrat. (<tt>x*x</tt>)
+<br><tt>sqrt(x)</tt>: Wurzel aus x.
+<br><tt>exp(x)</tt>: <tt>e^x</tt>. (e hoch x). <tt>e</tt> ist die Euler'sche Zahl, (2.718...)
+<br><tt>ln(x)</tt>: Umkehrfunktion zu <tt>exp(x)</tt>. Nat&uuml;rlicher Logarithmus.
+<br><tt>atan(x)</tt>: Arcustangens von x. Umkehrfunktion des Tangens.
+<br><tt>asin(x)</tt>: Arcussinus von x. Umkehrfunktion des Sinus.
+<br><tt>acos(x)</tt>: Arcuscosinus von x. Umkehrfunktion des Cosinus.
+<br><tt>round(x)</tt>: rundet x auf oder ab. <tt>round(2.5)=3.0</tt>; <tt>round(2.4999)=2.0</tt>;
+<br><tt>trunc(x)</tt>: ergibt die gr&ouml;&szlig;te Ganzzahl, die kleiner oder gleich
+x ist. <tt>trunc(2.0)=2.0</tt>; <tt>trunc(2.5)=2.0</tt>; <tt>trunc(2.999)=2.0</tt>;
+<br><tt>abs(x)</tt>: Betrag von x.
+<br><tt>random(x)</tt>: Zufallszahl zwischen 0 und x.
+<p>Spezielle Funktionen zur Fraktalberechnung sind:
+<br><tt>orbite(n)</tt>: Der 1-Teil des Quaternions nach n Iterationen.
+<br><tt>orbitj(n)</tt>: Der i-Teil des Quaternions nach n Iterationen.
+<br><tt>orbitk(n)</tt>: Der j-Teil des Quaternions nach n Iterationen.
+<br><tt>orbitl(n)</tt>: Der k-Teil des Quaternions nach n Iterationen.
+<p>Mit diesen orbit-Funktionen l&auml;&szlig;t sich eine Farbgebung erzielen,
+die sich am Objekt selber orientiert.</li>
+</ul>
+
+</body>
+</html>
