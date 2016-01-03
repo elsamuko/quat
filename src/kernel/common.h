@@ -10,8 +10,8 @@
 #define PROGVERSION VERSION
 #else
 /* WARNING: The following string MUST have 4 characters!!! */
-/* (So use "1.20" instead of "1.2" !! ) */
-#define PROGVERSION "1.20"
+/* (So use "1.30" instead of "1.3" !! ) */
+#define PROGVERSION "1.30"
 #endif
 #define PROGSUBVERSION ""
 /*#define PROGSTATE " development\n(Build: " __DATE__ ", " __TIME__ ")"*/
