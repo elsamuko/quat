@@ -529,7 +529,7 @@ int extra_iter( point xstart, point c, double bailout, int maxiter, point lastor
 
 int DoCalcbase( struct basestruct* base, struct basestruct* sbase, struct view_struct* v,
                 int flag, vec3 proj_up ) {
-    /* flag: 0 ... don´t use proj_up */
+    /* flag: 0 ... don't use proj_up */
     /*       1 ... use proj_up */
 
     double leny = 0.0;
@@ -918,7 +918,7 @@ float brightness( const vec3 ls, const vec3 p, const vec3 n, const vec3 z, doubl
 float brightpoint( long x, int y, float* LBuf, struct calc_struct* c/*, int zflag, vec3 n*/ )
 /* calculate a brightness value (0.0 ... 1.0) */
 /* all fields (except xq) in calc_struct MUST be initialized */
-/* should only be called if it´s sure that the object was hit! */
+/* should only be called if it's sure that the object was hit! */
 /* (LBuf != c->v.zres) */
 /* zflag: 0..calc image from scratch; 1..calc ZBuffer from scratch; 2..calc image from ZBuffer */
 {

@@ -1052,7 +1052,7 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
         cl.iternorm = 0;
     }
 
-    /* Initialize variables for calcline (those which don´t change from line to line) */
+    /* Initialize variables for calcline (those which don't change from line to line) */
     cr.v = view;
     cr.f = frac;
     cr.sbase = *srbase;
@@ -1116,7 +1116,7 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
 
         if( zflag == 2 ) {
             for( ii = 0; ii < view.antialiasing + 1; ii++ ) {
-                if( j + ii > 0 ) { /* this doesn´t work for the 1st line */
+                if( j + ii > 0 ) { /* this doesn't work for the 1st line */
                     QU_getline( line3, j * view.antialiasing + ii - 1, xres_st_aa, 1 );
 
                     for( i = 0; i < xres_aa; i++ ) LBufR[( size_t )i + ( size_t )ii * ( size_t )xres_aa]
@@ -1833,7 +1833,7 @@ int ParseAndCalculate( const char* fil, char* Error, char zflag )
         }
 
         return( CalculateINI( inifile, pngfile2, Error, zflag ) );
-    } else { /* it´s a PNG */
+    } else { /* it's a PNG */
         strncpy( pngfile2, pngfile1, 256 );
 
         if( GetNextName( pngfile2, NULL ) != 0 ) {

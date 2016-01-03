@@ -410,7 +410,7 @@ int ParseFile( const char* nam, const char* _altpath, struct keyword_struct kwor
                         return( -1 );
                     } else {
                         sprintf( Error_Msg, "[...] %s", ErrorMSG );
-                        return( -2 ); /* -2: Don´t add anything to Error_Msg (avoid overflow) */
+                        return( -2 ); /* -2: Don't add anything to Error_Msg (avoid overflow) */
                     }
                 }
             }
