@@ -39,380 +39,444 @@ extern MainWindow* MainWinPtr;
 #include "dragWindow.h"
 #include <cmath>    // sqrt
 
-inline void ParameterEditor::cb_ok_button_i(Fl_Return_Button*, void*) {
-  dialog->hide();
-window_preview->hide();
-_result = 1;
+inline void ParameterEditor::cb_ok_button_i( Fl_Return_Button*, void* ) {
+    dialog->hide();
+    window_preview->hide();
+    _result = 1;
 }
-void ParameterEditor::cb_ok_button(Fl_Return_Button* o, void* v) {
-  ((ParameterEditor*)(o->parent()->user_data()))->cb_ok_button_i(o,v);
-}
-
-inline void ParameterEditor::cb_cancel_button_i(Fl_Button*, void*) {
-  dialog->hide();
-window_preview->hide();
-_result = 0;
-}
-void ParameterEditor::cb_cancel_button(Fl_Button* o, void* v) {
-  ((ParameterEditor*)(o->parent()->user_data()))->cb_cancel_button_i(o,v);
+void ParameterEditor::cb_ok_button( Fl_Return_Button* o, void* v ) {
+    ( ( ParameterEditor* )( o->parent()->user_data() ) )->cb_ok_button_i( o, v );
 }
 
-inline void ParameterEditor::cb_button_reset_i(Fl_Button*, void*) {
-  if (fl_ask("This will reset all parameters to their default values. Continue?")) {
-	frac_cpp f; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
-	SetDefaults(&f, &vi, &r, col, cut);
-	set(f, vi, r, col, cut);
-};
+inline void ParameterEditor::cb_cancel_button_i( Fl_Button*, void* ) {
+    dialog->hide();
+    window_preview->hide();
+    _result = 0;
 }
-void ParameterEditor::cb_button_reset(Fl_Button* o, void* v) {
-  ((ParameterEditor*)(o->parent()->user_data()))->cb_button_reset_i(o,v);
+void ParameterEditor::cb_cancel_button( Fl_Button* o, void* v ) {
+    ( ( ParameterEditor* )( o->parent()->user_data() ) )->cb_cancel_button_i( o, v );
 }
 
-inline void ParameterEditor::cb_button_import_i(Fl_Button*, void*) {
-  frac_cpp f; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
-get(f, vi, r, col, cut);
-if (MainWinPtr->Parameters_ReadPNG(f, vi, r, col, cut, _state==2)) {
-//	Object->set(f);
-//	View->set(vi);
-//	Color->set(r, col);
-//	Intersection->set(cut);
-//	Other->set(vi);
-	set(f, vi, r, col, cut);
-};
+inline void ParameterEditor::cb_button_reset_i( Fl_Button*, void* ) {
+    if( fl_ask( "This will reset all parameters to their default values. Continue?" ) ) {
+        frac_cpp f;
+        view_cpp vi;
+        realpal_cpp r;
+        colscheme_cpp col;
+        cutbuf_cpp cut;
+        SetDefaults( &f, &vi, &r, col, cut );
+        set( f, vi, r, col, cut );
+    };
 }
-void ParameterEditor::cb_button_import(Fl_Button* o, void* v) {
-  ((ParameterEditor*)(o->parent()->user_data()))->cb_button_import_i(o,v);
-}
-
-inline void ParameterEditor::cb_button_read_i(Fl_Button*, void*) {
-  frac_cpp f; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
-get(f, vi, r, col, cut);
-if (MainWinPtr->Parameters_ReadINI(f, vi, r, col, cut)) {
-//	Object->set(f);
-//	View->set(vi);
-//	Color->set(r, col);
-//	Intersection->set(cut);
-//	Other->set(vi);
-	set(f, vi, r, col, cut);
-};
-}
-void ParameterEditor::cb_button_read(Fl_Button* o, void* v) {
-  ((ParameterEditor*)(o->parent()->user_data()))->cb_button_read_i(o,v);
+void ParameterEditor::cb_button_reset( Fl_Button* o, void* v ) {
+    ( ( ParameterEditor* )( o->parent()->user_data() ) )->cb_button_reset_i( o, v );
 }
 
-inline void ParameterEditor::cb_Write_i(Fl_Button*, void*) {
-  frac_cpp fr; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
-get(fr, vi, r, col, cut);
-MainWinPtr->Parameters_SaveAs(fr, vi, r, col, cut);
+inline void ParameterEditor::cb_button_import_i( Fl_Button*, void* ) {
+    frac_cpp f;
+    view_cpp vi;
+    realpal_cpp r;
+    colscheme_cpp col;
+    cutbuf_cpp cut;
+    get( f, vi, r, col, cut );
+
+    if( MainWinPtr->Parameters_ReadPNG( f, vi, r, col, cut, _state == 2 ) ) {
+        //	Object->set(f);
+        //	View->set(vi);
+        //	Color->set(r, col);
+        //	Intersection->set(cut);
+        //	Other->set(vi);
+        set( f, vi, r, col, cut );
+    };
 }
-void ParameterEditor::cb_Write(Fl_Button* o, void* v) {
-  ((ParameterEditor*)(o->parent()->user_data()))->cb_Write_i(o,v);
+void ParameterEditor::cb_button_import( Fl_Button* o, void* v ) {
+    ( ( ParameterEditor* )( o->parent()->user_data() ) )->cb_button_import_i( o, v );
 }
 
-inline void ParameterEditor::cb_button_show_i(Fl_Light_Button* o, void*) {
-  if (o->value()) {
-	window_preview->show();
-} else {
-	window_preview->hide();
-	dialog->show();  // raise (Windows bug)
-};
+inline void ParameterEditor::cb_button_read_i( Fl_Button*, void* ) {
+    frac_cpp f;
+    view_cpp vi;
+    realpal_cpp r;
+    colscheme_cpp col;
+    cutbuf_cpp cut;
+    get( f, vi, r, col, cut );
+
+    if( MainWinPtr->Parameters_ReadINI( f, vi, r, col, cut ) ) {
+        //	Object->set(f);
+        //	View->set(vi);
+        //	Color->set(r, col);
+        //	Intersection->set(cut);
+        //	Other->set(vi);
+        set( f, vi, r, col, cut );
+    };
 }
-void ParameterEditor::cb_button_show(Fl_Light_Button* o, void* v) {
-  ((ParameterEditor*)(o->parent()->user_data()))->cb_button_show_i(o,v);
+void ParameterEditor::cb_button_read( Fl_Button* o, void* v ) {
+    ( ( ParameterEditor* )( o->parent()->user_data() ) )->cb_button_read_i( o, v );
 }
 
-inline void ParameterEditor::cb_DoPreview_i(Fl_Button*, void*) {
-  if (!window_preview->shown()) {
-	button_show->value(1);
-	window_preview->show();
+inline void ParameterEditor::cb_Write_i( Fl_Button*, void* ) {
+    frac_cpp fr;
+    view_cpp vi;
+    realpal_cpp r;
+    colscheme_cpp col;
+    cutbuf_cpp cut;
+    get( fr, vi, r, col, cut );
+    MainWinPtr->Parameters_SaveAs( fr, vi, r, col, cut );
 }
-calcPreview();
-Preview->redraw();
-}
-void ParameterEditor::cb_DoPreview(Fl_Button* o, void* v) {
-  ((ParameterEditor*)(o->parent()->user_data()))->cb_DoPreview_i(o,v);
+void ParameterEditor::cb_Write( Fl_Button* o, void* v ) {
+    ( ( ParameterEditor* )( o->parent()->user_data() ) )->cb_Write_i( o, v );
 }
 
-ParameterEditor::ParameterEditor() : _state(0), _result(0) {
-  Fl_Window* w;
-  { Fl_Window* o = dialog = new Fl_Window(587, 357, "Parameter Editor");
-    w = o;
-    o->user_data((void*)(this));
-    { Fl_Tabs* o = tabs = new Fl_Tabs(10, 0, 420, 240);
-      { ObjectEditor* o = Object = new ObjectEditor(10, 20, 420, 220, "Object");
-        o->hide();
-      }
-      { ViewEditor* o = View = new ViewEditor(10, 20, 420, 220, "View");
-        o->hide();
-      }
-      Color = new ColorEditor(10, 20, 420, 220, "Color");
-      { IntersecEditor* o = Intersection = new IntersecEditor(10, 20, 420, 220, "Intersection");
-        o->hide();
-      }
-      { OtherEditor* o = Other = new OtherEditor(10, 20, 420, 220, "Other");
-        o->hide();
-      }
-      o->end();
+inline void ParameterEditor::cb_button_show_i( Fl_Light_Button* o, void* ) {
+    if( o->value() ) {
+        window_preview->show();
+    } else {
+        window_preview->hide();
+        dialog->show();  // raise (Windows bug)
+    };
+}
+void ParameterEditor::cb_button_show( Fl_Light_Button* o, void* v ) {
+    ( ( ParameterEditor* )( o->parent()->user_data() ) )->cb_button_show_i( o, v );
+}
+
+inline void ParameterEditor::cb_DoPreview_i( Fl_Button*, void* ) {
+    if( !window_preview->shown() ) {
+        button_show->value( 1 );
+        window_preview->show();
     }
-    { Fl_Box* o = info = new Fl_Box(450, 20, 120, 50, "For information only.\nTo edit values, please\nclose image first.");
-      o->labelsize(12);
-      o->labelcolor(1);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-      o->hide();
+
+    calcPreview();
+    Preview->redraw();
+}
+void ParameterEditor::cb_DoPreview( Fl_Button* o, void* v ) {
+    ( ( ParameterEditor* )( o->parent()->user_data() ) )->cb_DoPreview_i( o, v );
+}
+
+ParameterEditor::ParameterEditor() : _state( 0 ), _result( 0 ) {
+    Fl_Window* w;
+    {
+        Fl_Window* o = dialog = new Fl_Window( 587, 357, "Parameter Editor" );
+        w = o;
+        o->user_data( ( void* )( this ) );
+        {
+            Fl_Tabs* o = tabs = new Fl_Tabs( 10, 0, 420, 240 );
+            {
+                ObjectEditor* o = Object = new ObjectEditor( 10, 20, 420, 220, "Object" );
+                o->hide();
+            }
+            {
+                ViewEditor* o = View = new ViewEditor( 10, 20, 420, 220, "View" );
+                o->hide();
+            }
+            Color = new ColorEditor( 10, 20, 420, 220, "Color" );
+            {
+                IntersecEditor* o = Intersection = new IntersecEditor( 10, 20, 420, 220, "Intersection" );
+                o->hide();
+            }
+            {
+                OtherEditor* o = Other = new OtherEditor( 10, 20, 420, 220, "Other" );
+                o->hide();
+            }
+            o->end();
+        }
+        {
+            Fl_Box* o = info = new Fl_Box( 450, 20, 120, 50, "For information only.\nTo edit values, please\nclose image first." );
+            o->labelsize( 12 );
+            o->labelcolor( 1 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+            o->hide();
+        }
+        {
+            Fl_Return_Button* o = ok_button = new Fl_Return_Button( 450, 20, 130, 30, "OK" );
+            o->shortcut( 0xff0d );
+            o->labeltype( FL_ENGRAVED_LABEL );
+            o->labelsize( 12 );
+            o->callback( ( Fl_Callback* )cb_ok_button );
+        }
+        {
+            Fl_Button* o = cancel_button = new Fl_Button( 450, 70, 130, 30, "Cancel" );
+            o->shortcut( 0xff1b );
+            o->labeltype( FL_ENGRAVED_LABEL );
+            o->labelsize( 12 );
+            o->callback( ( Fl_Callback* )cb_cancel_button );
+        }
+        {
+            Fl_Button* o = button_reset = new Fl_Button( 480, 120, 50, 20, "Reset" );
+            o->tooltip( "Reset all parameters in the editor." );
+            o->labelsize( 12 );
+            o->callback( ( Fl_Callback* )cb_button_reset );
+            w->hotspot( o );
+        }
+        {
+            Fl_Button* o = button_import = new Fl_Button( 530, 120, 50, 20, "Import" );
+            o->tooltip( "Read parameters from a PNG into the editor." );
+            o->labelsize( 12 );
+            o->callback( ( Fl_Callback* )cb_button_import );
+        }
+        {
+            Fl_Button* o = button_read = new Fl_Button( 480, 140, 50, 20, "Read" );
+            o->tooltip( "Read parameters from an INI file into editor." );
+            o->labelsize( 12 );
+            o->callback( ( Fl_Callback* )cb_button_read );
+        }
+        {
+            Fl_Button* o = new Fl_Button( 530, 140, 50, 20, "Write" );
+            o->tooltip( "Write current parameters to INI file." );
+            o->labelsize( 12 );
+            o->callback( ( Fl_Callback* )cb_Write );
+        }
+        {
+            Fl_Box* o = new Fl_Box( 10, 250, 350, 100, "Preview" );
+            o->tooltip( "Preview section." );
+            o->box( FL_ENGRAVED_BOX );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            Fl_Light_Button* o = own = new Fl_Light_Button( 20, 290, 50, 20, "&own" );
+            o->tooltip( "On: Use the current view and color parameters for the preview.\nOff: Use defa\
+ults in case you\'re lost." );
+            o->value( 1 );
+            o->shortcut( 0x8006f );
+            o->labelsize( 12 );
+        }
+        {
+            Fl_Light_Button* o = stereo = new Fl_Light_Button( 80, 290, 60, 20, "S&tereo" );
+            o->tooltip( "Enable for a stereoscopic preview." );
+            o->shortcut( 0x80074 );
+            o->labelsize( 12 );
+            o->deactivate();
+        }
+        {
+            Fl_Light_Button* o = button_show = new Fl_Light_Button( 20, 320, 50, 20, "&show" );
+            o->tooltip( "Show / Hide Julia Preview Window." );
+            o->shortcut( 0x80073 );
+            o->labelsize( 12 );
+            o->callback( ( Fl_Callback* )cb_button_show );
+        }
+        {
+            Fl_Button* o = DoPreview = new Fl_Button( 80, 320, 60, 20, "&Calc" );
+            o->tooltip( "Calculate a preview from the current parameters." );
+            o->shortcut( 0x80063 );
+            o->labelsize( 12 );
+            o->callback( ( Fl_Callback* )cb_DoPreview );
+        }
+        {
+            Fl_Value_Slider* o = preview_size = new Fl_Value_Slider( 160, 320, 170, 20, "Preview size" );
+            o->type( 1 );
+            o->labelsize( 12 );
+            o->minimum( 4800 );
+            o->maximum( 76800 );
+            o->step( 10 );
+            o->value( 4800 );
+            o->align( FL_ALIGN_TOP_LEFT );
+        }
+        {
+            Fl_Box* o = new Fl_Box( 370, 260, 70, 20, "from beside" );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            ViewSelector* o = vsbeside = new ViewSelector( 370, 280, 100, 70, "from beside" );
+            o->tooltip( "Drag to move the view point." );
+            o->box( FL_EMBOSSED_FRAME );
+            o->labeltype( FL_NO_LABEL );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT );
+        }
+        {
+            Fl_Box* o = new Fl_Box( 480, 260, 60, 20, "from front" );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            ViewSelector* o = vsfront = new ViewSelector( 480, 280, 100, 70, "from front" );
+            o->tooltip( "Drag to move the view point." );
+            o->box( FL_EMBOSSED_FRAME );
+            o->labeltype( FL_NO_LABEL );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT );
+        }
+        {
+            Fl_Box* o = new Fl_Box( 480, 170, 70, 20, "from above" );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            ViewSelector* o = vsabove = new ViewSelector( 480, 190, 100, 70, "from above" );
+            o->tooltip( "Drag to move the view point." );
+            o->box( FL_EMBOSSED_FRAME );
+            o->labeltype( FL_NO_LABEL );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT );
+        }
+        o->end();
     }
-    { Fl_Return_Button* o = ok_button = new Fl_Return_Button(450, 20, 130, 30, "OK");
-      o->shortcut(0xff0d);
-      o->labeltype(FL_ENGRAVED_LABEL);
-      o->labelsize(12);
-      o->callback((Fl_Callback*)cb_ok_button);
+    {
+        dragWindow* o = window_preview = new dragWindow( 204, 84, "Julia Preview Window" );
+        w = o;
+        o->box( FL_EMBOSSED_BOX );
+        o->user_data( ( void* )( this ) );
+        {
+            JuliaPreview* o = Preview = new JuliaPreview( 2, 2, 200, 80, "label" );
+            o->tooltip( "Julia set preview window." );
+            o->box( FL_FLAT_BOX );
+            o->labeltype( FL_NO_LABEL );
+            o->labelsize( 12 );
+        }
+        o->set_non_modal();
+        o->clear_border();
+        o->end();
     }
-    { Fl_Button* o = cancel_button = new Fl_Button(450, 70, 130, 30, "Cancel");
-      o->shortcut(0xff1b);
-      o->labeltype(FL_ENGRAVED_LABEL);
-      o->labelsize(12);
-      o->callback((Fl_Callback*)cb_cancel_button);
-    }
-    { Fl_Button* o = button_reset = new Fl_Button(480, 120, 50, 20, "Reset");
-      o->tooltip("Reset all parameters in the editor.");
-      o->labelsize(12);
-      o->callback((Fl_Callback*)cb_button_reset);
-      w->hotspot(o);
-    }
-    { Fl_Button* o = button_import = new Fl_Button(530, 120, 50, 20, "Import");
-      o->tooltip("Read parameters from a PNG into the editor.");
-      o->labelsize(12);
-      o->callback((Fl_Callback*)cb_button_import);
-    }
-    { Fl_Button* o = button_read = new Fl_Button(480, 140, 50, 20, "Read");
-      o->tooltip("Read parameters from an INI file into editor.");
-      o->labelsize(12);
-      o->callback((Fl_Callback*)cb_button_read);
-    }
-    { Fl_Button* o = new Fl_Button(530, 140, 50, 20, "Write");
-      o->tooltip("Write current parameters to INI file.");
-      o->labelsize(12);
-      o->callback((Fl_Callback*)cb_Write);
-    }
-    { Fl_Box* o = new Fl_Box(10, 250, 350, 100, "Preview");
-      o->tooltip("Preview section.");
-      o->box(FL_ENGRAVED_BOX);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-    }
-    { Fl_Light_Button* o = own = new Fl_Light_Button(20, 290, 50, 20, "&own");
-      o->tooltip("On: Use the current view and color parameters for the preview.\nOff: Use defa\
-ults in case you\'re lost.");
-      o->value(1);
-      o->shortcut(0x8006f);
-      o->labelsize(12);
-    }
-    { Fl_Light_Button* o = stereo = new Fl_Light_Button(80, 290, 60, 20, "S&tereo");
-      o->tooltip("Enable for a stereoscopic preview.");
-      o->shortcut(0x80074);
-      o->labelsize(12);
-      o->deactivate();
-    }
-    { Fl_Light_Button* o = button_show = new Fl_Light_Button(20, 320, 50, 20, "&show");
-      o->tooltip("Show / Hide Julia Preview Window.");
-      o->shortcut(0x80073);
-      o->labelsize(12);
-      o->callback((Fl_Callback*)cb_button_show);
-    }
-    { Fl_Button* o = DoPreview = new Fl_Button(80, 320, 60, 20, "&Calc");
-      o->tooltip("Calculate a preview from the current parameters.");
-      o->shortcut(0x80063);
-      o->labelsize(12);
-      o->callback((Fl_Callback*)cb_DoPreview);
-    }
-    { Fl_Value_Slider* o = preview_size = new Fl_Value_Slider(160, 320, 170, 20, "Preview size");
-      o->type(1);
-      o->labelsize(12);
-      o->minimum(4800);
-      o->maximum(76800);
-      o->step(10);
-      o->value(4800);
-      o->align(FL_ALIGN_TOP_LEFT);
-    }
-    { Fl_Box* o = new Fl_Box(370, 260, 70, 20, "from beside");
-      o->labelsize(12);
-      o->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-    }
-    { ViewSelector* o = vsbeside = new ViewSelector(370, 280, 100, 70, "from beside");
-      o->tooltip("Drag to move the view point.");
-      o->box(FL_EMBOSSED_FRAME);
-      o->labeltype(FL_NO_LABEL);
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT);
-    }
-    { Fl_Box* o = new Fl_Box(480, 260, 60, 20, "from front");
-      o->labelsize(12);
-      o->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-    }
-    { ViewSelector* o = vsfront = new ViewSelector(480, 280, 100, 70, "from front");
-      o->tooltip("Drag to move the view point.");
-      o->box(FL_EMBOSSED_FRAME);
-      o->labeltype(FL_NO_LABEL);
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT);
-    }
-    { Fl_Box* o = new Fl_Box(480, 170, 70, 20, "from above");
-      o->labelsize(12);
-      o->align(FL_ALIGN_LEFT|FL_ALIGN_INSIDE);
-    }
-    { ViewSelector* o = vsabove = new ViewSelector(480, 190, 100, 70, "from above");
-      o->tooltip("Drag to move the view point.");
-      o->box(FL_EMBOSSED_FRAME);
-      o->labeltype(FL_NO_LABEL);
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT);
-    }
-    o->end();
-  }
-  { dragWindow* o = window_preview = new dragWindow(204, 84, "Julia Preview Window");
-    w = o;
-    o->box(FL_EMBOSSED_BOX);
-    o->user_data((void*)(this));
-    { JuliaPreview* o = Preview = new JuliaPreview(2, 2, 200, 80, "label");
-      o->tooltip("Julia set preview window.");
-      o->box(FL_FLAT_BOX);
-      o->labeltype(FL_NO_LABEL);
-      o->labelsize(12);
-    }
-    o->set_non_modal();
-    o->clear_border();
-    o->end();
-  }
-  vsabove->SetInputs(View->vre,View-> vj); 
-vsfront->SetInputs(View->vre, View->vi); 
-vsbeside->SetInputs(View->vj, View->vi); 
-vsabove->Init(0,2,1,-1); vsbeside->Init(2,1,-1,1); vsfront->Init(0,1,1,1);
-View->setSelectors(vsabove, vsbeside, vsfront, stereo);
-Other->setSelectors(vsabove, vsbeside, vsfront);
-Preview->setbutton3d(DoPreview);
-  window_preview->resize(dialog->x()+150, 
-	dialog->y()+250, window_preview->w(),
-	window_preview->h());
+    vsabove->SetInputs( View->vre, View-> vj );
+    vsfront->SetInputs( View->vre, View->vi );
+    vsbeside->SetInputs( View->vj, View->vi );
+    vsabove->Init( 0, 2, 1, -1 );
+    vsbeside->Init( 2, 1, -1, 1 );
+    vsfront->Init( 0, 1, 1, 1 );
+    View->setSelectors( vsabove, vsbeside, vsfront, stereo );
+    Other->setSelectors( vsabove, vsbeside, vsfront );
+    Preview->setbutton3d( DoPreview );
+    window_preview->resize( dialog->x() + 150,
+                            dialog->y() + 250, window_preview->w(),
+                            window_preview->h() );
 }
 
 int ParameterEditor::run() {
-  tabs->value(Object);
-	dialog->show();
-	while (dialog->shown() && MainWinPtr->shown())
-	{
-		Fl::wait();
-		for (;;) 
-		{
-			Fl_Widget *o = Fl::readqueue();
-			if (!o) break;
-		}
-	}
-	if (dialog->shown()) dialog->hide();
-	return _result;
+    tabs->value( Object );
+    dialog->show();
+
+    while( dialog->shown() && MainWinPtr->shown() ) {
+        Fl::wait();
+
+        for( ;; ) {
+            Fl_Widget* o = Fl::readqueue();
+
+            if( !o ) {
+                break;
+            }
+        }
+    }
+
+    if( dialog->shown() ) {
+        dialog->hide();
+    }
+
+    return _result;
 }
 
-void ParameterEditor::set(const frac_cpp& f, const view_cpp &v, const realpal_cpp &r, const colscheme_cpp& colscheme, const cutbuf_cpp& cutbuf) {
-  Object->set(f);
-View->set(v);
-Color->set(r, colscheme);
-Intersection->set(cutbuf);
-Other->set(v);
+void ParameterEditor::set( const frac_cpp& f, const view_cpp& v, const realpal_cpp& r, const colscheme_cpp& colscheme, const cutbuf_cpp& cutbuf ) {
+    Object->set( f );
+    View->set( v );
+    Color->set( r, colscheme );
+    Intersection->set( cutbuf );
+    Other->set( v );
 }
 
-void ParameterEditor::get(frac_cpp& f, view_cpp& v, realpal_cpp& r, colscheme_cpp& colscheme, cutbuf_cpp& cutbuf) {
-  Object->get(f);
-View->get(v);
-Color->get(r, colscheme);
-Intersection->get(cutbuf);
-Other->get(v);
+void ParameterEditor::get( frac_cpp& f, view_cpp& v, realpal_cpp& r, colscheme_cpp& colscheme, cutbuf_cpp& cutbuf ) {
+    Object->get( f );
+    View->get( v );
+    Color->get( r, colscheme );
+    Intersection->get( cutbuf );
+    Other->get( v );
 }
 
-void ParameterEditor::SetState(int state) {
-  if (_state == state) return;
-_state = state;
-if (state==1)
-{
-	vsbeside->deactivate();
-	vsabove->deactivate();
-	vsfront->deactivate();
-	button_reset->deactivate();
-	button_read->deactivate();
-	button_import->deactivate();
-//	tabs->deactivate();
-	Object->deactiv();
-	View->deactivate();
-	Color->deactiv();
-	Intersection->deactiv();
-	Other->deactivate();
-//	deactiv();
-//	Object->deactiv->deactivate();
-//	View->deactivate();
-//	Color->deactiv();
-//	Intersection->deactiv->deactivate();
-//	Other->deactivate();
-	ok_button->hide();
-	info->show();
-}
-if (state==2)
-{
-	vsbeside->deactivate();
-	vsfront->deactivate();
-	vsabove->deactivate();
-	button_reset->deactivate();
-//	Object->deactiv->deactivate();
-	Object->deactiv();
-	View->group_v->deactivate();
-	View->group_up->deactivate();
-	View->lxr->deactivate();
-	View->group_interocular->deactivate();
-	View->group_move->deactivate();
-//	Intersection->deactiv->deactivate();
-	Intersection->deactiv();
-	Other->group_res->deactivate();
-	Other->antialiasing->deactivate();
-	Other->group_buttons->deactivate();
-}
+void ParameterEditor::SetState( int state ) {
+    if( _state == state ) {
+        return;
+    }
+
+    _state = state;
+
+    if( state == 1 ) {
+        vsbeside->deactivate();
+        vsabove->deactivate();
+        vsfront->deactivate();
+        button_reset->deactivate();
+        button_read->deactivate();
+        button_import->deactivate();
+        //	tabs->deactivate();
+        Object->deactiv();
+        View->deactivate();
+        Color->deactiv();
+        Intersection->deactiv();
+        Other->deactivate();
+        //	deactiv();
+        //	Object->deactiv->deactivate();
+        //	View->deactivate();
+        //	Color->deactiv();
+        //	Intersection->deactiv->deactivate();
+        //	Other->deactivate();
+        ok_button->hide();
+        info->show();
+    }
+
+    if( state == 2 ) {
+        vsbeside->deactivate();
+        vsfront->deactivate();
+        vsabove->deactivate();
+        button_reset->deactivate();
+        //	Object->deactiv->deactivate();
+        Object->deactiv();
+        View->group_v->deactivate();
+        View->group_up->deactivate();
+        View->lxr->deactivate();
+        View->group_interocular->deactivate();
+        View->group_move->deactivate();
+        //	Intersection->deactiv->deactivate();
+        Intersection->deactiv();
+        Other->group_res->deactivate();
+        Other->antialiasing->deactivate();
+        Other->group_buttons->deactivate();
+    }
 }
 
 ParameterEditor::~ParameterEditor() {
-  delete dialog;
-delete window_preview;
+    delete dialog;
+    delete window_preview;
 }
 
 void ParameterEditor::calcPreview() {
-  frac_cpp f;
-view_cpp v;
-realpal_cpp pal;
-colscheme_cpp col;
-cutbuf_cpp cut;
+    frac_cpp f;
+    view_cpp v;
+    realpal_cpp pal;
+    colscheme_cpp col;
+    cutbuf_cpp cut;
 
-bool ster = stereo->value() && stereo->active()
-	&& own->value();
+    bool ster = stereo->value() && stereo->active()
+                && own->value();
 
-get(f, v, pal, col, cut);
+    get( f, v, pal, col, cut );
 
-double rx = v.xres;
-double ry = v.yres;
-if (!own->value()) {
-	rx = 80.0; ry = 60.0;
-}
-double ratio = rx/ry;
-int x = (int)(sqrt(ratio*preview_size->value())+0.5);
-int y = (int)((double)x/ratio+0.5);
-if (ster) x *= 2;
+    double rx = v.xres;
+    double ry = v.yres;
 
-if (Preview->w() != x || Preview->h() != y) {
-	window_preview->remove(Preview);
-	delete Preview;
-	window_preview->resize(window_preview->x(), window_preview->y(),
-		x+Fl::box_dw(window_preview->box())-1, y+Fl::box_dh(window_preview->box())-1);
-	window_preview->begin();
-	Preview = new JuliaPreview(Fl::box_dx(window_preview->box()), Fl::box_dy(window_preview->box()), x, y);
-	window_preview->end();
-}
+    if( !own->value() ) {
+        rx = 80.0;
+        ry = 60.0;
+    }
 
-Preview->setbutton3d(DoPreview);
-Preview->ownView(own->value());
-Preview->stereo(ster);
-Preview->set(f, v, pal, col, cut);
-Preview->CalcImage3D();
-return;
+    double ratio = rx / ry;
+    int x = ( int )( sqrt( ratio * preview_size->value() ) + 0.5 );
+    int y = ( int )( ( double )x / ratio + 0.5 );
+
+    if( ster ) {
+        x *= 2;
+    }
+
+    if( Preview->w() != x || Preview->h() != y ) {
+        window_preview->remove( Preview );
+        delete Preview;
+        window_preview->resize( window_preview->x(), window_preview->y(),
+                                x + Fl::box_dw( window_preview->box() ) - 1, y + Fl::box_dh( window_preview->box() ) - 1 );
+        window_preview->begin();
+        Preview = new JuliaPreview( Fl::box_dx( window_preview->box() ), Fl::box_dy( window_preview->box() ), x, y );
+        window_preview->end();
+    }
+
+    Preview->setbutton3d( DoPreview );
+    Preview->ownView( own->value() );
+    Preview->stereo( ster );
+    Preview->set( f, v, pal, col, cut );
+    Preview->CalcImage3D();
+    return;
 }

@@ -28,66 +28,81 @@
 #include "icon.xpm"
 
 AboutBox::AboutBox() {
-  Fl_Window* w;
-  { Fl_Window* o = win = new Fl_Window(418, 360, "About Quat");
-    w = o;
-    o->user_data((void*)(this));
-    { Fl_Box* o = state = new Fl_Box(150, 15, 250, 15);
-      o->labelfont(1);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-    }
-    { Fl_Box* o = new Fl_Box(150, 70, 235, 45, "A 3D Fractal Generation Program\nCopyright (C) 1997-2002 Dirk Meyer\ndirk.mey\
-er@@studserv.uni-stuttgart.de");
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-    }
-    { Fl_Box* o = new Fl_Box(25, 115, 390, 45, "http://www.physcip.uni-stuttgart.de/phy11733/index_e.html\nQuat Mailing List:\
- http://groups.yahoo.com/group/quat/");
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-    }
-    { Fl_Box* o = new Fl_Box(25, 165, 365, 50, "This program is distributed under the terms of the\nGNU General Public Licens\
-e Version 2.\n(Please read the file \'COPYING\' for details).");
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-    }
-    { Fl_Box* o = new Fl_Box(25, 215, 385, 65, "This program uses the \"zlib\" library to write PNG files.\nMore info on zlib\
+    Fl_Window* w;
+    {
+        Fl_Window* o = win = new Fl_Window( 418, 360, "About Quat" );
+        w = o;
+        o->user_data( ( void* )( this ) );
+        {
+            Fl_Box* o = state = new Fl_Box( 150, 15, 250, 15 );
+            o->labelfont( 1 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            Fl_Box* o = new Fl_Box( 150, 70, 235, 45, "A 3D Fractal Generation Program\nCopyright (C) 1997-2002 Dirk Meyer\ndirk.mey\
+er@@studserv.uni-stuttgart.de" );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            Fl_Box* o = new Fl_Box( 25, 115, 390, 45, "http://www.physcip.uni-stuttgart.de/phy11733/index_e.html\nQuat Mailing List:\
+ http://groups.yahoo.com/group/quat/" );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            Fl_Box* o = new Fl_Box( 25, 165, 365, 50, "This program is distributed under the terms of the\nGNU General Public Licens\
+e Version 2.\n(Please read the file \'COPYING\' for details)." );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            Fl_Box* o = new Fl_Box( 25, 215, 385, 65, "This program uses the \"zlib\" library to write PNG files.\nMore info on zlib\
 : http://www.zlib.org/\nQuat also uses FLTK (Fast Light Tool Kit) for its user\
- interface.\nMore info on FLTK: http://www.fltk.org/");
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
+ interface.\nMore info on FLTK: http://www.fltk.org/" );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            Fl_Box* o = note = new Fl_Box( 25, 280, 390, 20 );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+        }
+        {
+            Fl_Return_Button* o = ok_button = new Fl_Return_Button( 155, 310, 115, 25, "OK" );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_CENTER | FL_ALIGN_INSIDE );
+        }
+        {
+            PixWid* o = icon = new PixWid( 30, 5, 115, 105 );
+            o->align( FL_ALIGN_CENTER | FL_ALIGN_INSIDE );
+        }
+        o->set_modal();
+        o->end();
     }
-    { Fl_Box* o = note = new Fl_Box(25, 280, 390, 20);
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-    }
-    { Fl_Return_Button* o = ok_button = new Fl_Return_Button(155, 310, 115, 25, "OK");
-      o->labelsize(12);
-      o->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-    }
-    { PixWid* o = icon = new PixWid(30, 5, 115, 105);
-      o->align(FL_ALIGN_CENTER|FL_ALIGN_INSIDE);
-    }
-    o->set_modal();
-    o->end();
-  }
-  icon->setPixmap(icon_xpm);
+    icon->setPixmap( icon_xpm );
 }
 
 void AboutBox::run() {
-  win->show();
-while (win->shown())
-{
-	Fl::wait();
-	for (;;) 
-	{
-		Fl_Widget *o = Fl::readqueue();
-		if (!o) break;
-		if (o == ok_button) win->hide();
-	}
-}
+    win->show();
+
+    while( win->shown() ) {
+        Fl::wait();
+
+        for( ;; ) {
+            Fl_Widget* o = Fl::readqueue();
+
+            if( !o ) {
+                break;
+            }
+
+            if( o == ok_button ) {
+                win->hide();
+            }
+        }
+    }
 }
 
 AboutBox::~AboutBox() {
-  delete win;
+    delete win;
 }

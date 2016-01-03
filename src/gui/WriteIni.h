@@ -5,16 +5,16 @@
 #include <FL/Fl.H>
 #include <FL/Fl_Window.H>
 #include "common.h" // PS_ -Defines
-extern Fl_Window *win;
+extern Fl_Window* win;
 #include <FL/Fl_Check_Button.H>
-extern Fl_Check_Button *OBJ;
-extern Fl_Check_Button *VIEW;
-extern Fl_Check_Button *COL;
-extern Fl_Check_Button *OTHER;
+extern Fl_Check_Button* OBJ;
+extern Fl_Check_Button* VIEW;
+extern Fl_Check_Button* COL;
+extern Fl_Check_Button* OTHER;
 #include <FL/Fl_Box.H>
 #include <FL/Fl_Return_Button.H>
-extern Fl_Return_Button *ok_button;
+extern Fl_Return_Button* ok_button;
 #include <FL/Fl_Button.H>
-extern Fl_Button *cancel_button;
-bool WriteINI(int& mode);
+extern Fl_Button* cancel_button;
+bool WriteINI( int& mode );
 #endif

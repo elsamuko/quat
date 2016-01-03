@@ -12,19 +12,20 @@
 #define XPMCONST
 #endif
 
-class PixWid : public Fl_Widget
-{
-public:
-	PixWid(int x, int y, int w, int h, const char *label=0);
-	virtual ~PixWid();
-	void setPixmap(XPMCONST char *const* data);
-	static const unsigned long TYPE;
-	unsigned long type() { return _type; }
-protected:
-	void draw();
-private:
-	Fl_Pixmap *_pixmap;
-	const unsigned long _type;
+class PixWid : public Fl_Widget {
+    public:
+        PixWid( int x, int y, int w, int h, const char* label = 0 );
+        virtual ~PixWid();
+        void setPixmap( XPMCONST char* const* data );
+        static const unsigned long TYPE;
+        unsigned long type() {
+            return _type;
+        }
+    protected:
+        void draw();
+    private:
+        Fl_Pixmap* _pixmap;
+        const unsigned long _type;
 };
 
 #endif

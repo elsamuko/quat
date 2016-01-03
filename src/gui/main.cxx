@@ -29,14 +29,13 @@
 
 #include "MainWindow.h"
 
-int main(int argc, char **argv)
-{
-	Fl::visual(FL_DOUBLE|FL_INDEX);
-	Fl_File_Icon::load_system_icons();
-//	MainWindow *win = new MainWindow(argc, argv);
-	MainWindow win(argc, argv);
-	return Fl::run();
-//	int i = Fl::run();
-//	delete win;
-//	return i;
+int main( int argc, char** argv ) {
+    Fl::visual( FL_DOUBLE | FL_INDEX );
+    Fl_File_Icon::load_system_icons();
+    //	MainWindow *win = new MainWindow(argc, argv);
+    MainWindow win( argc, argv );
+    return Fl::run();
+    //	int i = Fl::run();
+    //	delete win;
+    //	return i;
 }

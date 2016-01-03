@@ -9,14 +9,14 @@
 #include "PixWid.h"
 
 class AboutBox {
-public:
-  AboutBox();
-  Fl_Window *win;
-  Fl_Box *state;
-  Fl_Box *note;
-  Fl_Return_Button *ok_button;
-  PixWid *icon;
-  void run();
-  ~AboutBox();
+    public:
+        AboutBox();
+        Fl_Window* win;
+        Fl_Box* state;
+        Fl_Box* note;
+        Fl_Return_Button* ok_button;
+        PixWid* icon;
+        void run();
+        ~AboutBox();
 };
 #endif

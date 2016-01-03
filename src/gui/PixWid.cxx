@@ -29,22 +29,25 @@
 
 const unsigned long PixWid::TYPE = 0x0a0b0d0d;
 
-PixWid::PixWid(int x, int y, int w, int h, const char *label)
-	: Fl_Widget(x, y, w, h, label), _pixmap(0), _type(TYPE) {}
+PixWid::PixWid( int x, int y, int w, int h, const char* label )
+    : Fl_Widget( x, y, w, h, label ), _pixmap( 0 ), _type( TYPE ) {}
 
 PixWid::~PixWid() {
-	delete _pixmap;
+    delete _pixmap;
 }
 
-void PixWid::setPixmap(XPMCONST char *const* data) {
-	delete _pixmap;
-	_pixmap = new Fl_Pixmap(data);
+void PixWid::setPixmap( XPMCONST char* const* data ) {
+    delete _pixmap;
+    _pixmap = new Fl_Pixmap( data );
 }
 
 void PixWid::draw() {
-	if (_pixmap == 0) return;
-	int X, Y, W, H;
-	fl_clip_box(x(), y(), w(), h(), X, Y, W, H);
-	_pixmap->draw(X, Y, W, H, X-x(), Y-y());
+    if( _pixmap == 0 ) {
+        return;
+    }
+
+    int X, Y, W, H;
+    fl_clip_box( x(), y(), w(), h(), X, Y, W, H );
+    _pixmap->draw( X, Y, W, H, X - x(), Y - y() );
 }
 

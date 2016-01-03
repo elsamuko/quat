@@ -30,453 +30,598 @@
 #include <FL/math.h>
 #include <cassert>
 
-inline void ViewEditor::cb_vre_i(Fl_Value_Input* o, void*) {
-  view.s[0] = o->value();
-for (int i=0; i<3; i++) 
-  vs[i]->viewpointre(o->value());
-if (radio2->value()) { ocular_dist->value(newdist()); ocular_dist->do_callback(); }
-if (radio1->value()) ocular_angle->value(newangle());
-checkValidity();
-}
-void ViewEditor::cb_vre(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_vre_i(o,v);
-}
+inline void ViewEditor::cb_vre_i( Fl_Value_Input* o, void* ) {
+    view.s[0] = o->value();
 
-inline void ViewEditor::cb_vi_i(Fl_Value_Input* o, void*) {
-  view.s[1] = o->value();
-for (int i=0; i<3; i++)
-  vs[i]->viewpointi(o->value());
-if (radio2->value()) { ocular_dist->value(newdist()); ocular_dist->do_callback(); }
-if (radio1->value()) ocular_angle->value(newangle());
-checkValidity();
-}
-void ViewEditor::cb_vi(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_vi_i(o,v);
-}
-
-inline void ViewEditor::cb_vj_i(Fl_Value_Input* o, void*) {
-  view.s[2] = o->value();
-for (int i=0; i<3; i++)
-  vs[i]->viewpointj(o->value());
-if (radio2->value()) { ocular_dist->value(newdist()); ocular_dist->do_callback(); }
-if (radio1->value()) ocular_angle->value(newangle());
-checkValidity();
-}
-void ViewEditor::cb_vj(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_vj_i(o,v);
-}
-
-inline void ViewEditor::cb_upre_i(Fl_Value_Input* o, void*) {
-  view.up[0] = o->value();
-for (int i=0; i<3; i++) vs[i]->upre(o->value());
-checkValidity();
-}
-void ViewEditor::cb_upre(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_upre_i(o,v);
-}
-
-inline void ViewEditor::cb_upi_i(Fl_Value_Input* o, void*) {
-  view.up[1] = o->value();
-for (int i=0; i<3; i++) vs[i]->upi(o->value());
-checkValidity();
-}
-void ViewEditor::cb_upi(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_upi_i(o,v);
-}
-
-inline void ViewEditor::cb_upj_i(Fl_Value_Input* o, void*) {
-  view.up[2] = o->value();
-for (int i=0; i<3; i++) vs[i]->upj(o->value());
-checkValidity();
-}
-void ViewEditor::cb_upj(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_upj_i(o,v);
-}
-
-inline void ViewEditor::cb_lxr_i(Fl_Value_Input* o, void*) {
-  view.LXR = o->value();
-for (int i=0; i<3; i++) vs[i]->LXR(o->value());
-checkValidity();
-}
-void ViewEditor::cb_lxr(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->user_data()))->cb_lxr_i(o,v);
-}
-
-inline void ViewEditor::cb_ocular_dist_i(Fl_Value_Input* o, void*) {
-  view.interocular = o->value();
-ocular_angle->value(newangle());
-checkValidity();
-}
-void ViewEditor::cb_ocular_dist(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_ocular_dist_i(o,v);
-}
-
-inline void ViewEditor::cb_ocular_angle_i(Fl_Value_Input*, void*) {
-  view.interocular = newdist();
-ocular_dist->value(view.interocular);
-checkValidity();
-}
-void ViewEditor::cb_ocular_angle(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_ocular_angle_i(o,v);
-}
-
-inline void ViewEditor::cb_radio1_i(Fl_Round_Button*, void*) {
-  ocular_angle->deactivate();
-ocular_dist->activate();
-}
-void ViewEditor::cb_radio1(Fl_Round_Button* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_radio1_i(o,v);
-}
-
-inline void ViewEditor::cb_radio2_i(Fl_Round_Button*, void*) {
-  ocular_dist->deactivate();
-ocular_angle->activate();
-}
-void ViewEditor::cb_radio2(Fl_Round_Button* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_radio2_i(o,v);
-}
-
-inline void ViewEditor::cb_lightx_i(Fl_Value_Input* o, void*) {
-  view.light[0] = o->value();
-}
-void ViewEditor::cb_lightx(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_lightx_i(o,v);
-}
-
-inline void ViewEditor::cb_lighty_i(Fl_Value_Input* o, void*) {
-  view.light[1] = o->value();
-}
-void ViewEditor::cb_lighty(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_lighty_i(o,v);
-}
-
-inline void ViewEditor::cb_lightz_i(Fl_Value_Input* o, void*) {
-  view.light[2] = o->value();
-}
-void ViewEditor::cb_lightz(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_lightz_i(o,v);
-}
-
-inline void ViewEditor::cb_movex_i(Fl_Value_Input* o, void*) {
-  view.Mov[0] = o->value();
-for (int i=0; i<3; i++) vs[i]->movex(o->value());
-}
-void ViewEditor::cb_movex(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_movex_i(o,v);
-}
-
-inline void ViewEditor::cb_movey_i(Fl_Value_Input* o, void*) {
-  view.Mov[1] = o->value();
-for (int i=0; i<3; i++) vs[i]->movey(o->value());
-}
-void ViewEditor::cb_movey(Fl_Value_Input* o, void* v) {
-  ((ViewEditor*)(o->parent()->parent()->user_data()))->cb_movey_i(o,v);
-}
-
-ViewEditor::ViewEditor(int X, int Y, int W, int H, const char *label) : Fl_Group(X,Y,W,H,label) {
-  ChildWindow* w;
-  { ChildWindow* o = win = new ChildWindow(416, 216);
-    w = o;
-    o->user_data((void*)(this));
-    { Fl_Group* o = new Fl_Group(5, 5, 260, 200, "QSpace coordinates (1, i, j)");
-      o->tooltip("All parameters in this box are coordinates in Quaternion space.");
-      o->box(FL_ENGRAVED_BOX);
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-      o->end();
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->viewpointre( o->value() );
     }
-    { Fl_Group* o = group_v = new Fl_Group(15, 30, 110, 75, "v");
-      o->tooltip("The view point represents the center point of the screen in QSpace.\nYou can \
-also use the three View Selectors to set the View Point with the mouse.");
-      o->labeltype(FL_NO_LABEL);
-      { Fl_Value_Input* o = vre = new Fl_Value_Input(15, 45, 110, 20, "View Point");
-        o->tooltip("Real part of View Point.");
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_vre);
-        o->align(FL_ALIGN_TOP_LEFT);
-      }
-      { Fl_Value_Input* o = vi = new Fl_Value_Input(15, 65, 110, 20, "value:");
-        o->tooltip("1st imaginary (i) part of View Point.");
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_vi);
-      }
-      { Fl_Value_Input* o = vj = new Fl_Value_Input(15, 85, 110, 20, "value:");
-        o->tooltip("2nd imaginary (j) part of View Point.");
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_vj);
-      }
-      o->end();
+
+    if( radio2->value() ) {
+        ocular_dist->value( newdist() );
+        ocular_dist->do_callback();
     }
-    { Fl_Group* o = group_up = new Fl_Group(15, 120, 110, 75, "up");
-      o->tooltip("Needed for orientation of the screen in QSpace.\nDefines the vertical directi\
-on of screen.");
-      o->labeltype(FL_NO_LABEL);
-      { Fl_Value_Input* o = upre = new Fl_Value_Input(15, 135, 110, 20, "Up (Orientation)");
-        o->tooltip("Real part of Up.");
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_upre);
-        o->align(FL_ALIGN_TOP_LEFT);
-      }
-      { Fl_Value_Input* o = upi = new Fl_Value_Input(15, 155, 110, 20, "value:");
-        o->tooltip("1st imaginary (i) part of Up.");
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_upi);
-      }
-      { Fl_Value_Input* o = upj = new Fl_Value_Input(15, 175, 110, 20, "value:");
-        o->tooltip("2nd imaginary (j) part of Up.");
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_upj);
-      }
-      o->end();
+
+    if( radio1->value() ) {
+        ocular_angle->value( newangle() );
     }
-    { Fl_Value_Input* o = lxr = new Fl_Value_Input(145, 65, 110, 20, "Length of View\nPlane\'s X-Axis");
-      o->tooltip("Use this to scale the screen (image).");
-      o->labelsize(12);
-      o->minimum(-1e+20);
-      o->maximum(1e+20);
-      o->textsize(12);
-      o->callback((Fl_Callback*)cb_lxr);
-      o->align(FL_ALIGN_TOP_LEFT);
-    }
-    { Fl_Group* o = group_interocular = new Fl_Group(145, 115, 110, 85, "Interocular");
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT);
-      { Fl_Value_Input* o = ocular_dist = new Fl_Value_Input(165, 135, 90, 20, "Distance");
-        o->tooltip("Distance (in QSpace) between the two eyes. If nonzero, you\'ll get a stereo i\
-mage.");
-        o->labelsize(12);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_ocular_dist);
-        o->align(FL_ALIGN_TOP_LEFT);
-      }
-      { Fl_Value_Input* o = ocular_angle = new Fl_Value_Input(165, 175, 90, 20, "Angle (\260)");
-        o->tooltip("Angle between the two eyes. If nonzero, you\'ll get a stereo image.");
-        o->labelsize(12);
-        o->maximum(360);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_ocular_angle);
-        o->align(FL_ALIGN_TOP_LEFT);
-        o->deactivate();
-      }
-      { Fl_Round_Button* o = radio1 = new Fl_Round_Button(145, 130, 20, 30, "button");
-        o->tooltip("If selected: Interocular distance constant while moving the View Point.");
-        o->type(102);
-        o->down_box(FL_DOWN_BOX);
-        o->value(1);
-        o->selection_color(2);
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->callback((Fl_Callback*)cb_radio1);
-      }
-      { Fl_Round_Button* o = radio2 = new Fl_Round_Button(145, 170, 20, 30, "button");
-        o->tooltip("If selected: Angle is constant while moving the View Point.");
-        o->type(102);
-        o->down_box(FL_DOWN_BOX);
-        o->selection_color(2);
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->callback((Fl_Callback*)cb_radio2);
-      }
-      o->end();
-    }
-    { Fl_Group* o = new Fl_Group(275, 5, 130, 200, "Viewplane coord.");
-      o->tooltip("All coordinates in this box are measured relative to the view plane.\nX=horiz\
-ontal, Y=vertical, Z=perpendicular to screen.");
-      o->box(FL_ENGRAVED_BOX);
-      o->labelsize(12);
-      o->align(FL_ALIGN_TOP_LEFT|FL_ALIGN_INSIDE);
-      o->end();
-    }
-    { Fl_Group* o = new Fl_Group(285, 30, 110, 75, "light");
-      o->tooltip("Measured from the View Point.");
-      o->labeltype(FL_NO_LABEL);
-      { Fl_Value_Input* o = lightx = new Fl_Value_Input(285, 45, 110, 20, "Light Source");
-        o->tooltip("X coordinate of Light Source.");
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_lightx);
-        o->align(FL_ALIGN_TOP_LEFT);
-      }
-      { Fl_Value_Input* o = lighty = new Fl_Value_Input(285, 65, 110, 20, "value:");
-        o->tooltip("Y coordinate of Light Source.");
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_lighty);
-      }
-      { Fl_Value_Input* o = lightz = new Fl_Value_Input(285, 85, 110, 20, "value:");
-        o->tooltip("Z coordinate of Light Source.");
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_lightz);
-      }
-      o->end();
-    }
-    { Fl_Group* o = group_move = new Fl_Group(285, 120, 110, 55, "move");
-      o->tooltip("Move the view plane parallel to itself.");
-      o->labeltype(FL_NO_LABEL);
-      { Fl_Value_Input* o = movex = new Fl_Value_Input(285, 135, 110, 20, "Move");
-        o->tooltip("Movement in X direction.");
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_movex);
-        o->align(FL_ALIGN_TOP_LEFT);
-      }
-      { Fl_Value_Input* o = movey = new Fl_Value_Input(285, 155, 110, 20, "value:");
-        o->tooltip("Movement in Y direction.");
-        o->labeltype(FL_NO_LABEL);
-        o->labelsize(12);
-        o->minimum(-1e+20);
-        o->maximum(1e+20);
-        o->textsize(12);
-        o->callback((Fl_Callback*)cb_movey);
-      }
-      o->end();
-    }
-    o->clear_border();
-    o->end();
-  }
-  memset(&view, 0, sizeof(view));
-end(); // VERY IMPORTANT!
-win->position(X+2, Y+2);
-// DON'T delete win in destructor (or elsewhere) 
-// it's automatically deleted by Fl_Group
+
+    checkValidity();
+}
+void ViewEditor::cb_vre( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_vre_i( o, v );
 }
 
-void ViewEditor::setSelectors(ViewSelector *vsa, ViewSelector *vsb, ViewSelector *vsf, Fl_Light_Button *ster) {
-  vs[0] = vsa; vs[1] = vsb; vs[2] = vsf;
-stereo = ster;
+inline void ViewEditor::cb_vi_i( Fl_Value_Input* o, void* ) {
+    view.s[1] = o->value();
+
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->viewpointi( o->value() );
+    }
+
+    if( radio2->value() ) {
+        ocular_dist->value( newdist() );
+        ocular_dist->do_callback();
+    }
+
+    if( radio1->value() ) {
+        ocular_angle->value( newangle() );
+    }
+
+    checkValidity();
+}
+void ViewEditor::cb_vi( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_vi_i( o, v );
 }
 
-void ViewEditor::set(const view_cpp& v) {
-  for (int i=0; i<3; i++) assert(vs[i] != 0);
-assert(stereo != 0);
-view = v;
-vre->value(v.s[0]); vi->value(v.s[1]); vj->value(v.s[2]);
-upre->value(v.up[0]); upi->value(v.up[1]); upj->value(v.up[2]);
-lxr->value(v.LXR);
-ocular_dist->value(v.interocular);
-lightx->value(v.light[0]); lighty->value(v.light[1]); lightz->value(v.light[2]);
-movex->value(v.Mov[0]);
-movey->value(v.Mov[1]);
+inline void ViewEditor::cb_vj_i( Fl_Value_Input* o, void* ) {
+    view.s[2] = o->value();
 
-// Set Angle, set ViewSelectors and checkValidity:
-ocular_dist->do_callback();
-vre->do_callback(); vi->do_callback(); vj->do_callback();
-upre->do_callback(); upi->do_callback(); upj->do_callback();
-lxr->do_callback(); movex->do_callback(); movey->do_callback();
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->viewpointj( o->value() );
+    }
 
-return;
+    if( radio2->value() ) {
+        ocular_dist->value( newdist() );
+        ocular_dist->do_callback();
+    }
+
+    if( radio1->value() ) {
+        ocular_angle->value( newangle() );
+    }
+
+    checkValidity();
+}
+void ViewEditor::cb_vj( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_vj_i( o, v );
 }
 
-void ViewEditor::get(view_cpp& v) {
-  // Don't do v=view, because there are other members
-// which aren't in the ViewEditor
+inline void ViewEditor::cb_upre_i( Fl_Value_Input* o, void* ) {
+    view.up[0] = o->value();
 
-v.s[0] = view.s[0]; v.s[1] = view.s[1]; v.s[2] = view.s[2];
-v.up[0] = view.up[0]; v.up[1] = view.up[1];  v.up[2] = view.up[2];
-v.LXR = view.LXR;
-v.interocular = view.interocular;
-v.light[0] = view.light[0];
-v.light[1] = view.light[1];
-v.light[2] = view.light[2];
-v.Mov[0] = view.Mov[0];
-v.Mov[1] = view.Mov[1];
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->upre( o->value() );
+    }
 
-return;
+    checkValidity();
+}
+void ViewEditor::cb_upre( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_upre_i( o, v );
 }
 
-bool ViewEditor::parallel(double a[], double b[]) {
-  double c[3] = {0.0, 0.0, 0.0};
-c[0] = a[1]*b[2] - a[2]*b[1];
-c[1] = a[2]*b[0] - a[0]*b[2];
-c[2] = a[0]*b[1] - a[1]*b[0];
-//double ab = c[0]*c[0] + c[1]*c[1] + c[2]*c[2];
-return (vec_abs(c)==0.0);
+inline void ViewEditor::cb_upi_i( Fl_Value_Input* o, void* ) {
+    view.up[1] = o->value();
+
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->upi( o->value() );
+    }
+
+    checkValidity();
+}
+void ViewEditor::cb_upi( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_upi_i( o, v );
 }
 
-double ViewEditor::vec_abs(double a[]) {
-  return sqrt(a[0]*a[0] + a[1]*a[1] + a[2]*a[2]);
+inline void ViewEditor::cb_upj_i( Fl_Value_Input* o, void* ) {
+    view.up[2] = o->value();
+
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->upj( o->value() );
+    }
+
+    checkValidity();
+}
+void ViewEditor::cb_upj( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_upj_i( o, v );
+}
+
+inline void ViewEditor::cb_lxr_i( Fl_Value_Input* o, void* ) {
+    view.LXR = o->value();
+
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->LXR( o->value() );
+    }
+
+    checkValidity();
+}
+void ViewEditor::cb_lxr( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->user_data() ) )->cb_lxr_i( o, v );
+}
+
+inline void ViewEditor::cb_ocular_dist_i( Fl_Value_Input* o, void* ) {
+    view.interocular = o->value();
+    ocular_angle->value( newangle() );
+    checkValidity();
+}
+void ViewEditor::cb_ocular_dist( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_ocular_dist_i( o, v );
+}
+
+inline void ViewEditor::cb_ocular_angle_i( Fl_Value_Input*, void* ) {
+    view.interocular = newdist();
+    ocular_dist->value( view.interocular );
+    checkValidity();
+}
+void ViewEditor::cb_ocular_angle( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_ocular_angle_i( o, v );
+}
+
+inline void ViewEditor::cb_radio1_i( Fl_Round_Button*, void* ) {
+    ocular_angle->deactivate();
+    ocular_dist->activate();
+}
+void ViewEditor::cb_radio1( Fl_Round_Button* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_radio1_i( o, v );
+}
+
+inline void ViewEditor::cb_radio2_i( Fl_Round_Button*, void* ) {
+    ocular_dist->deactivate();
+    ocular_angle->activate();
+}
+void ViewEditor::cb_radio2( Fl_Round_Button* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_radio2_i( o, v );
+}
+
+inline void ViewEditor::cb_lightx_i( Fl_Value_Input* o, void* ) {
+    view.light[0] = o->value();
+}
+void ViewEditor::cb_lightx( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_lightx_i( o, v );
+}
+
+inline void ViewEditor::cb_lighty_i( Fl_Value_Input* o, void* ) {
+    view.light[1] = o->value();
+}
+void ViewEditor::cb_lighty( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_lighty_i( o, v );
+}
+
+inline void ViewEditor::cb_lightz_i( Fl_Value_Input* o, void* ) {
+    view.light[2] = o->value();
+}
+void ViewEditor::cb_lightz( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_lightz_i( o, v );
+}
+
+inline void ViewEditor::cb_movex_i( Fl_Value_Input* o, void* ) {
+    view.Mov[0] = o->value();
+
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->movex( o->value() );
+    }
+}
+void ViewEditor::cb_movex( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_movex_i( o, v );
+}
+
+inline void ViewEditor::cb_movey_i( Fl_Value_Input* o, void* ) {
+    view.Mov[1] = o->value();
+
+    for( int i = 0; i < 3; i++ ) {
+        vs[i]->movey( o->value() );
+    }
+}
+void ViewEditor::cb_movey( Fl_Value_Input* o, void* v ) {
+    ( ( ViewEditor* )( o->parent()->parent()->user_data() ) )->cb_movey_i( o, v );
+}
+
+ViewEditor::ViewEditor( int X, int Y, int W, int H, const char* label ) : Fl_Group( X, Y, W, H, label ) {
+    ChildWindow* w;
+    {
+        ChildWindow* o = win = new ChildWindow( 416, 216 );
+        w = o;
+        o->user_data( ( void* )( this ) );
+        {
+            Fl_Group* o = new Fl_Group( 5, 5, 260, 200, "QSpace coordinates (1, i, j)" );
+            o->tooltip( "All parameters in this box are coordinates in Quaternion space." );
+            o->box( FL_ENGRAVED_BOX );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+            o->end();
+        }
+        {
+            Fl_Group* o = group_v = new Fl_Group( 15, 30, 110, 75, "v" );
+            o->tooltip( "The view point represents the center point of the screen in QSpace.\nYou can \
+also use the three View Selectors to set the View Point with the mouse." );
+            o->labeltype( FL_NO_LABEL );
+            {
+                Fl_Value_Input* o = vre = new Fl_Value_Input( 15, 45, 110, 20, "View Point" );
+                o->tooltip( "Real part of View Point." );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_vre );
+                o->align( FL_ALIGN_TOP_LEFT );
+            }
+            {
+                Fl_Value_Input* o = vi = new Fl_Value_Input( 15, 65, 110, 20, "value:" );
+                o->tooltip( "1st imaginary (i) part of View Point." );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_vi );
+            }
+            {
+                Fl_Value_Input* o = vj = new Fl_Value_Input( 15, 85, 110, 20, "value:" );
+                o->tooltip( "2nd imaginary (j) part of View Point." );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_vj );
+            }
+            o->end();
+        }
+        {
+            Fl_Group* o = group_up = new Fl_Group( 15, 120, 110, 75, "up" );
+            o->tooltip( "Needed for orientation of the screen in QSpace.\nDefines the vertical directi\
+on of screen." );
+            o->labeltype( FL_NO_LABEL );
+            {
+                Fl_Value_Input* o = upre = new Fl_Value_Input( 15, 135, 110, 20, "Up (Orientation)" );
+                o->tooltip( "Real part of Up." );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_upre );
+                o->align( FL_ALIGN_TOP_LEFT );
+            }
+            {
+                Fl_Value_Input* o = upi = new Fl_Value_Input( 15, 155, 110, 20, "value:" );
+                o->tooltip( "1st imaginary (i) part of Up." );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_upi );
+            }
+            {
+                Fl_Value_Input* o = upj = new Fl_Value_Input( 15, 175, 110, 20, "value:" );
+                o->tooltip( "2nd imaginary (j) part of Up." );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_upj );
+            }
+            o->end();
+        }
+        {
+            Fl_Value_Input* o = lxr = new Fl_Value_Input( 145, 65, 110, 20, "Length of View\nPlane\'s X-Axis" );
+            o->tooltip( "Use this to scale the screen (image)." );
+            o->labelsize( 12 );
+            o->minimum( -1e+20 );
+            o->maximum( 1e+20 );
+            o->textsize( 12 );
+            o->callback( ( Fl_Callback* )cb_lxr );
+            o->align( FL_ALIGN_TOP_LEFT );
+        }
+        {
+            Fl_Group* o = group_interocular = new Fl_Group( 145, 115, 110, 85, "Interocular" );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT );
+            {
+                Fl_Value_Input* o = ocular_dist = new Fl_Value_Input( 165, 135, 90, 20, "Distance" );
+                o->tooltip( "Distance (in QSpace) between the two eyes. If nonzero, you\'ll get a stereo i\
+mage." );
+                o->labelsize( 12 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_ocular_dist );
+                o->align( FL_ALIGN_TOP_LEFT );
+            }
+            {
+                Fl_Value_Input* o = ocular_angle = new Fl_Value_Input( 165, 175, 90, 20, "Angle (\260)" );
+                o->tooltip( "Angle between the two eyes. If nonzero, you\'ll get a stereo image." );
+                o->labelsize( 12 );
+                o->maximum( 360 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_ocular_angle );
+                o->align( FL_ALIGN_TOP_LEFT );
+                o->deactivate();
+            }
+            {
+                Fl_Round_Button* o = radio1 = new Fl_Round_Button( 145, 130, 20, 30, "button" );
+                o->tooltip( "If selected: Interocular distance constant while moving the View Point." );
+                o->type( 102 );
+                o->down_box( FL_DOWN_BOX );
+                o->value( 1 );
+                o->selection_color( 2 );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->callback( ( Fl_Callback* )cb_radio1 );
+            }
+            {
+                Fl_Round_Button* o = radio2 = new Fl_Round_Button( 145, 170, 20, 30, "button" );
+                o->tooltip( "If selected: Angle is constant while moving the View Point." );
+                o->type( 102 );
+                o->down_box( FL_DOWN_BOX );
+                o->selection_color( 2 );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->callback( ( Fl_Callback* )cb_radio2 );
+            }
+            o->end();
+        }
+        {
+            Fl_Group* o = new Fl_Group( 275, 5, 130, 200, "Viewplane coord." );
+            o->tooltip( "All coordinates in this box are measured relative to the view plane.\nX=horiz\
+ontal, Y=vertical, Z=perpendicular to screen." );
+            o->box( FL_ENGRAVED_BOX );
+            o->labelsize( 12 );
+            o->align( FL_ALIGN_TOP_LEFT | FL_ALIGN_INSIDE );
+            o->end();
+        }
+        {
+            Fl_Group* o = new Fl_Group( 285, 30, 110, 75, "light" );
+            o->tooltip( "Measured from the View Point." );
+            o->labeltype( FL_NO_LABEL );
+            {
+                Fl_Value_Input* o = lightx = new Fl_Value_Input( 285, 45, 110, 20, "Light Source" );
+                o->tooltip( "X coordinate of Light Source." );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_lightx );
+                o->align( FL_ALIGN_TOP_LEFT );
+            }
+            {
+                Fl_Value_Input* o = lighty = new Fl_Value_Input( 285, 65, 110, 20, "value:" );
+                o->tooltip( "Y coordinate of Light Source." );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_lighty );
+            }
+            {
+                Fl_Value_Input* o = lightz = new Fl_Value_Input( 285, 85, 110, 20, "value:" );
+                o->tooltip( "Z coordinate of Light Source." );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_lightz );
+            }
+            o->end();
+        }
+        {
+            Fl_Group* o = group_move = new Fl_Group( 285, 120, 110, 55, "move" );
+            o->tooltip( "Move the view plane parallel to itself." );
+            o->labeltype( FL_NO_LABEL );
+            {
+                Fl_Value_Input* o = movex = new Fl_Value_Input( 285, 135, 110, 20, "Move" );
+                o->tooltip( "Movement in X direction." );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_movex );
+                o->align( FL_ALIGN_TOP_LEFT );
+            }
+            {
+                Fl_Value_Input* o = movey = new Fl_Value_Input( 285, 155, 110, 20, "value:" );
+                o->tooltip( "Movement in Y direction." );
+                o->labeltype( FL_NO_LABEL );
+                o->labelsize( 12 );
+                o->minimum( -1e+20 );
+                o->maximum( 1e+20 );
+                o->textsize( 12 );
+                o->callback( ( Fl_Callback* )cb_movey );
+            }
+            o->end();
+        }
+        o->clear_border();
+        o->end();
+    }
+    memset( &view, 0, sizeof( view ) );
+    end(); // VERY IMPORTANT!
+    win->position( X + 2, Y + 2 );
+    // DON'T delete win in destructor (or elsewhere)
+    // it's automatically deleted by Fl_Group
+}
+
+void ViewEditor::setSelectors( ViewSelector* vsa, ViewSelector* vsb, ViewSelector* vsf, Fl_Light_Button* ster ) {
+    vs[0] = vsa;
+    vs[1] = vsb;
+    vs[2] = vsf;
+    stereo = ster;
+}
+
+void ViewEditor::set( const view_cpp& v ) {
+    for( int i = 0; i < 3; i++ ) {
+        assert( vs[i] != 0 );
+    }
+
+    assert( stereo != 0 );
+    view = v;
+    vre->value( v.s[0] );
+    vi->value( v.s[1] );
+    vj->value( v.s[2] );
+    upre->value( v.up[0] );
+    upi->value( v.up[1] );
+    upj->value( v.up[2] );
+    lxr->value( v.LXR );
+    ocular_dist->value( v.interocular );
+    lightx->value( v.light[0] );
+    lighty->value( v.light[1] );
+    lightz->value( v.light[2] );
+    movex->value( v.Mov[0] );
+    movey->value( v.Mov[1] );
+
+    // Set Angle, set ViewSelectors and checkValidity:
+    ocular_dist->do_callback();
+    vre->do_callback();
+    vi->do_callback();
+    vj->do_callback();
+    upre->do_callback();
+    upi->do_callback();
+    upj->do_callback();
+    lxr->do_callback();
+    movex->do_callback();
+    movey->do_callback();
+
+    return;
+}
+
+void ViewEditor::get( view_cpp& v ) {
+    // Don't do v=view, because there are other members
+    // which aren't in the ViewEditor
+
+    v.s[0] = view.s[0];
+    v.s[1] = view.s[1];
+    v.s[2] = view.s[2];
+    v.up[0] = view.up[0];
+    v.up[1] = view.up[1];
+    v.up[2] = view.up[2];
+    v.LXR = view.LXR;
+    v.interocular = view.interocular;
+    v.light[0] = view.light[0];
+    v.light[1] = view.light[1];
+    v.light[2] = view.light[2];
+    v.Mov[0] = view.Mov[0];
+    v.Mov[1] = view.Mov[1];
+
+    return;
+}
+
+bool ViewEditor::parallel( double a[], double b[] ) {
+    double c[3] = {0.0, 0.0, 0.0};
+    c[0] = a[1] * b[2] - a[2] * b[1];
+    c[1] = a[2] * b[0] - a[0] * b[2];
+    c[2] = a[0] * b[1] - a[1] * b[0];
+    //double ab = c[0]*c[0] + c[1]*c[1] + c[2]*c[2];
+    return ( vec_abs( c ) == 0.0 );
+}
+
+double ViewEditor::vec_abs( double a[] ) {
+    return sqrt( a[0] * a[0] + a[1] * a[1] + a[2] * a[2] );
 }
 
 double ViewEditor::newangle() {
-  double a = vec_abs(view.s);
-if (a==0.0 && view.interocular != 0.0) return 180.0;
-else if (a==0.0) return(ocular_angle->value());
-else return atan(view.interocular/(2.0*a))*360.0/M_PI;
+    double a = vec_abs( view.s );
+
+    if( a == 0.0 && view.interocular != 0.0 ) {
+        return 180.0;
+    } else if( a == 0.0 ) {
+        return( ocular_angle->value() );
+    } else {
+        return atan( view.interocular / ( 2.0 * a ) ) * 360.0 / M_PI;
+    }
 }
 
 double ViewEditor::newdist() {
-  return 2.0*vec_abs(view.s)*tan(M_PI*ocular_angle->value()/360.0);
+    return 2.0 * vec_abs( view.s ) * tan( M_PI * ocular_angle->value() / 360.0 );
 }
 
 void ViewEditor::checkValidity() {
-  const Fl_Color okc = FL_WHITE;
-const Fl_Color ndefc = FL_RED;
-Fl_Color vre_c = okc, vi_c = okc, vj_c = okc, 
-	upre_c = okc, upi_c = okc, upj_c = okc, 
-	lxr_c = okc, od_c = okc, oa_c = okc;
+    const Fl_Color okc = FL_WHITE;
+    const Fl_Color ndefc = FL_RED;
+    Fl_Color vre_c = okc, vi_c = okc, vj_c = okc,
+             upre_c = okc, upi_c = okc, upj_c = okc,
+             lxr_c = okc, od_c = okc, oa_c = okc;
 
-if (vec_abs(view.s) == 0.0) {
-	vre_c = ndefc; vi_c = ndefc; vj_c = ndefc;
-}
-else if (parallel(view.s, view.up)) {
-	upre_c = ndefc; upi_c = ndefc; upj_c = ndefc;
-}
+    if( vec_abs( view.s ) == 0.0 ) {
+        vre_c = ndefc;
+        vi_c = ndefc;
+        vj_c = ndefc;
+    } else if( parallel( view.s, view.up ) ) {
+        upre_c = ndefc;
+        upi_c = ndefc;
+        upj_c = ndefc;
+    }
 
-if (view.LXR <= 0.0) lxr_c = ndefc;
+    if( view.LXR <= 0.0 ) {
+        lxr_c = ndefc;
+    }
 
-if (view.interocular < 0.0) {
-	od_c = ndefc; oa_c = ndefc;
-}
+    if( view.interocular < 0.0 ) {
+        od_c = ndefc;
+        oa_c = ndefc;
+    }
 
-if (vre_c != vre->color()) { vre->color(vre_c); vre->redraw(); }
-if (vi_c != vi->color()) { vi->color(vi_c); vi->redraw(); }
-if (vj_c != vj->color()) { vj->color(vj_c); vj->redraw(); }
+    if( vre_c != vre->color() ) {
+        vre->color( vre_c );
+        vre->redraw();
+    }
 
-if (upre_c != upre->color()) { upre->color(upre_c); upre->redraw(); }
-if (upi_c != upi->color()) { upi->color(upi_c); upi->redraw(); }
-if (upj_c != upj->color()) { upj->color(upj_c); upj->redraw(); }
+    if( vi_c != vi->color() ) {
+        vi->color( vi_c );
+        vi->redraw();
+    }
 
-if (lxr_c != lxr->color()) { lxr->color(lxr_c); lxr->redraw(); }
+    if( vj_c != vj->color() ) {
+        vj->color( vj_c );
+        vj->redraw();
+    }
 
-if (od_c != ocular_dist->color()) { ocular_dist->color(od_c); ocular_dist->redraw(); }
-if (oa_c != ocular_angle->color()) { ocular_angle->color(oa_c); ocular_angle->redraw(); }
+    if( upre_c != upre->color() ) {
+        upre->color( upre_c );
+        upre->redraw();
+    }
 
-if (view.interocular == 0.0 && stereo->active()) stereo->deactivate();
-if (view.interocular != 0.0 && !stereo->active()) stereo->activate();
+    if( upi_c != upi->color() ) {
+        upi->color( upi_c );
+        upi->redraw();
+    }
 
-return;
+    if( upj_c != upj->color() ) {
+        upj->color( upj_c );
+        upj->redraw();
+    }
+
+    if( lxr_c != lxr->color() ) {
+        lxr->color( lxr_c );
+        lxr->redraw();
+    }
+
+    if( od_c != ocular_dist->color() ) {
+        ocular_dist->color( od_c );
+        ocular_dist->redraw();
+    }
+
+    if( oa_c != ocular_angle->color() ) {
+        ocular_angle->color( oa_c );
+        ocular_angle->redraw();
+    }
+
+    if( view.interocular == 0.0 && stereo->active() ) {
+        stereo->deactivate();
+    }
+
+    if( view.interocular != 0.0 && !stereo->active() ) {
+        stereo->activate();
+    }
+
+    return;
 }
