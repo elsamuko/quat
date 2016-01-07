@@ -14,9 +14,22 @@ macx:  include( $${PRI_DIR}/mac.pri )
 win32: CONFIG += static
 win32: include( $${PRI_DIR}/win.pri )
 
+linux {
+    # zlib
+    INCLUDEPATH += -I$$MAIN_DIR/libs/zlib/include
+    LIBS += $$MAIN_DIR/libs/zlib/bin/linux/$$COMPILE_MODE/libz.a
+
+    # fltk
+    INCLUDEPATH += -I$$MAIN_DIR/libs/fltk/include
+    LIBS += $$MAIN_DIR/libs/fltk/bin/linux/$$COMPILE_MODE/libfltk_images.a \
+            $$MAIN_DIR/libs/fltk/bin/linux/$$COMPILE_MODE/libfltk.a
+
+    LIBS += -ldl -fPIC
+    LIBS += -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lpthread -ldl -lm -lX11
+    LIBS += -lpng -ljpeg
+}
+
 INCLUDEPATH += $${SRC_DIR}/kernel
-LIBS += -lz -lX11
-LIBS += -lfltk -lfltk_images
 
 HEADERS += $$files($${SRC_DIR}/kernel/*.h)
 SOURCES += $$files($${SRC_DIR}/kernel/*.c)
