@@ -30,6 +30,7 @@
 #include "MainWindow.h"
 
 int main( int argc, char** argv ) {
+    Fl::scheme( "gtk+" );
     Fl::visual( FL_DOUBLE | FL_INDEX );
     Fl_File_Icon::load_system_icons();
     //	MainWindow *win = new MainWindow(argc, argv);
