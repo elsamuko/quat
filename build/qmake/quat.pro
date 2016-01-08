@@ -14,19 +14,32 @@ macx:  include( $${PRI_DIR}/mac.pri )
 win32: CONFIG += static
 win32: include( $${PRI_DIR}/win.pri )
 
-linux {
+macx: PLATFORM=mac
+linux: PLATFORM=linux
+
+unix {
     # zlib
-    INCLUDEPATH += -I$$MAIN_DIR/libs/zlib/include
-    LIBS += $$MAIN_DIR/libs/zlib/bin/linux/$$COMPILE_MODE/libz.a
+    INCLUDEPATH += $$MAIN_DIR/libs/zlib/include
+    LIBS += $$MAIN_DIR/libs/zlib/bin/$$PLATFORM/$$COMPILE_MODE/libz.a
 
     # fltk
-    INCLUDEPATH += -I$$MAIN_DIR/libs/fltk/include
-    LIBS += $$MAIN_DIR/libs/fltk/bin/linux/$$COMPILE_MODE/libfltk_images.a \
-            $$MAIN_DIR/libs/fltk/bin/linux/$$COMPILE_MODE/libfltk.a
+    INCLUDEPATH += $$MAIN_DIR/libs/fltk/include
+    LIBS += $$MAIN_DIR/libs/fltk/bin/$$PLATFORM/$$COMPILE_MODE/libfltk_images.a \
+            $$MAIN_DIR/libs/fltk/bin/$$PLATFORM/$$COMPILE_MODE/libfltk.a
 
+    LIBS += -ljpeg
+}
+
+linux {
+    LIBS += -lpng
     LIBS += -ldl -fPIC
     LIBS += -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lpthread -ldl -lm -lX11
-    LIBS += -lpng -ljpeg
+}
+
+macx {
+    LIBS += -L/opt/local/lib
+    LIBS += -lpng16
+    LIBS += -lc++ -lpthread -framework Cocoa
 }
 
 INCLUDEPATH += $${SRC_DIR}/kernel
