@@ -56,9 +56,7 @@ using namespace std;
 #include <FL/fl_file_chooser.H>
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/x.H>
-#ifdef WIN32
-#include "resources.h"
-#elif __unix__
+#if __unix__
 #include "icon.xbm"
 #endif
 
