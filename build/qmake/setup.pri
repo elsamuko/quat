@@ -1,6 +1,7 @@
 
 # set debug/release info
 CONFIG(debug, debug|release) {
+    COMPILE_FLAG=d
     COMPILE_MODE=debug
     IM_FLAG=DB
 }

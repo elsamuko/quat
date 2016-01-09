@@ -2,7 +2,7 @@
 #ifndef XPMCONST
 #define XPMCONST
 #endif
-static XPMCONST char * title[] = {
+static const char* title[] = {
 "782 600 257 2",
 "  	c None",
 ". 	c #000000",

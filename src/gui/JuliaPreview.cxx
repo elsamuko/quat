@@ -36,19 +36,19 @@
 #include <cmath>
 #include <ctime>
 
-extern VER_ReturnVideoInfo ReturnVideoInfo;
-extern VER_SetColors SetColors;
-extern VER_Initialize Initialize;
-extern VER_Done Done;
-extern VER_update_bitmap update_bitmap;
-extern VER_getline QU_getline;
-extern VER_putline putline;
-extern VER_check_event check_event;
-extern VER_Change_Name Change_Name;
-extern VER_Debug Debug;
-extern VER_eol eol;
+extern "C" VER_ReturnVideoInfo ReturnVideoInfo;
+extern "C" VER_SetColors SetColors;
+extern "C" VER_Initialize Initialize;
+extern "C" VER_Done Done;
+extern "C" VER_update_bitmap update_bitmap;
+extern "C" VER_getline QU_getline;
+extern "C" VER_putline putline;
+extern "C" VER_check_event check_event;
+extern "C" VER_Change_Name Change_Name;
+extern "C" VER_Debug Debug;
+extern "C" VER_eol eol;
 
-extern time_t calc_time;
+extern "C" time_t calc_time;
 extern time_t old_time;
 
 JuliaPreview* p_this = NULL;  // Quite nasty interface to C...

@@ -80,7 +80,7 @@ e Version 2.\n(Please read the file \'COPYING\' for details)." );
         o->set_modal();
         o->end();
     }
-    icon->setPixmap( icon_xpm );
+    icon->setPixmap( ( char* const* ) icon_xpm );
 }
 
 void AboutBox::run() {

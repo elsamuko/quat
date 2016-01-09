@@ -62,22 +62,22 @@ using namespace std;
 #include "icon.xbm"
 #endif
 
-extern VER_ReturnVideoInfo ReturnVideoInfo;
-extern VER_SetColors SetColors;
-extern VER_Initialize Initialize;
-extern VER_Done Done;
-extern VER_update_bitmap update_bitmap;
-extern VER_getline QU_getline;
-extern VER_putline putline;
-extern VER_check_event check_event;
-extern VER_Change_Name Change_Name;
-extern VER_Debug Debug;
-extern VER_eol eol;
+extern "C" VER_ReturnVideoInfo ReturnVideoInfo;
+extern "C" VER_SetColors SetColors;
+extern "C" VER_Initialize Initialize;
+extern "C" VER_Done Done;
+extern "C" VER_update_bitmap update_bitmap;
+extern "C" VER_getline QU_getline;
+extern "C" VER_putline putline;
+extern "C" VER_check_event check_event;
+extern "C" VER_Change_Name Change_Name;
+extern "C" VER_Debug Debug;
+extern "C" VER_eol eol;
 
 // Those ugly global variables are neccessary for communication with C source
 MainWindow* MainWinPtr = NULL;
 char Error[1024];
-extern time_t calc_time;
+extern "C" time_t calc_time;
 time_t old_time = 0;
 
 void MainWindow::Image_Open_cb( Fl_Widget*, void* v ) {
@@ -418,7 +418,7 @@ void MainWindow::MakeTitle() {
 
     if( suc ) {
         pix = new PixWid( 0, 25, wp, hp );
-        reinterpret_cast<PixWid*>( pix )->setPixmap( title );
+        reinterpret_cast<PixWid*>( pix )->setPixmap( ( char* const* ) title );
     } else {
         pix = new Fl_Button( 0, 0, 300, 200, "There was a problem\nanalyzing the XPM image." );
     }

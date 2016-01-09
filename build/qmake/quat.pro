@@ -1,5 +1,7 @@
 
 TEMPLATE = app
+CONFIG += windows
+CONFIG -= console
 CONFIG += c++11
 CONFIG -= qt
 
@@ -17,15 +19,18 @@ win32: include( $${PRI_DIR}/win.pri )
 macx: PLATFORM=mac
 linux: PLATFORM=linux
 
+# zlib
+INCLUDEPATH += $$MAIN_DIR/libs/zlib/include
+# fltk
+INCLUDEPATH += $$MAIN_DIR/libs/fltk/include
+
 unix {
     # zlib
-    INCLUDEPATH += $$MAIN_DIR/libs/zlib/include
     LIBS += $$MAIN_DIR/libs/zlib/bin/$$PLATFORM/$$COMPILE_MODE/libz.a
 
     # fltk
-    INCLUDEPATH += $$MAIN_DIR/libs/fltk/include
-    LIBS += $$MAIN_DIR/libs/fltk/bin/$$PLATFORM/$$COMPILE_MODE/libfltk_images.a \
-            $$MAIN_DIR/libs/fltk/bin/$$PLATFORM/$$COMPILE_MODE/libfltk.a
+    LIBS += $$MAIN_DIR/libs/fltk/bin/$$PLATFORM/$$COMPILE_MODE/libfltk_images.a
+    LIBS += $$MAIN_DIR/libs/fltk/bin/$$PLATFORM/$$COMPILE_MODE/libfltk.a
 
     LIBS += -ljpeg
 }
@@ -40,6 +45,21 @@ macx {
     LIBS += -L/opt/local/lib
     LIBS += -lpng16
     LIBS += -lc++ -lpthread -framework Cocoa
+}
+
+win32 {
+    # zlib
+    LIBS += $$MAIN_DIR/libs/zlib/bin/$$PLATFORM/$$COMPILE_MODE/zlib.lib
+
+    # fltk
+    LIBS += /LIBPATH:$$MAIN_DIR/libs/fltk/bin/$$PLATFORM/$$COMPILE_MODE
+    LIBS += fltkimages$${COMPILE_FLAG}.lib
+    LIBS += fltk$${COMPILE_FLAG}.lib
+    LIBS += fltkjpeg$${COMPILE_FLAG}.lib
+    LIBS += fltkpng$${COMPILE_FLAG}.lib
+
+    # windows
+    LIBS += Gdi32.lib User32.lib Ole32.lib Advapi32.lib Shell32.lib
 }
 
 INCLUDEPATH += $${SRC_DIR}/kernel
