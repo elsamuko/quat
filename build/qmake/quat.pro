@@ -26,14 +26,23 @@ win32: DEFINES += 'IDI_ICON1=101'
 macx: ICON = $${MAIN_DIR}/resources/mac/logo.icns
 macx: QMAKE_POST_LINK += macdeployqt $${DESTDIR}/$${TARGET}.$${TEMPLATE};
 
-linux | win32 {
+win32 {
+    CRLF = $$escape_expand(\n\t)
+    DESTDIR_WIN = $${DESTDIR}
+    DESTDIR_WIN ~= s,/,\\,g
+
+    DEFINES += '"DOCDIR=\\\"manual\\\""'
+    DEFINES += '"INIPATH=\\\"/examples\\\""'
+
+    QMAKE_POST_LINK += $$quote( echo \"Copy manual...\" & xcopy /s /i /y \"$${MAIN_DIR}/docs/manual\" \"$${DESTDIR_WIN}/manual\" $$CRLF )
+    QMAKE_POST_LINK += $$quote( echo \"Copy examples...\" & xcopy /s /i /y \"$${MAIN_DIR}/docs/examples\" \"$${DESTDIR_WIN}/examples\" $$CRLF )
+}
+
+linux {
     DEFINES += '"DOCDIR=\\\"manual\\\""'
     DEFINES += '"INIPATH=\\\"/examples\\\""'
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/manual\" \"$$DESTDIR/\";
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/examples\" \"$$DESTDIR/\";
-}
-
-linux {
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/resources/inkscape/logo.png\" \"$$DESTDIR/\";
 }
 
