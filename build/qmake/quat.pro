@@ -24,6 +24,7 @@ win32: PLATFORM=win
 win32: RC_FILE = $${MAIN_DIR}/resources/win/quat.rc
 win32: DEFINES += 'IDI_ICON1=101'
 macx: ICON = $${MAIN_DIR}/resources/mac/logo.icns
+macx: QMAKE_POST_LINK += macdeployqt $${DESTDIR}/$${TARGET}.$${TEMPLATE};
 
 include( $${PRI_DIR}/libs.pri )
 include( $${PRI_DIR}/src.pri )
