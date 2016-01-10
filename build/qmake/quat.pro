@@ -28,7 +28,7 @@ macx: QMAKE_POST_LINK += macdeployqt $${DESTDIR}/$${TARGET}.$${TEMPLATE};
 
 linux | win32 {
     DEFINES += '"DOCDIR=\\\"manual\\\""'
-    DEFINES += '"INIPATH=\\\"./examples\\\""'
+    DEFINES += '"INIPATH=\\\"/examples\\\""'
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/manual\" \"$$DESTDIR/\";
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/examples\" \"$$DESTDIR/\";
 }
@@ -38,8 +38,8 @@ linux {
 }
 
 macx {
-    DEFINES += '"DOCDIR=\\\"./../manual\\\""'
-    DEFINES += '"INIPATH=\\\"./../examples\\\""'
+    DEFINES += '"DOCDIR=\\\"/../manual\\\""'
+    DEFINES += '"INIPATH=\\\"/../examples\\\""'
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/manual\" \"$$DESTDIR/$${TARGET}.app/Contents/\";
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/examples\" \"$$DESTDIR/$${TARGET}.app/Contents/\";
 }

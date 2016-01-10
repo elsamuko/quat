@@ -33,6 +33,15 @@
 
 #include <sstream>
 #include <iostream>
+#include <tuple>
+#if __APPLE__
+#include <mach-o/dyld.h>
+#elif __linux__
+#include <unistd.h>
+#elif _WIN32
+#include <Windows.h>
+#include <cstdint>
+#endif
 
 #ifndef NO_NAMESPACE
 using namespace std;
@@ -194,13 +203,53 @@ int switch_callback( int argc, char* argv[], int& i ) {
     return 1;
 }
 
+std::tuple<std::string, std::string> applicationPath() {
+
+    std::string dir;  // e.g. /Applications/Quat.app/Contents/MacOS
+    std::string base; // e.g. Quat
+
+    std::string fullPath( 1024, '\0' );
+    uint32_t size = fullPath.size();
+
+#if __APPLE__
+    bool ok = _NSGetExecutablePath( ( char* )fullPath.c_str(), &size ) == 0;
+#elif __linux__
+    size = readlink( "/proc/self/exe", ( char* )fullPath.c_str(), size );
+    bool ok = size > 0;
+#elif _WIN32
+    size = GetModuleFileNameA( 0, ( char* )fullPath.c_str(), size );
+    bool ok = size > 0;
+#endif
+    if( ok ) {
+        fullPath.resize( size );
+    } else {
+        fullPath.clear();
+    }
+
+    if( !fullPath.empty() ) {
+
+#if _WIN32
+        size_t pos = fullPath.find_last_of( '\\' );
+#else
+        size_t pos = fullPath.find_last_of( '/' );
+#endif
+
+        if( pos != std::string::npos ) {
+            dir = fullPath.substr( 0, pos );
+            base = fullPath.substr( pos );
+        }
+    }
+
+    return std::make_tuple( dir, base );
+}
+
 MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
     : auto_resize( false ), minsizeX( 200 ), minsizeY( 150 ), imgxstart( 0 ), imgystart( 0 ),
       zbufxstart( 0 ), zbufystart( 0 ), stop( false ),
       ImgInMem( false ), ZBufInMem( false ), ImgChanged( false ), ZBufChanged( false ),
       ImgReady( false ), ZBufReady( false ), InCalc( false ),
       pix( 0 ), help( new Fl_Help_Dialog ), ZBuf( 0 ),
-      act_file( "Noname.png" ), ini_path( INIPATH ), png_path( "./" ),
+      act_file( "Noname.png" ), ini_path( std::get<0>( applicationPath() ) + INIPATH ), png_path( "./" ),
       _status_text_char( 0 ) {
     assert( MainWinPtr == 0 );
     MainWinPtr = this;
