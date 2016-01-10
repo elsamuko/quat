@@ -339,7 +339,7 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
 
     pathname helpfile;
 #ifdef DOCDIR
-    helpfile = DOCDIR "/quat-us.html";
+    helpfile = std::string( DOCDIR ) + "/quat-us.html";
 #else
     helpfile = "/quat-us.html";
 #endif
