@@ -49,6 +49,7 @@ using namespace std;
 #include "title.xpm"
 #include "ImageWid.h"
 
+#include <FL/Fl_PNG_Image.H>
 #include <FL/Fl_Double_Window.H>
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/fl_draw.H>
@@ -56,9 +57,6 @@ using namespace std;
 #include <FL/fl_file_chooser.H>
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/x.H>
-#if __unix__
-#include "icon.xbm"
-#endif
 
 extern "C" VER_ReturnVideoInfo ReturnVideoInfo;
 extern "C" VER_SetColors SetColors;
@@ -330,11 +328,8 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
 #ifdef WIN32
     MainWin->icon( ( char* )LoadIcon( fl_display, MAKEINTRESOURCE( IDI_ICON1 ) ) );
 #elif __unix__
-    Fl::w();	// Just to open the display.
-    Pixmap p = XCreateBitmapFromData( fl_display, DefaultRootWindow( fl_display ),
-                                      ( char* )icon_bits, icon_width, icon_height );
-
-    MainWin->icon( ( char* )p );
+    Fl_PNG_Image* icon = new Fl_PNG_Image( "logo.png" );
+    MainWin->icon( icon );
 #endif
 
     pathname helpfile;
