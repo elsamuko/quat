@@ -1,4 +1,7 @@
 
+unix: QMAKE_CXXFLAGS += -Wno-unused-parameter
+unix: QMAKE_CFLAGS += -Wno-unused-parameter
+
 INCLUDEPATH += $${SRC_DIR}/kernel
 
 HEADERS += $$files($${SRC_DIR}/kernel/*.h)
