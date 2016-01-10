@@ -26,11 +26,22 @@ win32: DEFINES += 'IDI_ICON1=101'
 macx: ICON = $${MAIN_DIR}/resources/mac/logo.icns
 macx: QMAKE_POST_LINK += macdeployqt $${DESTDIR}/$${TARGET}.$${TEMPLATE};
 
-linux {
+linux | win32 {
     DEFINES += '"DOCDIR=\\\"manual\\\""'
+    DEFINES += '"INIPATH=\\\"./examples\\\""'
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/manual\" \"$$DESTDIR/\";
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/examples\" \"$$DESTDIR/\";
+}
+
+linux {
     QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/resources/inkscape/logo.png\" \"$$DESTDIR/\";
+}
+
+macx {
+    DEFINES += '"DOCDIR=\\\"./../manual\\\""'
+    DEFINES += '"INIPATH=\\\"./../examples\\\""'
+    QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/manual\" \"$$DESTDIR/$${TARGET}.app/Contents/\";
+    QMAKE_POST_LINK += cp -r \"$${MAIN_DIR}/docs/examples\" \"$$DESTDIR/$${TARGET}.app/Contents/\";
 }
 
 include( $${PRI_DIR}/libs.pri )

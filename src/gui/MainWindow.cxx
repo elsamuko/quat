@@ -200,7 +200,7 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
       ImgInMem( false ), ZBufInMem( false ), ImgChanged( false ), ZBufChanged( false ),
       ImgReady( false ), ZBufReady( false ), InCalc( false ),
       pix( 0 ), help( new Fl_Help_Dialog ), ZBuf( 0 ),
-      act_file( "Noname.png" ), ini_path( "./" ), png_path( "./" ),
+      act_file( "Noname.png" ), ini_path( INIPATH ), png_path( "./" ),
       _status_text_char( 0 ) {
     assert( MainWinPtr == 0 );
     MainWinPtr = this;
@@ -269,13 +269,13 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
     MainWin->resizable( scroll );
 
     /*	for (int i=1; i<argc; i++) if (argv[i][0] != '-') {
-    		pathname tmp(argv[i]);
-    		tmp.uppercase();
-    		if (tmp.ext() == ".PNG") DoImgOpen(tmp.c_str(), 0);
-    		else if (tmp.ext() == ".ZPN") DoImgOpen(tmp.c_str(), 1);
-    		else if (tmp.ext() == ".INI" || tmp.ext() == ".OBJ" || tmp.ext() == ".COL")
-    			Parameters_ReadINI(frac, view, realpal, colscheme, cutbuf, tmp.c_str());
-       		else DoImgOpen(tmp.c_str(), 0);
+            pathname tmp(argv[i]);
+            tmp.uppercase();
+            if (tmp.ext() == ".PNG") DoImgOpen(tmp.c_str(), 0);
+            else if (tmp.ext() == ".ZPN") DoImgOpen(tmp.c_str(), 1);
+            else if (tmp.ext() == ".INI" || tmp.ext() == ".OBJ" || tmp.ext() == ".COL")
+                Parameters_ReadINI(frac, view, realpal, colscheme, cutbuf, tmp.c_str());
+            else DoImgOpen(tmp.c_str(), 0);
 
     //		char *ext_tmp = strrchr(argv[i], '.');
     //		if (!ext_tmp) DoImgOpen(argv[i], 0);
@@ -291,10 +291,10 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
     //			else DoImgOpen(argv[i], 0);
     //		}
 
-    		for (int j=i; j<argc-1; j++) argv[j] = argv[j+1];
-    		argc--;
-    		break;
-    	}
+            for (int j=i; j<argc-1; j++) argv[j] = argv[j+1];
+            argc--;
+            break;
+        }
     */
 
     int sw_i = 0;
