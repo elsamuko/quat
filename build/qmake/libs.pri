@@ -5,6 +5,13 @@ INCLUDEPATH += $$MAIN_DIR/libs/zlib/include
 INCLUDEPATH += $$MAIN_DIR/libs/fltk/include
 
 unix {
+    QMAKE_CXXFLAGS += -isystem $$MAIN_DIR/libs/zlib/include
+    QMAKE_CXXFLAGS += -isystem $$MAIN_DIR/libs/fltk/include
+    QMAKE_CFLAGS += -isystem $$MAIN_DIR/libs/zlib/include
+    QMAKE_CFLAGS += -isystem $$MAIN_DIR/libs/fltk/include
+}
+
+unix {
     # zlib
     LIBS += $$MAIN_DIR/libs/zlib/bin/$$PLATFORM/$$COMPILE_MODE/libz.a
 
