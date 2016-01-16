@@ -1,10 +1,7 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0100 
+version 1.0302 
 header_name {.h} 
-code_name {.cxx} 
-gridx 5 
-gridy 5 
-snap 3
+code_name {.cxx}
 decl {// Quat - A 3D fractal generation program
 // Copyright (C) 1997-2000 Dirk Meyer
 // (email: dirk.meyer@studserv.uni-stuttgart.de)
@@ -25,21 +22,24 @@ decl {// Quat - A 3D fractal generation program
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {selected
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {private local
 } 
 
 declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
 } {
-  decl {\#include <config.h>} {}
+  decl {\#include <config.h>} {private local
+  }
 } 
 
 class AboutBox {open
 } {
-  decl {\#include "icon.xpm"} {}
-  Function {AboutBox()} {} {
+  decl {\#include "icon.xpm"} {private local
+  }
+  Function {AboutBox()} {open
+  } {
     Fl_Window win {
       label {About Quat}
-      xywh {297 146 418 360} modal visible
+      xywh {297 146 415 360} type Double modal visible
     } {
       Fl_Box state {
         xywh {150 15 250 15} labelfont 1 align 21
@@ -81,7 +81,8 @@ More info on FLTK: http://www.fltk.org/}
         class PixWid
       }
     }
-    code {icon->setPixmap(icon_xpm);} {}
+    code {icon->setPixmap( ( char* const* ) icon_xpm );} {selected
+    }
   }
   Function {run()} {return_type void
   } {

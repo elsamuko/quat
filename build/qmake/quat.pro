@@ -55,3 +55,4 @@ macx {
 
 include( $${PRI_DIR}/libs.pri )
 include( $${PRI_DIR}/src.pri )
+include( $${PRI_DIR}/gui.pri )
