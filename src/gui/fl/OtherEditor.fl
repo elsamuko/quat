@@ -1,10 +1,7 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0100 
+version 1.0302 
 header_name {.h} 
-code_name {.cxx} 
-gridx 5 
-gridy 5 
-snap 3
+code_name {.cxx}
 decl {// Quat - A 3D fractal generation program
 // Copyright (C) 1997-2000 Dirk Meyer
 // (email: dirk.meyer@studserv.uni-stuttgart.de)
@@ -25,23 +22,28 @@ decl {// Quat - A 3D fractal generation program
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
-
-decl {\#include <cassert>} {} 
-
-decl {//\#include <cstring>} {} 
-
-decl {\#include "ChildWindow.h"} {} 
-
-decl {class ChildWindow;} {public
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {private local
 } 
 
-decl {\#include "ViewSelector.h"} {} 
-
-decl {class ViewSelector;} {public
+decl {\#include <cassert>} {private local
 } 
 
-decl {\#include "common.h"} {public
+decl {//\#include <cstring>} {private local
+} 
+
+decl {\#include "ChildWindow.h"} {private local
+} 
+
+decl {class ChildWindow;} {public local
+} 
+
+decl {\#include "ViewSelector.h"} {private local
+} 
+
+decl {class ViewSelector;} {public local
+} 
+
+decl {\#include "common.h"} {public local
 } 
 
 class OtherEditor {open : {public Fl_Group}
@@ -49,7 +51,7 @@ class OtherEditor {open : {public Fl_Group}
   Function {OtherEditor(int X, int Y, int W, int H, const char *label) : Fl_Group(X,Y,W,H,label)} {open
   } {
     Fl_Window win {open
-      xywh {318 319 416 216}
+      xywh {318 319 415 215} type Double
       class ChildWindow noborder visible
     } {
       Fl_Box {} {
@@ -93,7 +95,7 @@ checkValidity();}
       Fl_Value_Input phongsharp {
         label sharp
         callback {view.phongsharp = o->value();
-checkValidity();} selected
+checkValidity();}
         tooltip {Describes how fast the highlight will fade into usual light.} xywh {140 125 100 20} labelsize 12 align 5 maximum 1e+20 textsize 12
       }
       Fl_Value_Input ambient {
@@ -113,38 +115,38 @@ images and longer calculation time.} xywh {140 180 90 20} labelsize 12 align 5 m
         label {Resolution shortcuts}
         xywh {280 85 120 20} labelsize 12 align 21
       }
-      Fl_Group group_buttons {
+      Fl_Group group_buttons {open
         tooltip {Clicking on one of those buttons will set a predefined resolution.} xywh {280 85 110 115}
       } {
         Fl_Button res1 {
-          label {DIN A4 (100 dpi)}
-          callback {xres->value(1170); yres->value(828);
-xres->do_callback(); yres->do_callback();}
-          tooltip {A whole sheet of paper printed in 100 dpi.} xywh {280 100 110 20} labelsize 12
+          label 4K
+          callback {xres->value(3840); yres->value(2160); zres->value(2160);
+xres->do_callback(); yres->do_callback(); zres->do_callback();}
+          tooltip {3840 x 2160} xywh {280 100 110 20} labelsize 12
         }
         Fl_Button res1b {
-          label {DIN A4 (300 dpi)}
-          callback {xres->value(3511); yres->value(2483);
-xres->do_callback(); yres->do_callback();}
-          tooltip {A whole sheet of paper printed in 300 dpi.} xywh {280 120 110 20} labelsize 12
+          label QHD
+          callback {xres->value(2560); yres->value(1440); zres->value(1440);
+xres->do_callback(); yres->do_callback(); zres->do_callback();}
+          tooltip {2560 x 1440} xywh {280 120 110 20} labelsize 12
         }
         Fl_Button res2 {
-          label 160x120x120
-          callback {xres->value(160); yres->value(120); zres->value(120);
+          label HD
+          callback {xres->value(1920); yres->value(1080); zres->value(1080);
 xres->do_callback(); yres->do_callback(); zres->do_callback();}
-          tooltip {A small image for testing.} xywh {280 140 110 20} labelsize 12
+          tooltip {1920 x 1080} xywh {280 140 110 20} labelsize 12
         }
         Fl_Button res3 {
-          label 320x240x240
-          callback {xres->value(320); yres->value(240); zres->value(240);
+          label XGA
+          callback {xres->value(1024); yres->value(768); zres->value(768);
 xres->do_callback(); yres->do_callback(); zres->do_callback();}
-          tooltip {Medium sized image.} xywh {280 160 110 20} labelsize 12
+          tooltip {1024 x 768} xywh {280 160 110 20} labelsize 12
         }
         Fl_Button res4 {
-          label 640x480x480
+          label VGA
           callback {xres->value(640); yres->value(480); zres->value(480);
-xres->do_callback(); yres->do_callback(); zres->do_callback();}
-          tooltip {Common resolution.} xywh {280 180 110 20} labelsize 12
+xres->do_callback(); yres->do_callback(); zres->do_callback();} selected
+          tooltip {640 x 480} xywh {280 180 110 20} labelsize 12
         }
       }
     }
@@ -213,6 +215,8 @@ if (antialiasing->color() != ant_c) { antialiasing->color(ant_c); antialiasing->
 
 return;} {}
   }
-  decl {view_struct view;} {}
-  decl {ViewSelector *vs[3];} {}
+  decl {view_struct view;} {private local
+  }
+  decl {ViewSelector *vs[3];} {private local
+  }
 } 
