@@ -18,3 +18,5 @@
 
 tmp
 libs
+src/gui/fl/*.cxx
+src/gui/fl/*.h
