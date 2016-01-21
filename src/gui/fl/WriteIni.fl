@@ -1,10 +1,7 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0100 
+version 1.0302 
 header_name {.h} 
-code_name {.cxx} 
-gridx 5 
-gridy 5 
-snap 3
+code_name {.cxx}
 decl {// Quat - A 3D fractal generation program
 // Copyright (C) 1997-2000 Dirk Meyer
 // (email: dirk.meyer@studserv.uni-stuttgart.de)
@@ -25,20 +22,23 @@ decl {// Quat - A 3D fractal generation program
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {private local
+} 
 
 declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
 } {
-  decl {\#include <config.h>} {}
+  decl {\#include <config.h>} {private local
+  }
 } 
 
-decl {bool WriteINI_state = false;} {} 
+decl {bool WriteINI_state = false;} {private local
+} 
 
 Function {WriteINI(int& mode)} {return_type bool
 } {
   Fl_Window win {
     label {Write Parameters to INI file}
-    xywh {367 321 210 187}
+    xywh {367 321 210 185} type Double
     code0 {\#include "common.h" // PS_ -Defines} modal visible
   } {
     Fl_Check_Button OBJ {

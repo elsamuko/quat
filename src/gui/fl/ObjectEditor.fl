@@ -1,10 +1,7 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0100 
+version 1.0302 
 header_name {.h} 
-code_name {.cxx} 
-gridx 5 
-gridy 5 
-snap 3
+code_name {.cxx}
 decl {// Quat - A 3D fractal generation program
 // Copyright (C) 1997-2000 Dirk Meyer
 // (email: dirk.meyer@studserv.uni-stuttgart.de)
@@ -25,34 +22,43 @@ decl {// Quat - A 3D fractal generation program
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {private local
+} 
 
 declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
 } {
-  decl {\#include <config.h>} {}
+  decl {\#include <config.h>} {private local
+  }
 } 
 
-decl {//\#include <iostream>} {} 
-
-decl {//\#include <string.h>} {} 
-
-decl {\#include <cmath> // fabs} {} 
-
-decl {\#include "ChildWindow.h"} {} 
-
-decl {class ChildWindow;} {public
+decl {//\#include <iostream>} {private local
 } 
 
-decl {\#include "structs.h"} {public
+decl {//\#include <string.h>} {private local
 } 
 
-decl {\#define VD(a) (a)->value()} {} 
+decl {\#include <cmath> // fabs} {private local
+} 
 
-decl {\#define VI(a) static_cast<int>((a)->value())} {} 
+decl {\#include "ChildWindow.h"} {private local
+} 
 
-decl {\#include "MandelPreview.h"} {} 
+decl {class ChildWindow;} {public local
+} 
 
-decl {class MandelPreview;} {public
+decl {\#include "structs.h"} {public local
+} 
+
+decl {\#define VD(a) (a)->value()} {private local
+} 
+
+decl {\#define VI(a) static_cast<int>((a)->value())} {private local
+} 
+
+decl {\#include "MandelPreview.h"} {private local
+} 
+
+decl {class MandelPreview;} {public local
 } 
 
 class ObjectEditor {open : {public Fl_Group}
@@ -60,7 +66,7 @@ class ObjectEditor {open : {public Fl_Group}
   Function {ObjectEditor(int X, int Y, int W, int H, const char *label) : Fl_Group(X, Y, W, H, label)} {open
   } {
     Fl_Window win {open
-      xywh {342 298 416 216}
+      xywh {342 298 415 215} type Double
       class ChildWindow noborder visible
     } {
       Fl_Value_Input maxiter {
@@ -103,23 +109,23 @@ frac.formula = VI(o);
 formula_changed();}
         tooltip {The formula that gets iterated.} xywh {65 65 205 30} down_box BORDER_BOX labelsize 12 textsize 12
       } {
-        menuitem {} {
+        MenuItem {} {
           label {Classical Julia}
           xywh {35 35 100 20} shortcut 0x61 labelsize 12
         }
-        menuitem {} {
+        MenuItem {} {
           label {Lambda Julia}
           xywh {30 30 100 20} shortcut 0x62 labelsize 12
         }
-        menuitem {} {
+        MenuItem {} {
           label {x[n+1] = x[n]*ln(x[n]) - c}
           xywh {40 40 100 20} shortcut 0x63 labelsize 12
         }
-        menuitem {} {
+        MenuItem {} {
           label {Cubic Julia}
           xywh {50 50 100 20} shortcut 0x64 labelsize 12
         }
-        menuitem {} {
+        MenuItem {} {
           label {x[n+1] = x[n]^p1-c}
           xywh {40 40 100 20} shortcut 0x65 labelsize 12
         }
@@ -290,7 +296,8 @@ p_i->value(frac.p[i-1][1]);
 p_j->value(frac.p[i-1][2]);
 p_k->value(frac.p[i-1][3]);} {}
   }
-  decl {frac_cpp frac;} {}
+  decl {frac_cpp frac;} {private local
+  }
   Function {deactiv()} {return_type void
   } {
     code {maxiter->deactivate();

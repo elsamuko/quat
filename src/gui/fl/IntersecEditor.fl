@@ -1,10 +1,7 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0100 
+version 1.0302 
 header_name {.h} 
-code_name {.cxx} 
-gridx 5 
-gridy 5 
-snap 3
+code_name {.cxx}
 decl {// Quat - A 3D fractal generation program
 // Copyright (C) 1997-2000 Dirk Meyer
 // (email: dirk.meyer@studserv.uni-stuttgart.de)
@@ -25,19 +22,22 @@ decl {// Quat - A 3D fractal generation program
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {private local
+} 
 
 declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
 } {
-  decl {\#include <config.h>} {}
+  decl {\#include <config.h>} {private local
+  }
 } 
 
-decl {\#include "ChildWindow.h"} {} 
-
-decl {class ChildWindow;} {public
+decl {\#include "ChildWindow.h"} {private local
 } 
 
-decl {\#include "structs.h"} {public
+decl {class ChildWindow;} {public local
+} 
+
+decl {\#include "structs.h"} {public local
 } 
 
 class IntersecEditor {open : {public Fl_Group}
@@ -45,7 +45,7 @@ class IntersecEditor {open : {public Fl_Group}
   Function {IntersecEditor(int X, int Y, int W, int H, const char *label) : Fl_Group(X,Y,W,H,label), num(0), idx(0), _disabled(false)} {open
   } {
     Fl_Window win {open
-      xywh {384 373 416 216}
+      xywh {384 373 415 215} type Double
       class ChildWindow noborder visible
     } {
       Fl_Scrollbar scroll {
@@ -130,7 +130,8 @@ win->position(X+2, Y+2);
 // DON'T delete win in destructor (or elsewhere) 
 // it's automatically deleted by Fl_Group} {}
   }
-  decl {cutbuf_cpp cutbuf;} {}
+  decl {cutbuf_cpp cutbuf;} {private local
+  }
   Function {set(const cutbuf_cpp& buf)} {return_type void
   } {
     code {cutbuf = buf;
@@ -201,7 +202,8 @@ if (num != 0 && !del->active() && !_disabled) del->activate();
 return;} {selected
     }
   }
-  decl {int num, idx;} {}
+  decl {int num, idx;} {private local
+  }
   Function {deactiv()} {return_type void
   } {
     code {n->deactivate();
@@ -210,5 +212,6 @@ add->deactivate();
 del->deactivate();
 _disabled = true;} {}
   }
-  decl {bool _disabled;} {}
+  decl {bool _disabled;} {private local
+  }
 } 

@@ -1,10 +1,7 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0100 
+version 1.0302 
 header_name {.h} 
-code_name {.cxx} 
-gridx 10 
-gridy 10 
-snap 3
+code_name {.cxx}
 decl {// Quat - A 3D fractal generation program
 // Copyright (C) 1997-2000 Dirk Meyer
 // (email: dirk.meyer@studserv.uni-stuttgart.de)
@@ -25,73 +22,87 @@ decl {// Quat - A 3D fractal generation program
 //
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
-// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {} 
+// Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {private local
+} 
 
 declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
 } {
-  decl {\#include <config.h>} {}
+  decl {\#include <config.h>} {private local
+  }
 } 
 
-decl {\#include "MainWindow.h"} {} 
-
-decl {extern MainWindow* MainWinPtr;} {} 
-
-decl {\#include "ObjectEditor.h"} {} 
-
-decl {\#include "ViewEditor.h"} {} 
-
-decl {\#include "ColorEditor.h"} {} 
-
-decl {\#include "IntersecEditor.h"} {} 
-
-decl {\#include "OtherEditor.h"} {} 
-
-decl {class ObjectEditor;} {public
+decl {\#include "MainWindow.h"} {private local
 } 
 
-decl {class ViewEditor;} {public
+decl {extern MainWindow* MainWinPtr;} {private local
 } 
 
-decl {class ColorEditor;} {public
+decl {\#include "ObjectEditor.h"} {private local
 } 
 
-decl {class IntersecEditor;} {public
+decl {\#include "ViewEditor.h"} {private local
 } 
 
-decl {class OtherEditor;} {public
+decl {\#include "ColorEditor.h"} {private local
 } 
 
-decl {\#include "JuliaPreview.h"} {selected
+decl {\#include "IntersecEditor.h"} {private local
 } 
 
-decl {class JuliaPreview;} {public
+decl {\#include "OtherEditor.h"} {private local
 } 
 
-decl {\#include "ViewSelector.h"} {} 
-
-decl {class ViewSelector;} {public
+decl {class ObjectEditor;} {public local
 } 
 
-decl {\#include "quat.h"} {} 
-
-decl {\#include <FL/fl_ask.H>} {} 
-
-decl {\#include "structs.h"} {public
+decl {class ViewEditor;} {public local
 } 
 
-decl {\#include "dragWindow.h"} {} 
-
-decl {class dragWindow;} {public
+decl {class ColorEditor;} {public local
 } 
 
-decl {\#include <cmath>    // sqrt} {} 
+decl {class IntersecEditor;} {public local
+} 
+
+decl {class OtherEditor;} {public local
+} 
+
+decl {\#include "JuliaPreview.h"} {selected private local
+} 
+
+decl {class JuliaPreview;} {public local
+} 
+
+decl {\#include "ViewSelector.h"} {private local
+} 
+
+decl {class ViewSelector;} {public local
+} 
+
+decl {\#include "quat.h"} {private local
+} 
+
+decl {\#include <FL/fl_ask.H>} {private local
+} 
+
+decl {\#include "structs.h"} {public local
+} 
+
+decl {\#include "dragWindow.h"} {private local
+} 
+
+decl {class dragWindow;} {public local
+} 
+
+decl {\#include <cmath>    // sqrt} {private local
+} 
 
 class ParameterEditor {open
 } {
   Function {ParameterEditor() : _state(0), _result(0)} {} {
     Fl_Window dialog {
       label {Parameter Editor}
-      xywh {213 180 587 357} visible
+      xywh {213 180 585 355} type Double visible
     } {
       Fl_Tabs tabs {
         xywh {10 0 420 240}
@@ -253,7 +264,7 @@ Preview->redraw();}
     }
     Fl_Window window_preview {
       label {Julia Preview Window}
-      xywh {402 380 204 84} box EMBOSSED_BOX
+      xywh {402 380 200 80} type Double box EMBOSSED_BOX
       class dragWindow non_modal noborder visible
     } {
       Fl_Box Preview {
@@ -394,6 +405,8 @@ Preview->set(f, v, pal, col, cut);
 Preview->CalcImage3D();
 return;} {}
   }
-  decl {int _state;} {}
-  decl {int _result;} {}
+  decl {int _state;} {private local
+  }
+  decl {int _result;} {private local
+  }
 } 
