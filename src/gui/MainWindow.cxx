@@ -259,45 +259,45 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
     status_text << "Dummy.";
     status_text.seekp( 0 );
     Fl_Menu_Item tmp[] = {
-        {"&Image", FL_ALT + 'f', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"&Open...", 0, Image_Open_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"&Close", 0, Image_Close_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"&Save", 0, Image_Save_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"Save &As...", 0, Image_SaveAs_cb, this, FL_MENU_DIVIDER, FL_NORMAL_LABEL, FL_HELVETICA, 12},
+        {"&Image", FL_ALT + 'f', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"&Open...", 0, Image_Open_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"&Close", 0, Image_Close_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"&Save", 0, Image_Save_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"Save &As...", 0, Image_SaveAs_cb, this, FL_MENU_DIVIDER, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
         {
             "Adjust &Window...", 0, Image_AdjustWindow_cb, this, FL_MENU_DIVIDER, FL_NORMAL_LABEL,
-            FL_HELVETICA, 12
+            FL_HELVETICA, 12, FL_FOREGROUND_COLOR
         },
-        {"E&xit...", 0, Image_Exit_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {"&Calculation", FL_ALT + 'c', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12},
+        {"E&xit...", 0, Image_Exit_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {"&Calculation", FL_ALT + 'c', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
         {
             "Start / Resume an &image", 0, Calculation_StartImage_cb, this, 0, FL_NORMAL_LABEL,
-            FL_HELVETICA, 12
+            FL_HELVETICA, 12, FL_FOREGROUND_COLOR
         },
         {
             "Start / Resume a &ZBuffer", 0, Calculation_StartZBuf_cb, this, 0, FL_NORMAL_LABEL,
-            FL_HELVETICA, 12
+            FL_HELVETICA, 12, FL_FOREGROUND_COLOR
         },
-        {"Stop", 0, Calculation_Stop_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {"&Parameters", FL_ALT + 'p', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"&Edit...", 0, Parameters_Edit_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"&Reset", 0, Parameters_Reset_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"Read from &INI...", 0, Parameters_ReadINI_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"Read from &PNG...", 0, Parameters_ReadPNG_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"Save &As...", 0, Parameters_SaveAs_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {"&ZBuffer", FL_ALT + 'f', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"&Open...", 0, ZBuffer_Open_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"&Close", 0, ZBuffer_Close_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"Save &As...", 0, ZBuffer_SaveAs_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {"&Help", FL_ALT + 'h', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"&Manual", 0, Help_Manual_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {"A&bout...", 0, Help_About_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12},
-        {0, 0, 0, 0, 0, 0, 0, 0},
-        {0, 0, 0, 0, 0, 0, 0, 0}
+        {"Stop", 0, Calculation_Stop_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {"&Parameters", FL_ALT + 'p', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"&Edit...", 0, Parameters_Edit_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"&Reset", 0, Parameters_Reset_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"Read from &INI...", 0, Parameters_ReadINI_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"Read from &PNG...", 0, Parameters_ReadPNG_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"Save &As...", 0, Parameters_SaveAs_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {"&ZBuffer", FL_ALT + 'f', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"&Open...", 0, ZBuffer_Open_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"&Close", 0, ZBuffer_Close_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"Save &As...", 0, ZBuffer_SaveAs_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {"&Help", FL_ALT + 'h', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"&Manual", 0, Help_Manual_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {"A&bout...", 0, Help_About_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0, 0, 0, 0, 0, 0, 0, 0, 0}
     };
 
     SetDefaults( &frac, &view, &realpal, colscheme, cutbuf );
