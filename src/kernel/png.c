@@ -381,7 +381,7 @@ int ReadPNGLine( struct png_internal_struct* i, unsigned char* Buf ) {
         }
     } while( i->d_stream.avail_out != 0 );
 
-    return( 0 );
+    return( err );
 }
 
 unsigned char PaethPredictor( unsigned char a, unsigned char b, unsigned char c ) {

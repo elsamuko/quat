@@ -1015,7 +1015,7 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
         return( -1 );
     }
 
-    my_time = ( long )time( ( time_t )NULL );
+    my_time = ( long )time( ( time_t* )NULL );
 
     if( frac.formula == 0 ) {
         cr.iterate = iterate_0;
@@ -1217,7 +1217,7 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
                 }
 
                 memset( line, 0, ( size_t )i + 1 );
-                calc_time += ( long )time( ( time_t )NULL ) - my_time;
+                calc_time += ( long )time( ( time_t* )NULL ) - my_time;
 
                 if( png != NULL ) {
                     PNGEnd( png_internal, line, 0, j );
