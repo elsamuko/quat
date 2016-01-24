@@ -701,11 +701,14 @@ int MainWindow::Image_Close() {
     assert( ImgInMem );
     status_text.seekp( 0 );
 
-    if( ImgChanged )
-        if( !fl_ask( "Image: There are unsaved modifications. Do you really want to close?" ) ) {
+    if( ImgChanged ) {
+        int choice = fl_choice( "Image: There are unsaved modifications. Do you really want to close?", "Abort", "Close", 0 );
+
+        if( choice != 1 ) {
             update();
             return 0;
         }
+    }
 
     if( ZBufInMem ) {
         MainWin->cursor( FL_CURSOR_WAIT );
@@ -812,11 +815,14 @@ void MainWindow::Image_SaveAs() {
     pathname file( fn );
     file.ext( ".png" );
 
-    if( file.exists() )
-        if( !fl_ask( "Selected file already exists. Overwrite?" ) ) {
+    if( file.exists() ) {
+        int choice = fl_choice( "Selected file already exists. Overwrite?", "Abort", "Overwrite", 0 );
+
+        if( choice != 1 ) {
             update();
             return;
         }
+    }
 
     MainWin->cursor( FL_CURSOR_WAIT );
 
@@ -888,10 +894,13 @@ void MainWindow::Help_About() {
 }
 
 void MainWindow::Image_Exit() {
-    if( ImgChanged || ZBufChanged )
-        if( !fl_ask( "There are unsaved modifications. Do you really want to exit?" ) ) {
+    if( ImgChanged || ZBufChanged ) {
+        int choice = fl_choice( "There are unsaved modifications. Do you really want to exit?", "Abort", "Exit", 0 );
+
+        if( choice != 1 ) {
             return;
         }
+    }
 
     help->hide();
     MainWin->hide();
@@ -1031,7 +1040,10 @@ void MainWindow::Parameters_Edit() {
 }
 
 void MainWindow::Parameters_Reset() {
-    if( fl_ask( "This will reset all parameters to their default values. Continue?" ) ) {
+
+    int choice = fl_choice( "This will reset all parameters to their default values. Continue?", "Abort", "Reset", 0 );
+
+    if( choice != 1 ) {
         SetDefaults( &frac, &view, &realpal, colscheme, cutbuf );
     }
 
@@ -1057,7 +1069,6 @@ bool MainWindow::Parameters_ReadINI( frac_cpp& f, view_cpp& v, realpal_cpp& r,
     }
 
     ini_path = pathname( filename ).path();
-    int reset = fl_ask( "Do you want to start from default parameters? (Recommended.)" );
 
     frac_cpp _f = f;
     view_cpp _v = v;
@@ -1065,7 +1076,9 @@ bool MainWindow::Parameters_ReadINI( frac_cpp& f, view_cpp& v, realpal_cpp& r,
     colscheme_cpp _col = col;
     cutbuf_cpp _cut = cut;
 
-    if( reset ) {
+    int choice = fl_choice( "Do you want to start from default parameters? (Recommended.)", "No", "Yes", 0 );
+
+    if( choice == 1 ) {
         SetDefaults( &_f, &_v, &_r, _col, _cut );
     }
 
@@ -1100,7 +1113,7 @@ bool MainWindow::Parameters_ReadINI( frac_cpp& f, view_cpp& v, realpal_cpp& r,
     cut = _cut;
     status_text.seekp( 0 );
 
-    if( reset ) {
+    if( choice == 1 ) {
         status_text << "Parameters read successfully.";
     } else {
         status_text << "Parameters added to current ones.";
@@ -1204,11 +1217,14 @@ void MainWindow::Parameters_SaveAs( frac_cpp& f, view_cpp& v,
     pathname fn( file );
     fn.ext( canonical_ext.c_str() );
 
-    if( fn.exists() )
-        if( !fl_ask( "Selected file '%s' already exists. Overwrite?", fn.c_str() ) ) {
+    if( fn.exists() ) {
+        int choice = fl_choice( "Selected file '%s' already exists. Overwrite?", "Abort", "Overwrite", 0, fn.c_str() );
+
+        if( choice != 1 ) {
             update();
             return;
         }
+    }
 
     status_text.seekp( 0 );
 
@@ -1235,11 +1251,14 @@ int MainWindow::ZBuffer_Close() {
     assert( !ImgInMem );
     status_text.seekp( 0 );
 
-    if( ZBufChanged )
-        if( !fl_ask( "ZBuffer: There are unsaved modifications. Do you want to close?" ) ) {
+    if( ZBufChanged ) {
+        int choice = fl_choice( "ZBuffer: There are unsaved modifications. Do you want to close?", "Abort", "Close", 0 );
+
+        if( choice != 1 ) {
             update();
             return 0;
         }
+    }
 
     operator delete[]( ZBuf, nothrow );
     ZBuf = 0;
@@ -1282,11 +1301,14 @@ void MainWindow::ZBuffer_SaveAs() {
     pathname filename( fn );
     filename.ext( ".zpn" );
 
-    if( filename.exists() )
-        if( !fl_ask( "Selected file already exists. Overwrite?" ) ) {
+    if( filename.exists() ) {
+        int choice = fl_choice( "Selected file already exists. Overwrite?", "Abort", "Overwrite", 0 );
+
+        if( choice != 1 ) {
             update();
             return;
         }
+    }
 
     MainWin->cursor( FL_CURSOR_WAIT );
 

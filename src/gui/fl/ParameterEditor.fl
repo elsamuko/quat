@@ -155,7 +155,8 @@ _result = 0;}
       }
       Fl_Button button_reset {
         label Reset
-        callback {if (fl_ask("This will reset all parameters to their default values. Continue?")) {
+        callback {int choice = fl_choice( "This will reset all parameters to their default values. Continue?", "Abort", "Reset", 0 );
+if( choice == 1 ) {
 	frac_cpp f; view_cpp vi; realpal_cpp r; colscheme_cpp col; cutbuf_cpp cut;
 	SetDefaults(&f, &vi, &r, col, cut);
 	set(f, vi, r, col, cut);
