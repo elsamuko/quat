@@ -15,7 +15,8 @@ DESTDIR  = $${MAIN_DIR}/bin/$${COMPILE_MODE}
 linux: include( $${PRI_DIR}/linux.pri )
 macx:  include( $${PRI_DIR}/mac.pri )
 win32: CONFIG += static
-win32: include( $${PRI_DIR}/win.pri )
+win32-msvc*: include( $${PRI_DIR}/win.pri )
+win32-g++: include( $${PRI_DIR}/mingw.pri )
 
 macx: PLATFORM=mac
 linux: PLATFORM=linux
@@ -33,9 +34,16 @@ win32 {
 
     DEFINES += '"DOCDIR=\\\"manual\\\""'
     DEFINES += '"INIPATH=\\\"/examples\\\""'
+}
 
+win32-msvc* {
     QMAKE_POST_LINK += $$quote( echo \"Copy manual...\" & xcopy /s /i /y \"$${MAIN_DIR}/docs/manual\" \"$${DESTDIR_WIN}/manual\" $$CRLF )
     QMAKE_POST_LINK += $$quote( echo \"Copy examples...\" & xcopy /s /i /y \"$${MAIN_DIR}/docs/examples\" \"$${DESTDIR_WIN}/examples\" $$CRLF )
+}
+
+win32-g++ {
+    QMAKE_POST_LINK += $$quote( echo \"Copy manual...\" & cmd /C \"xcopy /s /i /y \\\"$${MAIN_DIR}/docs/manual\\\" \\\"$${DESTDIR_WIN}/manual\\\" \" $$CRLF )
+    QMAKE_POST_LINK += $$quote( echo \"Copy examples...\" & cmd /C \"xcopy /s /i /y \\\"$${MAIN_DIR}/docs/examples\\\" \\\"$${DESTDIR_WIN}/examples\\\" \" $$CRLF )
 }
 
 linux {

@@ -228,7 +228,7 @@ int do_inflate( struct png_internal_struct* i ) {
 
     if( err == Z_STREAM_END ) {
         err = inflateEnd( &i->d_stream );
-        return( 10 );
+        return( 0 );
     }
 
     return( err );

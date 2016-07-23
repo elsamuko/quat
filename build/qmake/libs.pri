@@ -34,7 +34,7 @@ macx {
     LIBS += -lc++ -lpthread -framework Cocoa
 }
 
-win32 {
+win32-msvc* {
     # zlib
     LIBS += $$MAIN_DIR/libs/zlib/bin/$$PLATFORM/$$COMPILE_MODE/zlib.lib
 
@@ -48,3 +48,9 @@ win32 {
     # windows
     LIBS += Gdi32.lib User32.lib Ole32.lib Advapi32.lib Shell32.lib
 }
+
+win32-g++ {
+ LIBS += /mingw64/lib/libfltk_images.a -lpng -lz -ljpeg /mingw64/lib/libfltk.a -lgdi32 -luser32 -lole32 -luuid -lcomctl32 -lcomdlg32
+    #LIBS += /mingw64/lib/libfltk.a /mingw64/lib/libfltk_images.a /mingw64/lib/libjpeg.a /mingw64/lib/libz.a
+}
+
