@@ -793,7 +793,7 @@ void MainWindow::Image_Save() {
 
     status_text.seekp( 0 );
 
-    if( SavePNG( Error, act_file.c_str(), 0, imgystart, NULL, &frac,
+    if( SavePNG( Error, act_file.c_str_conv(), 0, imgystart, NULL, &frac,
                  &view, &realpal, colscheme, cutbuf, 0 ) != 0 ) {
         fl_alert( "%s", Error );
         MainWin->cursor( FL_CURSOR_DEFAULT );
