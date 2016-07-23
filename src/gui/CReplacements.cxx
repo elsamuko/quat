@@ -7,6 +7,8 @@
 #include <fstream>
 #include <cctype>	// toupper
 
+#include <FL/fl_utf8.h>
+
 #ifndef NO_NAMESPACE
 using namespace std;
 #endif
@@ -15,6 +17,11 @@ using namespace std;
 
 pathname::pathname( const char* c ) : string( _convert_slash( c ) ) {}
 pathname::pathname( const string& s ) : string( _convert_slash( s.c_str() ) ) {}
+
+const char* pathname::c_str_conv() const
+{
+	return fl_utf2mbcs(string::c_str());
+}
 
 string pathname::_convert_slash( const char* c ) const {
     string s( c );
@@ -31,7 +38,7 @@ string pathname::_convert_slash( const char* c ) const {
 
 void pathname::uppercase() {
     for( size_type i = 0; i < length(); ++i ) {
-        at( i ) = ::toupper( at( i ) );
+        at( i ) = fl_toupper( at( i ) );
     }
 }
 
@@ -92,7 +99,7 @@ void pathname::ext( const char* c ) {
 
 bool pathname::exists() const {
     ifstream f;
-    f.open( c_str(), ios::binary );
+    f.open( fl_utf2mbcs(c_str()), ios::binary );
 
     if( !f ) {
         return false;

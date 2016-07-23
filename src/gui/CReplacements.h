@@ -11,6 +11,7 @@
 using namespace std;
 #endif
 
+// An UTF8 string for filenames and paths
 class pathname: public string {
     public:
         pathname() {}
@@ -27,6 +28,7 @@ class pathname: public string {
         void seperate( string& path, string& filename, string& ext ) const;
         string next_name( int digits = 3 ) const;
         void auto_name( int digits = 3 );
+		const char* c_str_conv() const;	// returns c string converted to charset used for filenames
     private:
         string _convert_slash( const char* ) const;
 };

@@ -115,7 +115,7 @@ class MainWindow {
         Fl_Help_Dialog* help;
         unsigned char* ZBuf;
         pathname act_file;
-        string ini_path, png_path;
+        pathname ini_path, png_path;
         char* _status_text_char;
         //	const unsigned long _type;
 };
