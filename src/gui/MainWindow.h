@@ -107,7 +107,7 @@ class MainWindow {
         bool ImgInMem, ZBufInMem, ImgChanged, ZBufChanged,
              ImgReady, ZBufReady, InCalc;
         Fl_Window* MainWin;
-        ostringstream status_text;
+        string status_text;
         Fl_Box* status;
         ScrollWid* scroll;
         Fl_Widget* pix;
@@ -116,7 +116,6 @@ class MainWindow {
         unsigned char* ZBuf;
         pathname act_file;
         pathname ini_path, png_path;
-        char* _status_text_char;
         //	const unsigned long _type;
 };
 

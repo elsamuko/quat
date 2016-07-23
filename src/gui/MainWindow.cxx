@@ -251,15 +251,14 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
       ImgInMem( false ), ZBufInMem( false ), ImgChanged( false ), ZBufChanged( false ),
       ImgReady( false ), ZBufReady( false ), InCalc( false ),
       pix( 0 ), help( new Fl_Help_Dialog ), ZBuf( 0 ),
-      act_file( "Noname.png" ), ini_path( std::get<0>( applicationPath() ) + INIPATH ), png_path( "./" ),
-      _status_text_char( 0 ) {
+      act_file( "Noname.png" ), ini_path( std::get<0>( applicationPath() ) + INIPATH ), png_path( "./" )
+{
     assert( MainWinPtr == 0 );
     MainWinPtr = this;
 #ifdef WIN32
     SetSlash( '\\' );
 #endif
-    status_text << "Dummy.";
-    status_text.seekp( 0 );
+    status_text = "Dummy.";
     Fl_Menu_Item tmp[] = {
         {"&Image", FL_ALT + 'f', 0, 0, FL_SUBMENU, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
         {"&Open...", 0, Image_Open_cb, this, 0, FL_NORMAL_LABEL, FL_HELVETICA, 12, FL_FOREGROUND_COLOR},
@@ -442,9 +441,9 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
         //		static string title;
         //		title = PROGNAME; title += " - "; title += act_file.file();
         //		MainWin->label(title.c_str());
-        update();
         //		Image_AdjustWindow();
     }
+    update();
 }
 
 MainWindow::~MainWindow() {
@@ -453,7 +452,6 @@ MainWindow::~MainWindow() {
     MainWinPtr = 0;
     //	delete[] ZBuf;
     operator delete[]( ZBuf, nothrow );
-    delete[] _status_text_char;
 }
 
 void MainWindow::MakeTitle() {
@@ -478,7 +476,7 @@ void MainWindow::DoImgOpen( const char* givenfile, int zflag ) {
     Error[0] = 0;
     pathname filename;
 
-    status_text.seekp( 0 );
+    status_text = "";
 
     if( !givenfile ) {
 		Fl_Native_File_Chooser fnfc;
@@ -610,13 +608,15 @@ void MainWindow::DoImgOpen( const char* givenfile, int zflag ) {
     pathname tmp( filename.c_str() );
 
     if( ( zflag == 0 && ImgReady ) || ( zflag != 0 && ZBufReady ) ) {
-        status_text.seekp( 0 );
-        status_text << tmp.file() << ": Finished. Created by Quat "
+		ostringstream ss;
+        ss << tmp.file() << ": Finished. Created by Quat "
                     << Error << ".";
+		status_text = ss.str();
     } else {
-        status_text.seekp( 0 );
-        status_text << tmp.file() << ": In line " << ys
+		ostringstream ss;
+        ss << tmp.file() << ": In line " << ys
                     << ", created by Quat " << Error << ".";
+		status_text = ss.str();
     }
 
     if( atof( Error ) > atof( PROGVERSION ) )
@@ -709,7 +709,7 @@ void MainWindow::Image_Open() {
 
 int MainWindow::Image_Close() {
     assert( ImgInMem );
-    status_text.seekp( 0 );
+	status_text = "";
 
     if( ImgChanged ) {
         int choice = fl_choice( "Image: There are unsaved modifications. Do you really want to close?", "Abort", "Close", 0 );
@@ -791,7 +791,7 @@ void MainWindow::Image_Save() {
     Error[0] = 0;
     MainWin->cursor( FL_CURSOR_WAIT );
 
-    status_text.seekp( 0 );
+    status_text = "";
 
     if( SavePNG( Error, act_file.c_str_conv(), 0, imgystart, NULL, &frac,
                  &view, &realpal, colscheme, cutbuf, 0 ) != 0 ) {
@@ -803,8 +803,9 @@ void MainWindow::Image_Save() {
 
     MainWin->cursor( FL_CURSOR_DEFAULT );
     ImgChanged = false;
-    status_text.seekp( 0 );
-    status_text << "Image '" << act_file.c_str() << "' written successfully.";
+    ostringstream ss;
+    ss << "Image '" << act_file.c_str() << "' written successfully.";
+	status_text = ss.str();
     update();
     return;
 }
@@ -812,7 +813,7 @@ void MainWindow::Image_Save() {
 void MainWindow::Image_SaveAs() {
     Error[0] = 0;
 
-    status_text.seekp( 0 );
+    status_text = "";
 	
 	pathname file;
 	Fl_Native_File_Chooser fnfc;
@@ -858,8 +859,9 @@ void MainWindow::Image_SaveAs() {
     title += act_file.file();
     MainWin->label( title.c_str() );
 
-    status_text.seekp( 0 );
-    status_text << "Image '" << file.c_str() << "' written successfully.";
+    ostringstream ss;
+    ss << "Image '" << file.c_str() << "' written successfully.";
+	status_text = ss.str();
 
     update();
     return;
@@ -886,7 +888,7 @@ void MainWindow::Image_AdjustWindow() {
 
     MainWin->size( w, h );
 
-    status_text.seekp( 0 );
+    status_text = "";
     update();
 }
 
@@ -903,7 +905,7 @@ void MainWindow::Help_About() {
     about->run();
     delete about;
 
-    status_text.seekp( 0 );
+    status_text = "";
     update();
 }
 
@@ -948,7 +950,7 @@ void MainWindow::Calculation_StartImage() {
     if( !ImgInMem ) if( DoInitMem( xres, view.yres, error, 0 ) ) {
             fl_alert( "%s", error.c_str() );
             InCalc = false;
-            status_text.seekp( 0 );
+            status_text = "";
             update();
             return;
         }
@@ -977,12 +979,9 @@ void MainWindow::Calculation_StartImage() {
         if( Error[0] != 0 ) {
             fl_alert( "%s", Error );
         }
-
-        status_text.seekp( 0 );
-        update();
     }
 
-    status_text.seekp( 0 );
+    status_text = "";
     update();
     return;
 }
@@ -999,7 +998,7 @@ void MainWindow::Calculation_StartZBuf() {
 
     if( !ZBufInMem ) if( DoInitMem( xres, view.yres * view.antialiasing, error, 1 ) ) {
             fl_alert( "%s", error.c_str() );
-            status_text.seekp( 0 );
+            status_text = "";
             update();
             return;
         }
@@ -1024,7 +1023,7 @@ void MainWindow::Calculation_StartZBuf() {
         InCalc = false;
     }
 
-    status_text.seekp( 0 );
+    status_text = "";
     update();
     return;
 }
@@ -1048,7 +1047,7 @@ void MainWindow::Parameters_Edit() {
     menubar->activate();
     delete editor;
 
-    status_text.seekp( 0 );
+    status_text = "";
     update();
     return;
 }
@@ -1061,7 +1060,7 @@ void MainWindow::Parameters_Reset() {
         SetDefaults( &frac, &view, &realpal, colscheme, cutbuf );
     }
 
-    status_text.seekp( 0 );
+    status_text = "";
     update();
 }
 
@@ -1069,7 +1068,7 @@ bool MainWindow::Parameters_ReadINI( frac_cpp& f, view_cpp& v, realpal_cpp& r,
                                      colscheme_cpp& col, cutbuf_cpp& cut, const char* fn ) {
     Error[0] = 0;
 
-    status_text.seekp( 0 );
+    status_text = "";
     pathname filename;
 
     if( fn != NULL ) {
@@ -1119,8 +1118,9 @@ bool MainWindow::Parameters_ReadINI( frac_cpp& f, view_cpp& v, realpal_cpp& r,
         v.phongsharp = _v.phongsharp;
         r = _r;
         col = _col;
-        status_text.seekp( 0 );
-        status_text << "Read only the modifyable parameters for a Z Buffer.";
+        ostringstream ss;
+        ss << "Read only the modifyable parameters for a Z Buffer.";
+		status_text = ss.str();
         update();
         return true;
     }
@@ -1130,12 +1130,11 @@ bool MainWindow::Parameters_ReadINI( frac_cpp& f, view_cpp& v, realpal_cpp& r,
     r = _r;
     col = _col;
     cut = _cut;
-    status_text.seekp( 0 );
 
     if( choice == 1 ) {
-        status_text << "Parameters read successfully.";
+        status_text = "Parameters read successfully.";
     } else {
-        status_text << "Parameters added to current ones.";
+        status_text = "Parameters added to current ones.";
     }
 
     update();
@@ -1146,7 +1145,7 @@ bool MainWindow::Parameters_ReadPNG( frac_cpp& f, view_cpp& v, realpal_cpp& r,
                                      colscheme_cpp& col, cutbuf_cpp& cut, bool zbuf ) {
     Error[0] = 0;
 
-    status_text.seekp( 0 );
+    status_text = "";
 
 	pathname fn;
 	Fl_Native_File_Chooser fnfc;
@@ -1185,8 +1184,7 @@ bool MainWindow::Parameters_ReadPNG( frac_cpp& f, view_cpp& v, realpal_cpp& r,
         v.phongsharp = _v.phongsharp;
         r = _r;
         col = _col;
-        status_text.seekp( 0 );
-        status_text << "Imported only the modifyable parameters for a Z Buffer.";
+        status_text = "Imported only the modifyable parameters for a Z Buffer.";
         update();
         return true;
     }
@@ -1196,8 +1194,7 @@ bool MainWindow::Parameters_ReadPNG( frac_cpp& f, view_cpp& v, realpal_cpp& r,
     r = _r;
     col = _col;
     cut = _cut;
-    status_text.seekp( 0 );
-    status_text << "Parameters imported successfully.";
+    status_text = "Parameters imported successfully.";
 	update();
     return true;
 }
@@ -1207,7 +1204,7 @@ void MainWindow::Parameters_SaveAs( frac_cpp& f, view_cpp& v,
     Error[0] = 0;
 
     int mode;
-    status_text.seekp( 0 );
+    status_text = "";
 
     if( !WriteINI( mode ) ) {
         update();
@@ -1261,12 +1258,14 @@ void MainWindow::Parameters_SaveAs( frac_cpp& f, view_cpp& v,
         }
     }
 
-    status_text.seekp( 0 );
+    status_text = "";
 
     if( WriteINI( Error, file.c_str_conv(), mode, &f, &v, &r, col, cut ) ) {
         fl_alert( "Couldn't write file '%s'.", file.c_str() );
     } else {
-        status_text << "File '" << file.c_str() << "' was written successfully.";
+		ostringstream ss;
+        ss << "File '" << file.c_str() << "' was written successfully.";
+		status_text = ss.str();
     }
 
     update();
@@ -1284,7 +1283,7 @@ void MainWindow::ZBuffer_Open() {
 int MainWindow::ZBuffer_Close() {
     assert( ZBufInMem );
     assert( !ImgInMem );
-    status_text.seekp( 0 );
+    status_text = "";
 
     if( ZBufChanged ) {
         int choice = fl_choice( "ZBuffer: There are unsaved modifications. Do you want to close?", "Abort", "Close", 0 );
@@ -1318,7 +1317,7 @@ int MainWindow::ZBuffer_Close() {
 void MainWindow::ZBuffer_SaveAs() {
     Error[0] = 0;
 
-    status_text.seekp( 0 );
+    status_text = "";
 
     pathname zpnname( png_path );
     zpnname += act_file.filename();
@@ -1361,8 +1360,9 @@ void MainWindow::ZBuffer_SaveAs() {
 
     MainWin->cursor( FL_CURSOR_DEFAULT );
     ZBufChanged = false;
-    status_text.seekp( 0 );
-    status_text << "ZBuffer '" << filename.c_str() << "' was written successfully.";
+    ostringstream ss;
+    ss << "ZBuffer '" << filename.c_str() << "' was written successfully.";
+	status_text = ss.str();
     update();
     return;
 }
@@ -1400,37 +1400,33 @@ void MainWindow::update() {
     // Help = 25
 
     if( !InCalc ) {
-        if( status_text.str().length() == 0 ) {
-            status_text << "Image: ";
+        if( status_text == "" ) {
+            status_text = "Image: ";
 
             if( ImgInMem && !ImgReady ) {
-                status_text << "stopped.";
+                status_text += "stopped.";
             } else if( ImgReady && ImgChanged ) {
-                status_text << "ready.";
+                status_text += "ready.";
             } else if( ImgReady && !ImgChanged ) {
-                status_text << "saved.";
+                status_text += "saved.";
             } else {
-                status_text << "none.";
+                status_text += "none.";
             }
 
-            status_text << " ZBuffer: ";
+            status_text += " ZBuffer: ";
 
             if( ZBufInMem && !ZBufReady ) {
-                status_text << "stopped.";
+                status_text += "stopped.";
             } else if( ZBufInMem && ZBufChanged ) {
-                status_text << "ready.";
+                status_text += "ready.";
             } else if( ZBufInMem && !ZBufChanged ) {
-                status_text << "saved.";
+                status_text += "saved.";
             } else {
-                status_text << "none.";
+                status_text += "none.";
             }
         }
 
-        status_text << ends;
-        delete[] _status_text_char;
-        _status_text_char = new char[status_text.str().length() + 1];
-        strcpy( _status_text_char, status_text.str().c_str() );
-        status->label( _status_text_char );
+        status->label( status_text.c_str() );
         status->redraw();
     }
 }
