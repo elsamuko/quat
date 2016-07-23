@@ -50,7 +50,7 @@ win32-msvc* {
 }
 
 win32-g++ {
- LIBS += /mingw64/lib/libfltk_images.a -lpng -lz -ljpeg /mingw64/lib/libfltk.a -lgdi32 -luser32 -lole32 -luuid -lcomctl32
+ LIBS += /mingw64/lib/libfltk_images.a -lpng -lz -ljpeg /mingw64/lib/libfltk.a -lgdi32 -luser32 -lole32 -luuid -lcomctl32 -lcomdlg32
     #LIBS += /mingw64/lib/libfltk.a /mingw64/lib/libfltk_images.a /mingw64/lib/libjpeg.a /mingw64/lib/libz.a
 }
 

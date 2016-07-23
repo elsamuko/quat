@@ -34,6 +34,7 @@
 #include <sstream>
 #include <iostream>
 #include <tuple>
+#include <string>
 #if __APPLE__
 #include <mach-o/dyld.h>
 #elif __linux__
@@ -63,7 +64,8 @@ using namespace std;
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/fl_draw.H>
 #include <FL/fl_message.H>
-#include <FL/fl_file_chooser.H>
+//#include <FL/fl_file_chooser.H>
+#include <FL/FL_Native_File_Chooser.H>
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/x.H>
 
@@ -474,27 +476,35 @@ bool MainWindow::shown() const {
 
 void MainWindow::DoImgOpen( const char* givenfile, int zflag ) {
     Error[0] = 0;
-    const char* filename;
+    std::string filename;
 
     status_text.seekp( 0 );
 
     if( !givenfile ) {
-        if( zflag == 0 ) {
-            filename = fl_file_chooser( "Open Image", "Images (*.{png,PNG,Png})", png_path.c_str() );
+		Fl_Native_File_Chooser fnfc;
+		fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
+		if (png_path != "") fnfc.directory(png_path.c_str());
+        
+		if( zflag == 0 ) {
+			fnfc.title("Open Image");
+			fnfc.filter("Images\t*.{png,PNG,Png}");
         } else {
-            filename = fl_file_chooser( "Open ZBuffer", "ZBuffers (*.{zpn,ZPN,Zpn})", png_path.c_str() );
+			fnfc.title("Open ZBuffer");
+			fnfc.filter("ZBuffers\t*.{zpn,ZPN,Zpn}");			
         }
 
-        if( !filename ) {
-            return;
-        }
+		switch ( fnfc.show() ) {
+			case -1: fl_alert("%s", fnfc.errmsg()); update(); return;
+			case  1: update(); return;	// Cancel
+			default: filename = fnfc.filename();
+		}
 
-        png_path = pathname( filename ).path();
+        png_path = pathname( filename.c_str() ).path();
     } else {
         filename = givenfile;
     }
 
-    if( filename[0] == 0 ) {
+    if( filename.size() == 0 ) {
         return;
     }
 
@@ -515,7 +525,7 @@ void MainWindow::DoImgOpen( const char* givenfile, int zflag ) {
     colscheme_cpp _col;
     cutbuf_cpp _cut;
 
-    if( ReadParametersPNG( filename, Error, &_f, &_v, &_r, _col, _cut ) ) {
+    if( ReadParametersPNG( filename.c_str(), Error, &_f, &_v, &_r, _col, _cut ) ) {
         fl_alert( "%s", Error );
 
         if( zflag == 0 ) {
@@ -561,7 +571,7 @@ void MainWindow::DoImgOpen( const char* givenfile, int zflag ) {
     int xs, ys;
     unsigned char ready;
 
-    if( ReadParametersAndImage( Error, filename, &ready, &xs, &ys,
+    if( ReadParametersAndImage( Error, filename.c_str(), &ready, &xs, &ys,
                                 &_f, &_v, &_r, _col, _cut, zflag ) ) {
         fl_alert( "%s", Error );
 
@@ -578,7 +588,7 @@ void MainWindow::DoImgOpen( const char* givenfile, int zflag ) {
 
     if( zflag == 0 ) {
         static string title;
-        act_file = filename;
+        act_file = filename.c_str();
         ImgReady = ( ready != 0 );
         ImgChanged = false;
         ImgInMem = true;
@@ -597,7 +607,7 @@ void MainWindow::DoImgOpen( const char* givenfile, int zflag ) {
     }
 
     MainWin->redraw();
-    pathname tmp( filename );
+    pathname tmp( filename.c_str() );
 
     if( ( zflag == 0 && ImgReady ) || ( zflag != 0 && ZBufReady ) ) {
         status_text.seekp( 0 );
@@ -803,16 +813,22 @@ void MainWindow::Image_SaveAs() {
     Error[0] = 0;
 
     status_text.seekp( 0 );
-    const char* fn = fl_file_chooser( "Save Image As", "Images (*.{png,PNG,Png})", act_file.c_str() );
+	
+	Fl_Native_File_Chooser fnfc;
+	fnfc.title("Save Image As");
+	fnfc.type(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
+	fnfc.filter("Images\t*.{png,PNG,Png}");
+	fnfc.directory(act_file.c_str());
+	std::string fn;
+	switch ( fnfc.show() ) {
+		case -1: fl_alert("%s", fnfc.errmsg()); update(); return;
+		case  1: update(); return;	// Cancel
+		default: fn = fnfc.filename();
+	}
 
-    if( !fn ) {
-        update();
-        return;
-    }
+    png_path = pathname( fn.c_str() ).path();
 
-    png_path = pathname( fn ).path();
-
-    pathname file( fn );
+    pathname file( fn.c_str() );
     file.ext( ".png" );
 
     if( file.exists() ) {
@@ -1043,7 +1059,7 @@ void MainWindow::Parameters_Reset() {
 
     int choice = fl_choice( "This will reset all parameters to their default values. Continue?", "Abort", "Reset", 0 );
 
-    if( choice != 1 ) {
+    if( choice == 1 ) {
         SetDefaults( &frac, &view, &realpal, colscheme, cutbuf );
     }
 
@@ -1056,19 +1072,24 @@ bool MainWindow::Parameters_ReadINI( frac_cpp& f, view_cpp& v, realpal_cpp& r,
     Error[0] = 0;
 
     status_text.seekp( 0 );
-    const char* filename;
+    std::string filename;
 
     if( fn != NULL ) {
         filename = fn;
-    } else filename =
-            fl_file_chooser( "Read parameters from INI file", "INI files (*.{ini,col,obj,INI,COL,OBJ,Ini,Col,Obj})", ini_path.c_str() );
+    } else {
+		Fl_Native_File_Chooser fnfc;
+		fnfc.title("Read parameters from INI file");
+		fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
+		fnfc.filter("INI files\t*.{ini,col,obj,INI,COL,OBJ,Ini,Col,Obj}");
+		fnfc.directory(ini_path.c_str());
+		switch ( fnfc.show() ) {
+			case -1: fl_alert("%s", fnfc.errmsg()); update(); return false;
+			case  1: update(); return false; 	// CANCEL
+			default: filename = fnfc.filename();
+		}
+	}
 
-    if( filename == NULL ) {
-        update();
-        return false;
-    }
-
-    ini_path = pathname( filename ).path();
+    ini_path = pathname( filename.c_str() ).path();
 
     frac_cpp _f = f;
     view_cpp _v = v;
@@ -1082,7 +1103,7 @@ bool MainWindow::Parameters_ReadINI( frac_cpp& f, view_cpp& v, realpal_cpp& r,
         SetDefaults( &_f, &_v, &_r, _col, _cut );
     }
 
-    int i = ParseINI( filename, Error, &_f, &_v, &_r, _col, _cut );
+    int i = ParseINI( filename.c_str(), Error, &_f, &_v, &_r, _col, _cut );
 
     if( i != 0 ) {
         fl_alert( "%s", Error );
@@ -1128,22 +1149,27 @@ bool MainWindow::Parameters_ReadPNG( frac_cpp& f, view_cpp& v, realpal_cpp& r,
     Error[0] = 0;
 
     status_text.seekp( 0 );
-    const char* fn =
-        fl_file_chooser( "Import parameters from PNG file", "Images (*.{png,PNG,Png})", png_path.c_str() );
 
-    if( !fn ) {
-        update();
-        return false;
-    }
-
-    png_path = pathname( fn ).path();
+	std::string fn;
+	Fl_Native_File_Chooser fnfc;
+	fnfc.title("Import parameters from PNG file");
+	fnfc.type(Fl_Native_File_Chooser::BROWSE_FILE);
+	fnfc.filter("Images\t*.{png,PNG,Png}");
+	if (png_path != "") fnfc.directory(png_path.c_str());
+	switch ( fnfc.show() ) {
+		case -1: fl_alert("%s", fnfc.errmsg()); update(); return false;
+		case  1: update(); return false; 	// CANCEL
+		default: fn = fnfc.filename();
+	}
+    
+    png_path = pathname( fn.c_str() ).path();
 
     frac_cpp _f = f;
     view_cpp _v = v;
     realpal_cpp _r = r;
     colscheme_cpp _col = col;
     cutbuf_cpp _cut = cut;
-    int i = ReadParametersPNG( fn, Error, &_f, &_v, &_r, _col, _cut );
+    int i = ReadParametersPNG( fn.c_str(), Error, &_f, &_v, &_r, _col, _cut );
 
     if( i != 0 ) {
         fl_alert( "%s", Error );
@@ -1201,20 +1227,31 @@ void MainWindow::Parameters_SaveAs( frac_cpp& f, view_cpp& v,
     ininame += act_file.filename();
     ininame += canonical_ext;
 
-    string filter( "INI files (*" );
-    filter += canonical_ext;
-    filter += ")";
-    char* file = fl_file_chooser( "Write parameters to INI file", filter.c_str(),
-                                  ininame.c_str() );
+    string filter( "INI files\t*.{" );
+    filter += canonical_ext.substr(1);
+	filter += ",";
+	for (size_t i = 1; i < canonical_ext.size(); ++i)
+		filter += std::toupper(canonical_ext[i]);
+	filter += ",";
+	filter += std::toupper(canonical_ext[1]);
+	filter += canonical_ext.substr(2);
+    filter += "}";
+	
+	std::string file;
+	Fl_Native_File_Chooser fnfc;
+	fnfc.title("Write parameters to INI file");
+	fnfc.type(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
+	fnfc.filter(filter.c_str());
+	fnfc.directory(ininame.c_str());
+	switch ( fnfc.show() ) {
+		case -1: fl_alert("%s", fnfc.errmsg()); update(); return;
+		case  1: update(); return; 	// CANCEL
+		default: file = fnfc.filename();
+	}
 
-    if( file == NULL ) {
-        update();
-        return;
-    }
+    ini_path = pathname( file.c_str() ).path();
 
-    ini_path = pathname( file ).path();
-
-    pathname fn( file );
+    pathname fn( file.c_str() );
     fn.ext( canonical_ext.c_str() );
 
     if( fn.exists() ) {
@@ -1289,16 +1326,21 @@ void MainWindow::ZBuffer_SaveAs() {
     zpnname += act_file.filename();
     zpnname += ".zpn";
 
-    const char* fn = fl_file_chooser( "Save ZBuffer As", "ZBuffers (*.{zpn,ZPN,Zpn})", zpnname.c_str() );
+ 	std::string fn;
+	Fl_Native_File_Chooser fnfc;
+	fnfc.title("Save ZBuffer As");
+	fnfc.type(Fl_Native_File_Chooser::BROWSE_SAVE_FILE);
+	fnfc.filter("ZBuffers\t*.{zpn,ZPN,Zpn}");
+	fnfc.directory(zpnname.c_str());
+	switch ( fnfc.show() ) {
+		case -1: fl_alert("%s", fnfc.errmsg()); update(); return;
+		case  1: update(); return; 	// CANCEL
+		default: fn = fnfc.filename();
+	}
+   
+    png_path = pathname( fn.c_str() ).path();
 
-    if( !fn ) {
-        update();
-        return;
-    }
-
-    png_path = pathname( fn ).path();
-
-    pathname filename( fn );
+    pathname filename( fn.c_str() );
     filename.ext( ".zpn" );
 
     if( filename.exists() ) {
