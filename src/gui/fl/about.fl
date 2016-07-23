@@ -47,7 +47,7 @@ class AboutBox {open
       Fl_Box {} {
         label {A 3D Fractal Generation Program
 Copyright (C) 1997-2002 Dirk Meyer
-dirk.meyer@@studserv.uni-stuttgart.de}
+dirk.i.meyer@@gmx.de}
         xywh {150 70 235 45} labelsize 12 align 21
       }
       Fl_Box {} {
