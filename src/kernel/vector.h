@@ -3,7 +3,7 @@
 
 typedef double vec3[3];                    /* vector in 3d */
 struct basestruct {                          /* origin and 3 base vectors */
-    vector O, x, y, z;
+    vec3 O, x, y, z;
 } ;
 
 

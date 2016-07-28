@@ -624,7 +624,7 @@ int do_deflate( struct png_internal_struct* i ) {
 }
 
 int WritePNGLine( struct png_internal_struct* i, unsigned char* Buf ) {
-    int err = err;
+    int err = 0;
     int ByPP;
 
     /* Initialize on first call */
@@ -694,7 +694,7 @@ int WritePNGLine( struct png_internal_struct* i, unsigned char* Buf ) {
 }
 
 int EndIDAT( struct png_internal_struct* i ) {
-    int err = err;
+    int err = 0;
     unsigned long length;
     unsigned char LongBuf[4];
 

@@ -315,7 +315,7 @@ void MandelPreview::Coo2C( int x, int y, double& cx, double& cy ) {
 }
 
 int MandelPreview::CalcMPixel( int x, int y ) {
-    int ( *iter )( struct iter_struct* );
+    int ( *iter )( struct iter_struct* ) = iterate_0;
     static struct iter_struct is;
     //	static point xstart = { 0.0, 0.0, 0.0, 0.0 };
     //	static point c = { 0.0, 0.0, 0.0, 0.0 };

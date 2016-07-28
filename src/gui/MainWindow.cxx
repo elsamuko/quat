@@ -42,6 +42,7 @@
 #elif _WIN32
 #include <Windows.h>
 #include <cstdint>
+#include <resource.h>
 #endif
 
 #ifndef NO_NAMESPACE
@@ -251,7 +252,7 @@ MainWindow::MainWindow( int argc, char** argv, int w, int h, const char* label )
       ImgInMem( false ), ZBufInMem( false ), ImgChanged( false ), ZBufChanged( false ),
       ImgReady( false ), ZBufReady( false ), InCalc( false ),
       pix( 0 ), help( new Fl_Help_Dialog ), ZBuf( 0 ),
-      act_file( "Noname.png" ), ini_path( std::get<0>( applicationPath() ) + INIPATH ), png_path( "./" )
+      act_file( "Noname.png" ), ini_path( "./" ), png_path( "./" )
 {
     assert( MainWinPtr == 0 );
     MainWinPtr = this;
@@ -1227,9 +1228,9 @@ void MainWindow::Parameters_SaveAs( frac_cpp& f, view_cpp& v,
     filter += canonical_ext.substr(1);
 	filter += ",";
 	for (size_t i = 1; i < canonical_ext.size(); ++i)
-		filter += std::toupper(canonical_ext[i]);
+		filter += fl_toupper(canonical_ext[i]);
 	filter += ",";
-	filter += std::toupper(canonical_ext[1]);
+	filter += fl_toupper(canonical_ext[1]);
 	filter += canonical_ext.substr(2);
     filter += "}";
 	
