@@ -37,11 +37,13 @@ win32 {
 }
 
 win32-msvc* {
+    message(Compiling with MSVC)
     QMAKE_POST_LINK += $$quote( echo \"Copy manual...\" & xcopy /s /i /y \"$${MAIN_DIR}/docs/manual\" \"$${DESTDIR_WIN}/manual\" $$CRLF )
     QMAKE_POST_LINK += $$quote( echo \"Copy examples...\" & xcopy /s /i /y \"$${MAIN_DIR}/docs/examples\" \"$${DESTDIR_WIN}/examples\" $$CRLF )
 }
 
 win32-g++ {
+    message(Compiling with MinGW)
     QMAKE_POST_LINK += $$quote( echo \"Copy manual...\" & cmd /C \"xcopy /s /i /y \\\"$${MAIN_DIR}/docs/manual\\\" \\\"$${DESTDIR_WIN}/manual\\\" \" $$CRLF )
     QMAKE_POST_LINK += $$quote( echo \"Copy examples...\" & cmd /C \"xcopy /s /i /y \\\"$${MAIN_DIR}/docs/examples\\\" \\\"$${DESTDIR_WIN}/examples\\\" \" $$CRLF )
 }

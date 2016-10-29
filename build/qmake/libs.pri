@@ -46,7 +46,7 @@ win32-msvc* {
     LIBS += fltkpng$${COMPILE_FLAG}.lib
 
     # windows
-    LIBS += Gdi32.lib User32.lib Ole32.lib Advapi32.lib Shell32.lib
+    LIBS += Gdi32.lib User32.lib Ole32.lib Advapi32.lib Shell32.lib Comdlg32.lib
 }
 
 win32-g++ {
