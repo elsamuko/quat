@@ -174,7 +174,7 @@ double phongmax;
         maxdepth = bdepth;
     }
 
-    if( oswcols == 1 ) {
+    if( requiredcols && ( oswcols == 1 ) ) {
         disppal->brightnum = maxcol / requiredcols;
     }
 

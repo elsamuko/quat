@@ -109,15 +109,14 @@ int ViewSelector::handle( int event ) {
 
             if( _input_vx != 0 ) {
                 _input_vx->value( xm / 10.0 );
+                _input_vx->do_callback();
             }
-
-            _input_vx->do_callback();
 
             if( _input_vy != 0 ) {
                 _input_vy->value( ym / 10.0 );
+                _input_vy->do_callback();
             }
 
-            _input_vy->do_callback();
             return 1;
             break;
 
