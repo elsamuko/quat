@@ -65,8 +65,7 @@ using namespace std;
 #include <FL/Fl_Menu_Bar.H>
 #include <FL/fl_draw.H>
 #include <FL/fl_message.H>
-//#include <FL/fl_file_chooser.H>
-#include <FL/FL_Native_File_Chooser.H>
+#include <FL/Fl_Native_File_Chooser.H>
 #include <FL/Fl_Help_Dialog.H>
 #include <FL/x.H>
 
