@@ -1544,7 +1544,7 @@ int MainWindow::FLTK_check_event() {
 }
 
 int MainWindow::FLTK_Change_Name( const char* s ) {
-    MainWinPtr->status->label( s );
+    MainWinPtr->status->copy_label( s );
     MainWinPtr->status->redraw();
     return 0;
 }
