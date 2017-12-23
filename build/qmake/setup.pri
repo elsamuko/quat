@@ -9,6 +9,7 @@ CONFIG(debug, debug|release) {
 CONFIG(release, debug|release) {
     COMPILE_MODE=release
     IM_FLAG=RL
+    DEFINES += NDEBUG
 }
 
 macx:       PLATFORM=mac
