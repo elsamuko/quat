@@ -447,9 +447,9 @@ int SetDefaults( struct frac_struct* frac, struct view_struct* view, struct real
     view->Mov[0] = 0;
     view->Mov[1] = 0;
     view->LXR = 2.8;
-    view->xres = 160;
-    view->yres = 120;
-    view->zres = 120;
+    view->xres = 1024;
+    view->yres = 768;
+    view->zres = 480;
     view->interocular = 0;
     view->phongmax = 0.6;
     view->phongsharp = 30;
