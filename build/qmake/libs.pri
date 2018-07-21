@@ -25,7 +25,7 @@ unix {
 linux {
     LIBS += -lpng
     LIBS += -ldl -fPIC
-    LIBS += -lXcursor -lXfixes -lXext -lXft -lfontconfig -lXinerama -lpthread -ldl -lm -lX11
+    LIBS += -lXcursor -lXrender -lXfixes -lXext -lXft -lfontconfig -lXinerama -lpthread -ldl -lm -lX11
 }
 
 macx {

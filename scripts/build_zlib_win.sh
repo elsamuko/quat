@@ -2,8 +2,8 @@
 
 OS=win
 PROJECT=zlib
-VERSION="1.2.8"
-DL_URL="http://zlib.net/zlib-$VERSION.tar.xz"
+VERSION="1.2.11"
+DL_URL="https://zlib.net/zlib-$VERSION.tar.xz"
 
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 MAIN_DIR="$SCRIPT_DIR/.."

@@ -2,16 +2,17 @@
 
 OS=mac
 PROJECT=fltk
-VERSION="1.3.3"
-DL_URL="http://fltk.org/pub/fltk/$VERSION/fltk-$VERSION-source.tar.gz"
+VERSION="1.3.4"
+PATCH="2"
+DL_URL="http://fltk.org/pub/fltk/$VERSION/fltk-$VERSION-$PATCH-source.tar.gz"
 
 SCRIPT_DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
 MAIN_DIR="$SCRIPT_DIR/.."
 TARGET_DIR="$MAIN_DIR/libs/$PROJECT"
 PROJECT_DIR="$MAIN_DIR/tmp/$PROJECT"
-DOWNLOAD="$PROJECT_DIR/$PROJECT-$VERSION.tar.gz"
+DOWNLOAD="$PROJECT_DIR/$PROJECT-$VERSION-$PATCH.tar.gz"
 SRC_DIR="$PROJECT_DIR/src"
-BUILD_DIR="$SRC_DIR/$PROJECT-$VERSION"
+BUILD_DIR="$SRC_DIR/$PROJECT-$VERSION-$PATCH"
 
 function indent {
     sed  's/^/     /'
