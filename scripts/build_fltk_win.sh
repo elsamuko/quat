@@ -42,7 +42,7 @@ function doUnzip {
     tar xzf "$DOWNLOAD" -C "$SRC_DIR"
     for FROM in "$SRC_DIR"/*; do
         echo $FROM
-        mv "$FROM" "$SRC_DIR/$PROJECT-$VERSION"
+        mv "$FROM" "$BUILD_DIR"
         break
     done
 }
