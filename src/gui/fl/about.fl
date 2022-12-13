@@ -1,10 +1,10 @@
 # data file for the Fltk User Interface Designer (fluid)
-version 1.0302 
-header_name {.h} 
+version 1.0308
+header_name {.h}
 code_name {.cxx}
 decl {// Quat - A 3D fractal generation program
 // Copyright (C) 1997-2000 Dirk Meyer
-// (email: dirk.meyer@studserv.uni-stuttgart.de)
+// (email: quat@dimeyer.de)
 // mail:  Dirk Meyer
 //        Marbacher Weg 29
 //        D-71334 Waiblingen
@@ -23,13 +23,13 @@ decl {// Quat - A 3D fractal generation program
 // You should have received a copy of the GNU General Public License
 // along with this program; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.} {private local
-} 
+}
 
 declblock {\#ifdef HAVE_CONFIG_H} {after {\#endif}
 } {
   decl {\#include <config.h>} {private local
   }
-} 
+}
 
 class AboutBox {open
 } {
@@ -38,42 +38,38 @@ class AboutBox {open
   Function {AboutBox()} {open
   } {
     Fl_Window win {
-      label {About Quat}
-      xywh {297 146 415 360} type Double modal visible
+      label {About Quat} open
+      xywh {1043 -760 415 336} type Double modal visible
     } {
-      Fl_Box state {
+      Fl_Box state {selected
         xywh {150 15 250 15} labelfont 1 align 21
       }
       Fl_Box {} {
         label {A 3D Fractal Generation Program
-Copyright (C) 1997-2002 Dirk Meyer
-dirk.i.meyer@@gmx.de}
-        xywh {150 70 235 45} labelsize 12 align 21
-      }
-      Fl_Box {} {
-        label {http://www.physcip.uni-stuttgart.de/phy11733/index_e.html
-Quat Mailing List: http://groups.yahoo.com/group/quat/}
-        xywh {25 115 390 45} labelsize 12 align 21
+Copyright (C) 1997-2022 Dirk Meyer
+quat@@dimeyer.de
+https://dimeyer.de/quat}
+        xywh {150 50 240 65} labelsize 12 align 21
       }
       Fl_Box {} {
         label {This program is distributed under the terms of the
 GNU General Public License Version 2.
 (Please read the file 'COPYING' for details).}
-        xywh {25 165 365 50} labelsize 12 align 21
+        xywh {30 135 365 50} labelsize 12 align 21
       }
       Fl_Box {} {
         label {This program uses the "zlib" library to write PNG files.
 More info on zlib: http://www.zlib.org/
 Quat also uses FLTK (Fast Light Tool Kit) for its user interface.
 More info on FLTK: http://www.fltk.org/}
-        xywh {25 215 385 65} labelsize 12 align 21
+        xywh {30 190 385 65} labelsize 12 align 21
       }
       Fl_Box note {
-        xywh {25 280 390 20} labelsize 12 align 21
+        xywh {30 260 385 20} labelsize 12 align 21
       }
       Fl_Return_Button ok_button {
         label OK
-        xywh {155 310 115 25} labelsize 12 align 16
+        xywh {150 295 115 25} labelsize 12 align 16
       }
       Fl_Box icon {
         xywh {30 5 115 105} align 16
@@ -81,8 +77,7 @@ More info on FLTK: http://www.fltk.org/}
         class PixWid
       }
     }
-    code {icon->setPixmap( ( char* const* ) icon_xpm );} {selected
-    }
+    code {icon->setPixmap( ( char* const* ) icon_xpm );} {}
   }
   Function {run()} {return_type void
   } {
@@ -101,4 +96,4 @@ while (win->shown())
   Function {~AboutBox()} {} {
     code {delete win;} {}
   }
-} 
+}
