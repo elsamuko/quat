@@ -3,7 +3,7 @@
 [Setup]
 AppName=Quat
 AppVerName=Quat 1.30
-AppCopyright=Copyright (C) 1997-2002 Dirk Meyer
+AppCopyright=Copyright (C) 1997-2022 Dirk Meyer
 OutputBaseFilename=quat-1.30-setup
 DefaultDirName={pf}\Quat
 DefaultGroupName=Quat
@@ -13,10 +13,10 @@ SolidCompression=yes
 ;Compression=bzip
 LicenseFile=..\COPYING
 ChangesAssociations=yes
-ArchitecturesInstallIn64BitMode=x64
+;ArchitecturesInstallIn64BitMode=x64
 
 [Files]
-Source: "quat-x64.exe"; DestDir: "{app}"; DestName: "quat.exe"; Check: Is64BitInstallMode
+;Source: "quat-x64.exe"; DestDir: "{app}"; DestName: "quat.exe"; Check: Is64BitInstallMode
 Source: "quat-x86.exe"; DestDir: "{app}"; DestName: "quat.exe"; Check: not Is64BitInstallMode
 Source: "..\COPYING"; DestDir: "{app}"
 
