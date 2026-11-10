@@ -35,6 +35,7 @@
 #include "files.h"
 #include "colors.h"
 #include "calculat.h"
+#include "parallel.h"
 
 #ifndef GUI
 unsigned char* TEXTVER_zbuf;
@@ -73,7 +74,7 @@ struct parameter_struct Parameters[64];
 struct keyword_struct Keywords[25];
 time_t calc_time;
 
-point* orbit = 0;
+QUAT_THREAD_LOCAL point* orbit = 0; /* one per thread, see CalculateFractal */
 
 /* This variables (functions) have to be declared in the special version files ! */
 /* use an extern statement like "extern VER_Done Done;" */
@@ -943,6 +944,71 @@ int LBuf_ZBuf( struct view_struct* v, float* LBuf, unsigned char* line, long ii,
     return( 0 );
 }
 
+/* calculates one line in parallel, see CalcLineParallel */
+struct line_job {
+    struct calc_struct* cr, *cl;  /* templates for right/left eye */
+    float* LBufR, *LBufL, *BBuf, *CBuf;
+    point* orbits;                /* orbit buffers for threads 1..n-1 */
+    long orbitlen;
+    long xstart, xres, chunk, chunks;
+    int y, zflag, stereo;
+};
+
+static void CalcLineJob( void* ctx, long index, int thread ) {
+    struct line_job* lj = ( struct line_job* )ctx;
+    int left = index >= lj->chunks;
+    long x1 = lj->xstart + ( index % lj->chunks ) * lj->chunk;
+    long x2 = x1 + lj->chunk - 1;
+    struct calc_struct c = left ? *lj->cl : *lj->cr;  /* calcline modifies c */
+    point* saved = orbit;
+
+    if( x2 > lj->xres - 1 ) {
+        x2 = lj->xres - 1;
+    }
+
+    if( thread != 0 ) { /* thread 0 is the caller, which owns the original orbit */
+        orbit = &lj->orbits[( thread - 1 ) * lj->orbitlen];
+    }
+
+    if( left ) {
+        calcline( x1, x2, lj->y, lj->LBufL, &lj->BBuf[lj->xres], &lj->CBuf[lj->xres], &c, lj->zflag );
+    } else {
+        calcline( x1, x2, lj->y, lj->LBufR, lj->BBuf, lj->CBuf, &c, lj->zflag );
+    }
+
+    orbit = saved;
+}
+
+static void CalcLineParallel( struct line_job* lj, int zflag ) {
+    long n = parallel_threads() * 8L;
+
+    lj->chunk = ( lj->xres - lj->xstart + n - 1 ) / n;
+
+    if( lj->chunk < 1 ) {
+        lj->chunk = 1;
+    }
+
+    lj->chunks = ( lj->xres - lj->xstart + lj->chunk - 1 ) / lj->chunk;
+
+    /* brightpoint needs the depths of the neighbour pixels, so calculate all depths first (zflag 1), */
+    /* then brightness and colors from these depths (zflag 2) */
+    if( zflag != 2 ) {
+        lj->zflag = 1;
+        parallel_for( lj->chunks * ( lj->stereo ? 2 : 1 ), CalcLineJob, lj );
+    }
+
+    /* brightness and colors are cheap, but colorizepoint uses the global prog */
+    /* (and the registers of calculat.c), so do this in the calling thread */
+    if( zflag != 1 ) {
+        long i;
+        lj->zflag = 2;
+
+        for( i = 0; i < lj->chunks * ( lj->stereo ? 2 : 1 ); i++ ) {
+            CalcLineJob( lj, i, 0 );
+        }
+    }
+}
+
 int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info_struct *png_info,*/
                       struct png_internal_struct* png_internal,
                       int zflag, int* xstart, int* ystart,/* int xadd, int yadd, */int no, struct basestruct* rbase, struct basestruct* srbase,
@@ -974,6 +1040,8 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
     struct frac_struct frac;
     struct view_struct view;
     int rrv = 0, firstline;
+    struct line_job lj;
+    point* orbits;
 
     frac = *f;
     view = *v;
@@ -1006,11 +1074,14 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
     line3 = NULL;
     orbit = NULL;
     orbit = calloc( frac.maxiter + 2, 4 * sizeof( double ) ); /* freed by FreeBufs */
+    /* one orbit for every additional thread */
+    orbits = calloc( ( size_t )( parallel_threads() - 1 ) * ( frac.maxiter + 2 ) + 1, 4 * sizeof( double ) );
 
     /* "+2", because orbit[0] is special flag for orbite,j,k,l */
     if( AllocBufs( v, zflag, ( vidinfo->maxcol != -1 ), &CBuf, &BBuf, &LBufR, &LBufL, &line,
-                   &line2, &line3 ) != 0 || orbit == NULL ) {
+                   &line2, &line3 ) != 0 || orbit == NULL || orbits == NULL ) {
         FreeBufs( &LBufR, &LBufL, &CBuf, &BBuf, &line, &line2, &line3 );
+        free( orbits );
         sprintf( Error, "Not enough memory." );
         return( -1 );
     }
@@ -1095,6 +1166,17 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
         Change_Name( "recalc." );
     }
 
+    lj.cr = &cr;
+    lj.cl = &cl;
+    lj.LBufR = LBufR;
+    lj.LBufL = LBufL;
+    lj.BBuf = BBuf;
+    lj.CBuf = CBuf;
+    lj.orbits = orbits;
+    lj.orbitlen = frac.maxiter + 2;
+    lj.xres = view.xres;
+    lj.stereo = IsStereo( &view );
+
     for( j = *ystart; j < view.yres; j++ ) {
         /* Initialize variables for calcline (which change from line to line) */
         cr.xp[3] = frac.lvalue;
@@ -1140,6 +1222,11 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
             }
         }
 
+        /* calculate the whole line (both eyes) multithreaded */
+        lj.xstart = *xstart;
+        lj.y = j;
+        CalcLineParallel( &lj, zflag );
+
         for( ii = *xstart; ii < view.xres; ii += no ) {
             imax = ii + no - 1;
 
@@ -1147,7 +1234,7 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
                 imax = view.xres - 1;
             }
 
-            calcline( ii, imax, j, LBufR, BBuf, CBuf, &cr, zflag );  /* right eye image */
+            /* calcline( ii, imax, j, LBufR, BBuf, CBuf, &cr, zflag ); right eye image, see CalcLineParallel */
 
             if( ( zflag == 0 || zflag == 2 ) && !firstline ) { /* image to calculate */
                 if( vidinfo->maxcol != -1 ) PixelvaluePalMode( ii, imax, disppal->colnum - 1,
@@ -1157,8 +1244,8 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
             }
 
             if( IsStereo( &view ) ) {
-                calcline( ii, imax, j, LBufL, &BBuf[view.xres], &CBuf[view.xres],
-                          &cl, zflag );  /* left eye image */
+                /* calcline( ii, imax, j, LBufL, &BBuf[view.xres], &CBuf[view.xres],
+                          &cl, zflag ); left eye image, see CalcLineParallel */
 
                 if( ( zflag == 0 || zflag == 2 ) && !firstline ) { /* image to calculate */
                     if( vidinfo->maxcol != -1 ) PixelvaluePalMode( ii, imax, disppal->colnum - 1,
@@ -1226,6 +1313,7 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
                 }
 
                 FreeBufs( &LBufR, &LBufL, &CBuf, &BBuf, &line, &line2, &line3 );
+                free( orbits );
                 *ystart = j;
                 *xstart = ii + 1;
 
@@ -1288,6 +1376,7 @@ int CalculateFractal( char* Error, char* pngfile, FILE** png, /* struct png_info
     }
 
     FreeBufs( &LBufR, &LBufL, &CBuf, &BBuf, &line, &line2, &line3 );
+    free( orbits );
 
     if( pngfile != NULL ) {
         sprintf( MSG, "%s", pngfile );

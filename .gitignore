@@ -9,9 +9,12 @@
 !*.c
 !*.h
 !*.fl
+!*.cpp
 
 !*.pro
 !*.pri
+
+!*.sh
 
 !*.qrc
 !*.svg

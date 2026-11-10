@@ -53,7 +53,7 @@ void q_sub( point c, const point a, const point b ) {
 }
 
 void q_exp( point c, const point q ) {
-    static double n, f, ex;
+    double n, f, ex;
     n = sqrt( q[1] * q[1] + q[2] * q[2] + q[3] * q[3] );
     ex = exp( q[0] );
     f = ex * sin( n );
@@ -69,7 +69,7 @@ void q_exp( point c, const point q ) {
 }
 
 void q_log( point c, const point q ) {
-    static double n, f;
+    double n, f;
     n = sqrt( q[1] * q[1] + q[2] * q[2] + q[3] * q[3] );
 
     if( n != 0.0 ) {
@@ -103,8 +103,8 @@ void q_pow( point c, const point a, const point b ) {
        exp(-inf*b) = inf, if b<0
        if b isn't real, exp(-inf*b) isn't defined, because
        lim sin(x) for x->-inf (same with cos) doesn't exists */
-    static double an, bnp;
-    static point p;
+    double an, bnp;
+    point p;
     an = a[0] * a[0] + a[1] * a[1] + a[2] * a[2] + a[3] * a[3];
     bnp = b[1] * b[1] + b[2] * b[2] + b[3] * b[3];
 

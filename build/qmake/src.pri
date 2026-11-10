@@ -8,3 +8,6 @@ HEADERS += $$files($${SRC_DIR}/kernel/*.h)
 SOURCES += $$files($${SRC_DIR}/kernel/*.c)
 
 SOURCES -= $${SRC_DIR}/kernel/textver.c
+SOURCES += $${SRC_DIR}/kernel/parallel.cpp
+
+unix: LIBS += -pthread

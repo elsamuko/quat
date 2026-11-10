@@ -26,6 +26,7 @@
 
 #include <ctime>	// time_t
 #include <cstdlib>	// atof
+#include <cstdint> // uint32_t
 #include <new>
 #ifndef WIN32
 #	include <sys/time.h>

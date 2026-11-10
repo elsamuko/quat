@@ -32,6 +32,7 @@
 #include "common.h"
 #include "iter.h"
 #include "qmath.h"
+#include "parallel.h"
 
 int DoCalcbase( struct basestruct* base, struct basestruct* sbase, struct view_struct* v,
                 int flag, vec3 proj_up );
@@ -46,16 +47,16 @@ double obj_distance_o( struct calc_struct* c );
 double obj_distance_p( struct calc_struct* c );
 double obj_distance( struct calc_struct* c );
 
-extern point* orbit; /* Defined in quat.c */
+extern QUAT_THREAD_LOCAL point* orbit; /* Defined in quat.c, one per thread */
 
 FILE* logfile;
 
 int iterate_0( struct iter_struct* is ) {
-    static point xs = { 0.0, 0.0, 0.0, 0.0};	/* orbit[iter] to square */
-    static double xss = 0.0; 			/* sum of components of xs */
-    static double tmp = 0.0;
-    static int iter = 0, olditer = 0, i = 0;	/* olditer := iter - 1 (to save calculations) */
-    static point* orbit;
+    point xs = { 0.0, 0.0, 0.0, 0.0};	/* orbit[iter] to square */
+    double xss = 0.0; 			/* sum of components of xs */
+    double tmp = 0.0;
+    int iter = 0, olditer = 0, i = 0;	/* olditer := iter - 1 (to save calculations) */
+    point* orbit;
 
     assert( is->orbit != NULL );
     orbit = is->orbit;
@@ -182,10 +183,10 @@ int iternorm_0( point xstart, point c, vec3 norm, double bailout, int maxiter ) 
 
 
 int iterate_1( struct iter_struct* is ) {
-    static double re2 = 0.0, pure2 = 0.0, tmp1 = 0.0, tmp2 = 0.0;
-    static int iter = 0, olditer = 0;
-    static double a = 0.0, b = 0.0, c = 0.0, d = 0.0;
-    static point* orbit;
+    double re2 = 0.0, pure2 = 0.0, tmp1 = 0.0, tmp2 = 0.0;
+    int iter = 0, olditer = 0;
+    double a = 0.0, b = 0.0, c = 0.0, d = 0.0;
+    point* orbit;
 
     assert( is->orbit != NULL );
     orbit = is->orbit;
@@ -337,11 +338,11 @@ int iternorm_1( point xstart, point c, vec3 norm, double bailout, int maxiter ) 
 }
 
 int iterate_2( struct iter_struct* is ) {
-    static double re2 = 0.0, pure2 = 0.0, pure = 0.0;
-    static double lntv = 0.0;
-    static double atan2vt = 0.0, atan2vta = 0.0;
-    static int iter = 0, olditer = 0;
-    static point* orbit;
+    double re2 = 0.0, pure2 = 0.0, pure = 0.0;
+    double lntv = 0.0;
+    double atan2vt = 0.0, atan2vta = 0.0;
+    int iter = 0, olditer = 0;
+    point* orbit;
 
     assert( is->orbit != NULL );
     orbit = is->orbit;
@@ -391,10 +392,10 @@ int iterate_2( struct iter_struct* is ) {
 }
 
 int iterate_3( struct iter_struct* is ) {
-    static point x2 = { 0.0, 0.0, 0.0, 0.0 };
-    static double re2 = 0.0, pure2 = 0.0;
-    static int iter = 0, olditer = 0;
-    static point* orbit;
+    point x2 = { 0.0, 0.0, 0.0, 0.0 };
+    double re2 = 0.0, pure2 = 0.0;
+    int iter = 0, olditer = 0;
+    point* orbit;
 
     assert( is->orbit != NULL );
     orbit = is->orbit;
@@ -439,11 +440,11 @@ int iterate_3( struct iter_struct* is ) {
 }
 
 int iterate_4( struct iter_struct* is ) {
-    static point px = { 0.0, 0.0, 0.0, 0.0 };
-    static point xs = { 0.0, 0.0, 0.0, 0.0 };	/* x[n] to square */
-    static double xss = 0.0; 			/* sum of components of xs */
-    static int iter = 0, olditer = -1, i;
-    static point* orbit;
+    point px = { 0.0, 0.0, 0.0, 0.0 };
+    point xs = { 0.0, 0.0, 0.0, 0.0 };	/* x[n] to square */
+    double xss = 0.0; 			/* sum of components of xs */
+    int iter = 0, olditer = -1, i;
+    point* orbit;
 
     assert( is->orbit != NULL );
     orbit = is->orbit;
